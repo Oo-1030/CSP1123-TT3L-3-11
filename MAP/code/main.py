@@ -17,7 +17,7 @@ tile_kinds = [
     TileKind("stairM", "CSP1123-TT3L-3-11/MAP/images/stairM.png", False), #5
     TileKind("stairR", "CSP1123-TT3L-3-11/MAP/images/stairR.png", False) #6
 ]
-map = Map("MAP/maps/start.map", tile_kinds, 32)
+map = Map("CSP1123-TT3L-3-11/MAP/maps/start.map", tile_kinds, 32)
 
 # Game loop
 while running:
