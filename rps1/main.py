@@ -17,9 +17,9 @@ blue = (0, 0, 255)
 font = pygame.font.SysFont(None, 40)
 large_font = pygame.font.SysFont(None, 60)
 
-rock_img = pygame.image.load("rock.png")
-paper_img = pygame.image.load("paper.png")
-scissors_img = pygame.image.load("scissors.png")
+rock_img = pygame.image.load("CSP1123-TT3L-3-11/rps1/rock.png")
+paper_img = pygame.image.load("CSP1123-TT3L-3-11/rps1/paper.png")
+scissors_img = pygame.image.load("CSP1123-TT3L-3-11/rps1/scissors.png")
 
 img_size = (500, 500)
 rock_img = pygame.transform.scale(rock_img, img_size)
