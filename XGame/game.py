@@ -5,13 +5,13 @@ from map import TileKind, Map
 pygame.init()
 
 def up_edge():
-    return y >=64
+    return y >=0
 def down_edge():
-    return y <=656
+    return y <=720-64
 def left_edge():
-    return x >=64
+    return x >=0
 def right_edge():
-    return x <=1216
+    return x <=1280-64
 
 x=725
 y=375
