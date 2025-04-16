@@ -1,4 +1,3 @@
-from unittest import loader
 import pygame
 
 sprites = []
