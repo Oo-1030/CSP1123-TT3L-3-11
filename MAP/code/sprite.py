@@ -2,15 +2,15 @@ from unittest import loader
 import pygame
 
 sprites = []
-load = {}
+loaded = {}
 
 class Sprite:
     def __init__(self, image, x, y):
-        if image in loader:
-            self.image = loader[image]
+        if image in loaded:
+            self.image = loaded[image]
         else:
             self.image = pygame.image.load(image)
-            loader[image] = self.image
+            loaded[image] = self.image
         self.x = x
         self.y = y
         sprites.append(self)
