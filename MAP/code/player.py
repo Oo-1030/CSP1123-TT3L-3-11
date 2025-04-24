@@ -5,7 +5,7 @@ from camera import camera
 from entity import active_objs
 from physics import Body
 
-movement_speed = 5
+movement_speed = 7
 
 class Player:
     def __init__(self):
