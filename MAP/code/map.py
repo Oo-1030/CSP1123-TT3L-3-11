@@ -1,8 +1,9 @@
 import pygame
-from camera import camera
 from math import ceil
 
 map = None
+
+tile_size = 32
 
 class TileKind:
     def __init__(self, name, image, is_solid):
@@ -11,15 +12,10 @@ class TileKind:
         self.is_solid = is_solid
 
 class Map:
-    def __init__(self, map_file, tile_kinds, tile_size):
+    def __init__(self, data, tile_kinds):
         global map
         self.tile_kinds = tile_kinds
         map = self
-
-        # Load and file
-        file = open(map_file, "r")
-        data = file.read()
-        file.close()
 
         # Set up the tiles from loaded data
         self.tiles = []
@@ -61,6 +57,7 @@ class Map:
         return False
 
     def draw(self, screen):
+        from camera import camera
         for y, row in enumerate(self.tiles):
             for x, tile in enumerate(row):
                 location = (x * self.tile_size - camera.x, y * self.tile_size - camera.y)

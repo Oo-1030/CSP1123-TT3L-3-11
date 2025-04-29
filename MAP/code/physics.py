@@ -17,17 +17,16 @@ class Body:
             if body != self and body.is_colliding_with(self):
                 return False
         return True
-
+    
     def is_colliding_with(self, other):
         x = self.entity.x + self.hitbox.x
         y = self.entity.y + self.hitbox.y
         other_x = other.entity.x + other.hitbox.x
         other_y = other.entity.y + other.hitbox.y
-
         if x < other_x + other.hitbox.width and \
-            x + self.hitbox.width > other_x and \
-            y < other_y + other.hitbox.height and \
-            y + self.hitbox.height > other_y:
+           x + self.hitbox.width > other_x and \
+           y < other_y + other.hitbox.height and \
+           y + self.hitbox.height > other_y:
             return True
         else:
             return False

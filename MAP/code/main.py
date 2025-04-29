@@ -6,34 +6,18 @@ from map import TileKind, Map
 from camera import create_screen
 from entity import Entity, active_objs
 from physics import Body
+from area import Area, area
+from data.tile_types import tile_kinds
 
 # Set up
 pygame.init()
 
 screen = create_screen(1280, 720, "MMU X Secret")
 
-clear_color = (30, 150, 50)
+clear_color = (30, 150, 240)
 running = True
 
-player = Entity(Player(), Sprite("CSP1123-TT3L-3-11/MAP/images/character.png", scale=(64, 64) ), Body(15, 32, 32, 32), x=32*11, y=32*7)
-
-tile_kinds = [
-    TileKind("dirt", "CSP1123-TT3L-3-11/MAP/images/dirt.png", False), # 0
-    TileKind("grass", "CSP1123-TT3L-3-11/MAP/images/grass.png", False), # 1
-    TileKind("road", "CSP1123-TT3L-3-11/MAP/images/road.png", False), # 2
-    TileKind("longkang", "CSP1123-TT3L-3-11/MAP/images/longkang.png", True), # 3 
-    TileKind("stairL", "CSP1123-TT3L-3-11/MAP/images/stairL.png", False), # 4
-    TileKind("stairM", "CSP1123-TT3L-3-11/MAP/images/stairM.png", False), # 5
-    TileKind("stairR", "CSP1123-TT3L-3-11/MAP/images/stairR.png", False), # 6
-    TileKind("blueWall", "CSP1123-TT3L-3-11/MAP/images/blueWall.png", True), # 7
-    TileKind("whiteWall", "CSP1123-TT3L-3-11/MAP/images/whiteWall.png", True) # 8
-]
-map = Map("CSP1123-TT3L-3-11/MAP/maps/start.map", tile_kinds, 32)
-
-def make_cat(x, y):
-    Entity(Sprite("CSP1123-TT3L-3-11/MAP/images/cat.png"), Body(0, 0, 32, 32), x=x, y=y)
-
-make_cat(10 * 32, 15 * 32)
+area = Area("start.map", tile_kinds)
 
 # Game loop
 while running:
@@ -51,7 +35,7 @@ while running:
 
     # Draw Code
     screen.fill(clear_color)
-    map.draw(screen)
+    area.map.draw(screen)
     for s in sprites:
         s.draw(screen)
 
