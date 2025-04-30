@@ -1,22 +1,25 @@
 from entity import Entity
 from sprite import Sprite
-from player import Player
 from physics import Body
-
+from player import Player
+from usable import Usable
+from npc import NPC
 
 entity_factories = [
-    # 0 - Makes a player
-    lambda args: Entity(Player(), Sprite("CSP1123-TT3L-3-11/MAP/images/character.png", scale=(64, 64) ), Body(15, 32, 32, 32)),
+    # 0 - Make a player
+    lambda args: Entity(Player(), Sprite("character.png", scale=(64, 64)), Body(15, 32, 32, 32)),
 
     # 1 - Make a cat
-    lambda args: Entity(Sprite("CSP1123-TT3L-3-11/MAP/images/cat.png"), Body(0, 0, 32, 32)),
-                        
+    lambda args: Entity(Sprite("cat.png"), Body(0, 0, 32, 32)),
 
+    # 2 - Make NPC 
+    lambda args: Entity(Sprite(args[1]), NPC(args[0], args[2]), Body(0, 0, 32, 32))
 ]
 
-def create_entity(id, x, y, data=None):
+def create_entity(id, x, y, data=None, index=None):
     factory = entity_factories[id]
     e =  factory(data)
+    e.index = index
     e.x = x*32
     e.y = y*32
     return e

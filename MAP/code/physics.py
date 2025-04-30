@@ -2,22 +2,14 @@ from pygame import Rect
 
 bodies = []
 
-class Body:
-    def __init__(self, x=0, y=0, width=32, height=32):
-        self.hitbox = Rect(x, y, width, height)
-        bodies.append(self)
+def reset_physics():
+    global bodies
+    bodies.clear()
 
-    def is_position_valid(self):
-        from map import map
-        x = self.entity.x + self.hitbox.x
-        y = self.entity.y + self.hitbox.y
-        if map.is_rect_solid(x, y, self.hitbox.width, self.hitbox.height):
-            return False
-        for body in bodies:
-            if body != self and body.is_colliding_with(self):
-                return False
-        return True
-    
+class PhysicalObj:
+    def __init__(self, x, y, width, height):
+        self.hitbox = Rect(x, y, width, height)
+
     def is_colliding_with(self, other):
         x = self.entity.x + self.hitbox.x
         y = self.entity.y + self.hitbox.y
@@ -30,3 +22,23 @@ class Body:
             return True
         else:
             return False
+
+class Body(PhysicalObj):
+    def __init__(self, x=0, y=0, width=32, height=32):
+        super().__init__(x, y, width, height)
+        bodies.append(self)
+
+    def breakdown(self):
+        global bodies
+        bodies.remove(self)
+
+    def is_position_valid(self):
+        from area import area
+        x = self.entity.x + self.hitbox.x
+        y = self.entity.y + self.hitbox.y
+        if area.map.is_rect_solid(x, y, self.hitbox.width, self.hitbox.height):
+            return False
+        for body in bodies:
+            if body != self and body.is_colliding_with(self):
+                return False
+        return True
