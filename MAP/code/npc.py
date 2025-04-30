@@ -22,3 +22,5 @@ class NPC(Usable):
             DialogueView(lines, self, player)
         else:
             player.show_message("I need to get closer")
+
+   
