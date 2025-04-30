@@ -22,6 +22,15 @@ pinkgirl1_img = pygame.transform.scale(pinkgirl1_img, (64, 64))
 pinkgirl2_img = pygame.image.load("pinkgirl2.png")  
 pinkgirl2_img = pygame.transform.scale(pinkgirl2_img, (64, 64))
 
+lionguy1_img = pygame.image.load("lionguy1.png")  
+lionguy1_img = pygame.transform.scale(lionguy1_img, (64, 64))
+
+lionguy65_img = pygame.image.load("lionguy65.png")  
+lionguy65_img = pygame.transform.scale(lionguy65_img, (64, 64))
+lionguy64_img = pygame.image.load("lionguy64.png")  
+lionguy64_img = pygame.transform.scale(lionguy64_img, (64, 64))
+
+
 walkLeft = [pygame.transform.scale(pygame.image.load('char_left1.png'), (64, 64)),
             pygame.transform.scale(pygame.image.load('char_left3.png'), (64, 64)), 
             pygame.transform.scale(pygame.image.load('char_left5.png'), (64, 64)), 
@@ -138,7 +147,7 @@ def exp_system():
 htcboss_ani = False
 htcboss_x = 300
 htcboss_y = 500
-new_htcboss_x = htcboss_x -12 #for fixing drawing issue
+new_htcboss_x = htcboss_x - 12 #for fixing drawing issue
 
 redguy_ani = False
 redguy_x = 350
@@ -219,6 +228,9 @@ def redrawGameWindow():
     redguy_animation()
     pinkgirl_animation()
     screen.blit(fatguy_img,(450,100))
+    screen.blit(lionguy1_img,(550,100))
+    screen.blit(lionguy65_img,(550,200))
+    screen.blit(lionguy64_img,(450,200))
 
     if not left and not right and not up and not down:
         screen.blit(char, (x,y))
