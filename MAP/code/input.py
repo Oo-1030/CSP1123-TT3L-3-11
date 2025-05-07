@@ -1,4 +1,3 @@
-# Keeps track of what key is down
 keys_down = set()
 keys_just_pressed = set()
 mouse_buttons_down = set()
