@@ -59,7 +59,19 @@ def draw_box(text, x, y, w, h, color):
     text_rect = text_surf.get_rect(center=(x + w / 2, y + h / 2))
     window.blit(text_surf, text_rect)
 
-def luck_system(original_choice, luck):
+def get_round_outcome(player_choice, computer_choice):
+    if player_choice == computer_choice:
+        return "tie"
+    elif (player_choice == "rock" and computer_choice == "scissors"):
+        return "player_win"
+    elif(player_choice == "paper" and computer_choice == "rock"):
+        return "player_win"
+    elif(player_choice == "scissors" and computer_choice == "paper"):
+        return "player_win"
+    else:
+        return "computer_win"
+
+def luck_system(original_choice, luck, player_choice):
     choices = ["rock", "paper", "scissors"]
     total_rerolls = luck // 100
     remaining_luck = luck % 100
@@ -68,9 +80,15 @@ def luck_system(original_choice, luck):
 
     for _ in range(total_rerolls):
         new_choice = random.choice(choices)
+        outcome = get_round_outcome(player_choice, new_choice)
+        if outcome != "computer_win":
+            return new_choice
 
     if remaining_luck > 0 and random.randint(1, 100) <= remaining_luck:
         new_choice = random.choice(choices)
+        outcome = get_round_outcome(player_choice, new_choice)
+        if outcome != "computer_win":
+            return new_choice
 
     return new_choice
 
@@ -81,6 +99,9 @@ def game_loop():
     player_score = 0
     computer_score = 0
     round_in_progress = False
+    luck_triggered = False
+    luck_effect_alpha = 0
+    luck_effect_radius = 1000
     click_handled = False
     playing = True
 
@@ -115,20 +136,30 @@ def game_loop():
 
                 if round_in_progress:
                     computer_choice = random.choice(("rock", "paper", "scissors"))
-                    click_handled = True
 
-                    luck = 180
-                    computer_choice = luck_system(computer_choice, luck)
+                    outcome = get_round_outcome(player_choice, computer_choice)
+                    if outcome == "computer_win":
+                        luck = 100
+                        rerolled_choice = luck_system(computer_choice, luck, player_choice)
+                        rerolled_outcome = get_round_outcome(player_choice, rerolled_choice)
+
+                        if rerolled_outcome != "computer_win":
+                            computer_choice = rerolled_choice
+                            luck_triggered = True
+                            luck_effect_alpha = 255
+                            luck_effect_radius = 1000
+
+                    click_handled = True
 
                     if player_choice == computer_choice:
                         result = "It's a tie."
-                    elif (player_choice == "rock" and computer_choice == "scissors"):
+                    elif player_choice == "rock" and computer_choice == "scissors":
                         result = "You win!"
                         player_score += 1
-                    elif (player_choice == "paper" and computer_choice == "rock"):
+                    elif player_choice == "paper" and computer_choice == "rock":
                         result = "You win!"
                         player_score += 1
-                    elif (player_choice == "scissors" and computer_choice == "paper"):
+                    elif player_choice == "scissors" and computer_choice == "paper":
                         result = "You win!"
                         player_score += 1
                     else:
@@ -162,18 +193,34 @@ def game_loop():
                     computer_choice = None
                     result = None
                     round_in_progress = False
+                    luck_triggered = False
+                    luck_effect_alpha = 0
+                    luck_effect_radius = 1000
                     click_handled = True
             else:
-                next_round_button = draw_button("Next Round", 540, 550, 200, 70, grey)
+                next_round_button = draw_button("Next Round", 540, 550, 200, 100, grey)
                 if next_round_button and mouse_clicked and not click_handled:
                     player_choice = None
                     computer_choice = None
                     result = None
                     round_in_progress = False
+                    luck_triggered = False
+                    luck_effect_alpha = 0
+                    luck_effect_radius = 1000
                     click_handled = True
 
         draw_text(f"Player: {player_score}", font, black, 100, 50)
         draw_text(f"Computer: {computer_score}", font, black, width - 120, 50)
+
+        if luck_triggered and luck_effect_alpha > 0:
+            gold_surface = pygame.Surface((width, height), pygame.SRCALPHA)
+            glow_color = (255, 239, 184, luck_effect_alpha)
+
+            pygame.draw.ellipse(gold_surface, glow_color, (width // 2 - luck_effect_radius, height // 2 - luck_effect_radius, luck_effect_radius * 2, luck_effect_radius * 2))
+            window.blit(gold_surface, (0, 0))
+
+            luck_effect_radius += 6
+            luck_effect_alpha = max(luck_effect_alpha - 8, 0)
 
         pygame.display.update()
 

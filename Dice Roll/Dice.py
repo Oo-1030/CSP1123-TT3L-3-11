@@ -61,6 +61,34 @@ def draw_box(text, x, y, w, h, color):
     text_rect = text_surf.get_rect(center=(x + w / 2, y + h / 2))
     window.blit(text_surf, text_rect)
 
+def get_round_outcome(player_dice, computer_dice):
+    if player_dice > computer_dice:
+        return "You Win!"
+    elif computer_dice > player_dice:
+        return "You Lose..."
+    else:
+        return "It's a tie!"
+    
+def luck_system(original_dice, luck, player_dice):
+    total_rerolls = luck // 100
+    remaining_luck = luck % 100
+
+    new_choice = original_dice
+
+    for _ in range(total_rerolls):
+        new_choice = random.randint(0, 5)
+        outcome = get_round_outcome(player_dice, new_choice)
+        if outcome != "You Lose...":
+            return new_choice
+
+    if remaining_luck > 0 and random.randint(1, 100) <= remaining_luck:
+        new_choice = random.randint(0, 5)
+        outcome = get_round_outcome(player_dice, new_choice)
+        if outcome != "You Lose...":
+            return new_choice
+
+    return new_choice
+
 def game_loop():
     player_dice = 0
     computer_dice = 0
@@ -72,6 +100,9 @@ def game_loop():
     show_result = False
     click_handled = False
     rolling = False
+    luck_triggered = False
+    luck_effect_alpha = 0
+    luck_effect_radius = 1000
     playing = True
 
     while playing:
@@ -115,6 +146,18 @@ def game_loop():
                 rolling = False
                 player_dice = random.randint(0, 5)
                 computer_dice = random.randint(0, 5)
+
+                outcome = get_round_outcome(player_dice, computer_dice)
+                if outcome == "You Lose...":
+                    luck = 100
+                    rerolled_choice = luck_system(computer_dice, luck, player_dice)
+                    rerolled_outcome = get_round_outcome(player_dice, rerolled_choice)
+
+                    if rerolled_outcome != "You Lose...":
+                        computer_dice = rerolled_choice
+                        luck_triggered = True
+                        luck_effect_alpha = 255
+                        luck_effect_radius = 1000
                 
                 if player_dice > computer_dice:
                     result = "You Win!"
@@ -147,6 +190,9 @@ def game_loop():
                     show_result = False
                     rolling = False
                     click_handled = True
+                    luck_triggered = False
+                    luck_effect_alpha = 0
+                    luck_effect_radius = 1000
 
             else:
                 if player_score >= 3:
@@ -165,9 +211,22 @@ def game_loop():
                     show_result = False
                     rolling = False
                     click_handled = True
+                    luck_triggered = False
+                    luck_effect_alpha = 0
+                    luck_effect_radius = 1000
 
         draw_text(f"Player: {player_score}", font, black, 100, 50)
         draw_text(f"Computer: {computer_score}", font, black, width - 120, 50)
+
+        if luck_triggered and luck_effect_alpha > 0:
+            gold_surface = pygame.Surface((width, height), pygame.SRCALPHA)
+            glow_color = (255, 239, 184, luck_effect_alpha)
+
+            pygame.draw.ellipse(gold_surface, glow_color, (width // 2 - luck_effect_radius, height // 2 - luck_effect_radius, luck_effect_radius * 2, luck_effect_radius * 2))
+            window.blit(gold_surface, (0, 0))
+
+            luck_effect_radius += 6
+            luck_effect_alpha = max(luck_effect_alpha - 8, 0)
         
         pygame.display.update()
 
@@ -177,4 +236,5 @@ def game_loop():
     pygame.quit()
 
 game_loop()
+
 
