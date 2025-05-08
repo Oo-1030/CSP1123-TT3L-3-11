@@ -4,7 +4,7 @@ import random
 pygame.init()
 pygame.mixer.init()
 
-pygame.mixer.music.load("background_music.mp3")
+pygame.mixer.music.load("background_music(rps).mp3")
 pygame.mixer.music.play(-1)
 
 width, height = 1280, 720

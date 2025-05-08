@@ -3,6 +3,10 @@ import random
 import math
 
 pygame.init()
+pygame.mixer.init()
+
+pygame.mixer.music.load("background_music(coin).mp3")
+pygame.mixer.music.play(-1)
 
 width, height = 1280, 720
 window = pygame.display.set_mode((width, height))
