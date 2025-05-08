@@ -13,7 +13,7 @@ entity_factories = [
     lambda args: Entity(Sprite("cat.png"), Body(0, 0, 32, 32)),
 
     # 2 - Make NPC 
-    lambda args: Entity(Sprite(args[1]), NPC(args[0], args[2]), Body(15, 32, 32, 32))
+    lambda args: Entity(Sprite(args[1]), NPC(args[0], args[2]), Body(20, 32, 40, 64))
 ]
 
 def create_entity(id, x, y, data=None, index=None):

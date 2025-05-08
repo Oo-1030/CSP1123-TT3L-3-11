@@ -1,10 +1,11 @@
 from usable import Usable
+from sprite import Sprite
 
 npc_folder_location = "CSP1123-TT3L-3-11/MAP/npcs"
 npc_talk_distance = 150
 
 class NPC(Usable):
-    def __init__(self, obj_name, npc_file):
+    def __init__(self, obj_name, npc_file,):
         super().__init__(obj_name)
         self.npc_file = npc_file
 
@@ -22,5 +23,4 @@ class NPC(Usable):
             DialogueView(lines, self, player)
         else:
             player.show_message("I need to get closer")
-
    
