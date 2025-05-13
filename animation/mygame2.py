@@ -1,10 +1,14 @@
 import pygame
+from gacha_system import GachaSystem
 pygame.init()
 
 screen_width=1280
 screen_height=720
 
+global screen
 screen=pygame.display.set_mode((screen_width,screen_height))
+
+gacha = GachaSystem(screen)
 
 htcboss1 = pygame.transform.scale(pygame.image.load('htcboss1.png'),(64,64))
 htcboss2 = pygame.transform.scale(pygame.image.load('htcboss2.png'),(70,64))
@@ -231,7 +235,9 @@ def redrawGameWindow():
     #screen.blit(lionguy65_img,(550,200))
     #screen.blit(lionguy64_img,(450,200))
 
-    if not left and not right and not up and not down:
+    gacha.draw()
+
+    if not left and not right and not up and not down and run:
         screen.blit(char, (x,y))
         
 
@@ -272,9 +278,14 @@ while run:
             exp += 10
         if key[pygame.K_p]:
             exp += 270
-
-    key = pygame.key.get_pressed()
-
+        if key[pygame.K_g]:
+            gacha.set_pull(1)   
+        if key[pygame.K_f]:
+            gacha.set_pull(10)
+        
+    if gacha.pull_remaining > 0:
+        gacha.pull()
+            
     if key[pygame.K_a] and left_edge():
         x-=speed
         left = True 
@@ -330,9 +341,10 @@ while run:
     else:
         pinkgirl_ani = False
 
-    redrawGameWindow()
+    if not run:
+        break
 
-    
+    redrawGameWindow()
 
 pygame.quit()
 
