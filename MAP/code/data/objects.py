@@ -5,6 +5,7 @@ from player import Player
 from usable import Usable
 from npc import NPC
 from teleporter import Teleporter
+from tekun import Tekun
 
 entity_factories = [
     # 0 - Make a player
@@ -18,6 +19,9 @@ entity_factories = [
 
     # 3 - Make teleport
     lambda args: Entity(Teleporter(args[0], args[1], args[2]), Sprite("teleport.png")),
+
+    # 4 - Make a shop
+    lambda args: Entity(Tekun("Tekun"),Sprite("tekunStore.png", scale=(450, 250)), Body(0, 0, 450, 250))
 ]
 
 def create_entity(id, x, y, data=None, index=None):
