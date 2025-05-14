@@ -4,7 +4,7 @@ from input import is_key_pressed
 from camera import camera
 from entity import Entity
 from label import Label
-from physics import Body
+from physics import Body, triggers
 from area import area
 from math_ext import distance
 
@@ -21,9 +21,6 @@ class Player:
 
         self.message_label.entity.x = 10
         self.show_message(f"Entering {area.name}")
-
-    def setup(self):
-        pass
 
     def interact(self, mouse_pos):
         from engine import engine
@@ -96,3 +93,7 @@ class Player:
             self.entity.x = previous_x
         camera.x = self.entity.x - camera.width/2 + sprite.image.get_width()/2
         camera.y = self.entity.y - camera.height/2 + sprite.image.get_height()/2
+
+        for t in triggers:
+            if body.is_colliding_with(t):
+                t.on(self.entity)
