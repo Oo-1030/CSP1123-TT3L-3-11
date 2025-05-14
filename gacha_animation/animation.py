@@ -38,6 +38,9 @@ Black_card_img = pygame.transform.scale(pygame.image.load('Black_card.png'), (im
 Underwear_img = pygame.transform.scale(pygame.image.load('Underwear.png'), (image_width, image_height))
 Koi_fish_img = pygame.transform.scale(pygame.image.load('Koi_fish.png'), (image_width, image_height))
 
+One_pull_img = pygame.transform.scale(pygame.image.load('One_pull.png'), (200, 100))
+Ten_pull_img = pygame.transform.scale(pygame.image.load('Ten_pull.png'), (200, 100))
+
 item_descriptions = {
     "Rice": "You found the only food can eat in campus, but you also don't want to eat this if you can eat outside.",
     "Coffee": "This coffee give you energy for a day. No sleepy lectures anymore!",
@@ -171,9 +174,29 @@ def draw_wrapped_text(text, font, color, x, y, max_width):
     if current_line:
         lines.append(current_line.strip())
     
+    # 计算文本实际需要的最大宽度
+    max_line_width = max(font.size(line)[0] for line in lines) if lines else 0
+    
+    # 计算总高度
+    line_height = font.get_linesize()
+    total_height = len(lines) * line_height
+    
+    # 绘制边框背景（调整这些数字来改变边框大小）
+    border_padding = 15  # 边框与文字的间距
+    border_rect = pygame.Rect(
+        x - max_line_width//2 - border_padding,  # 左边位置
+        y - border_padding,                      # 上边位置
+        max_line_width + border_padding*2,       # 宽度
+        total_height + border_padding*2          # 高度
+    )
+    
+    pygame.draw.rect(window, (255, 255, 255), border_rect)  # 白色背景
+    pygame.draw.rect(window, (0, 0, 0), border_rect, 2)     # 黑色边框
+    
+    # 绘制文本
     for i, line in enumerate(lines):
         text_surf = font.render(line, True, color)
-        text_rect = text_surf.get_rect(center=(x, y + i * font.get_linesize()))
+        text_rect = text_surf.get_rect(center=(x, y + i * line_height))
         window.blit(text_surf, text_rect)
 
 def draw_button(text, x, y, w, h, color):
@@ -207,6 +230,8 @@ def animation():
     effect_center = (width // 2, height // 2)
     effect_color = (0, 0, 0)
     result_displayed = False
+    confirm_dialog = None 
+
 
     while running:
         mouse_clicked = False
@@ -252,16 +277,55 @@ def animation():
                     result_displayed = False
 
         else:
-            One_pull = draw_button("1 pull", 240, 550, 200, 100, (200, 30, 30))
+            One_pull = window.blit(One_pull_img,(240,550))
             
-            Ten_pull = draw_button("10 pull", 840, 550, 200, 100, (30, 200, 120))
+            Ten_pull = window.blit(Ten_pull_img, (840, 550))
+
+            if confirm_dialog:
+                overlay = pygame.Surface((width, height))
+                overlay.set_alpha(128)
+                overlay.fill((0, 0, 0))
+                window.blit(overlay, (0, 0))
+
+                dialog_rect = pygame.Rect(width//2 - 250, height//2 - 100, 500, 200)
+                pygame.draw.rect(window, (255, 255, 255), dialog_rect)
+                pygame.draw.rect(window, (0, 0, 0), dialog_rect, 3)
+
+                if confirm_dialog == "one":
+                    prompt_text = "Spend 160 M Coins for one pull?"
+                else:
+                    prompt_text = "Spend 1600 M Coins for ten pulls?"
+                draw_text(prompt_text, font, (0, 0, 0), width//2, height//2 - 50)
+
+
+                confirm_button = pygame.Rect(width//2 - 120, height//2 + 30, 100, 40)
+                cancel_button = pygame.Rect(width//2 + 20, height//2 + 30, 100, 40)
+                pygame.draw.rect(window, (0, 200, 0), confirm_button)
+                pygame.draw.rect(window, (200, 0, 0), cancel_button)
+
+                draw_text("Confirm", font, (255, 255, 255), confirm_button.centerx, confirm_button.centery)
+                draw_text("Cancel", font, (255, 255, 255), cancel_button.centerx, cancel_button.centery)
+
 
             if mouse_clicked:
-                if One_pull:
-                    gacha.set_pull(1)
-                    gacha.one_pull = True
-                elif Ten_pull:
-                    gacha.set_pull(10)
+                if confirm_dialog:
+                    if confirm_button.collidepoint(pygame.mouse.get_pos()):
+                        if confirm_dialog == "one":
+                            gacha.set_pull(1)
+                            gacha.one_pull = True
+                        elif confirm_dialog == "ten":
+                            gacha.set_pull(10)
+                            gacha.one_pull = False
+                        confirm_dialog = None  
+                    elif cancel_button.collidepoint(pygame.mouse.get_pos()):
+                        confirm_dialog = None  
+                else:
+                    if One_pull.collidepoint(pygame.mouse.get_pos()):
+                        confirm_dialog = "one"
+                    elif Ten_pull.collidepoint(pygame.mouse.get_pos()):
+                        confirm_dialog = "ten"
+
+
 
             if gacha.pull_remaining > 0:
                 result = gacha.pull()
