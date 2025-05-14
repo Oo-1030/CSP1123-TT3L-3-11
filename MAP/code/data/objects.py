@@ -4,6 +4,7 @@ from physics import Body
 from player import Player
 from usable import Usable
 from npc import NPC
+from teleporter import Teleporter
 
 entity_factories = [
     # 0 - Make a player
@@ -13,7 +14,10 @@ entity_factories = [
     lambda args: Entity(Sprite("cat.png"), Body(0, 0, 32, 32)),
 
     # 2 - Make NPC 
-    lambda args: Entity(Sprite(args[1]), NPC(args[0], args[2]), Body(20, 32, 40, 64))
+    lambda args: Entity(Sprite(args[1]), NPC(args[0], args[2]), Body(20, 32, 40, 64)),
+
+    # 3 - Make teleport
+    lambda args: Entity(Teleporter(args[0], args[1], args[2]), Sprite("teleport.png")),
 ]
 
 def create_entity(id, x, y, data=None, index=None):
