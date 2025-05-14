@@ -38,7 +38,7 @@ Gok Jun ：My name is Gok Jun. I’m just a senior who happened to pass by—onc
 Max : Wait, you already know who is X? Why won’t you just tell me who X is, and what the secret is?
 Gok Jun : Didn't I already say? That would make this "GAME" way too boring.
 Max : ......Ok, bye.
-Gok Jun : Farewell. May you overcome all the challenges that lie ahead.
+Gok Jun : Farewell. May you overcome all the challenges that lie ahead. Now, you need to find the first person, Fazir at Haji Tapah.
 
 (Exploring.)
 On the road, Max encountered an NPC and engaged in battle.
@@ -48,7 +48,7 @@ A Tekun store employee stands outside the shop with a blank expression.
 Max arrived at Haji Tapah.
 Max had a conversation with the first main character, Fazir.
 
-(Fazir's Scene)
+# Fazir's Scene
 Max : Hey, are you Fazir?
 Fazir : Yes,is there something you need? 
 Max : I’m here just to get information about "him."
@@ -67,9 +67,9 @@ Fazir: Because it's necessary to keep X hidden. That way, it becomes a sort of �
 Max: A "lesson"?
 Fazir: First, X is male, around 175cm tall, and slim. That’s all I can tell you.
 Max: That’s it? Fine. Thanks anyway.
-Fazir: Don’t mention it. Now go. I think the next person you’re looking for is Rane from Learning Point.
+Fazir: Don’t mention it. Now go. I think the next person you’re looking for is Rane in Learning Point.
 
-Rane's Scene
+# Rane's Scene
 Max: You know who I am?
 Rane: Of course. Fazir already told us about you.
 Max: Then let’s skip the small talk.
@@ -89,7 +89,7 @@ Rane: Never mind, I was just talking to myself. You should go find the next pers
 Max: Alright, goodbye. Thanks for the info.
 Rane: No need. Good luck.
 
-Edeline's Scene
+# Edeline's Scene
 Max: Um, hello...
 Edeline: Hey! You must be Max! I’m Edeline, nice to meet you!
 Max: Haha, nice to meet you too. (Wow, such a pretty and enthusiastic senior.)
@@ -113,7 +113,7 @@ Max: Got it. Thanks, senior.
 Edeline (expression softens): That’s all I can tell you. You’ll need to find the last piece from Elves at Dewan Tun Canselor (DTC). It was nice meeting you, Max!
 Max: Same here, haha… (Women are scary...)
 
-Elves' Scene
+# Elves' Scene
 Max: Hello?
 Elves: ......
 Max: ......
@@ -134,7 +134,7 @@ Max gathers X’s phone number through:
 -Part from a poster on the road
 Max collects all the information and returns to Tekun Mart.
 
-X’s Scene
+# X’s Scene
 Max talks to a store staff standing outside.
 ???: Phone number.
 Max: 01X-XXX XXXX (option)
