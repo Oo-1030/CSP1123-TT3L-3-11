@@ -6,6 +6,11 @@ pygame.mixer.init()
 
 pygame.mixer.music.load("background_music(rps).mp3")
 pygame.mixer.music.play(-1)
+pygame.mixer.music.set_volume(0.4)
+action_sound = pygame.mixer.Sound("rps.mp3")
+trigger_sound = pygame.mixer.Sound("trigger.mp3")
+victory_sound = pygame.mixer.Sound("victory.mp3")
+defeat_sound = pygame.mixer.Sound("defeat.mp3")
 
 width, height = 1280, 720
 window = pygame.display.set_mode((width, height))
@@ -28,7 +33,7 @@ paper_img = pygame.image.load("paper.png")
 scissors_img = pygame.image.load("scissors.png")
 center_img = pygame.image.load("All.png")
 
-img_size = (400, 400)
+img_size = (300, 300)
 rock_img = pygame.transform.scale(rock_img, img_size)
 paper_img = pygame.transform.scale(paper_img, img_size)
 scissors_img = pygame.transform.scale(scissors_img, img_size)
@@ -127,12 +132,15 @@ def game_loop():
                 if rock_button:
                     player_choice = "rock"
                     round_in_progress = True
+                    action_sound.play()
                 elif paper_button:
                     player_choice = "paper"
                     round_in_progress = True
+                    action_sound.play()
                 elif scissors_button:
                     player_choice = "scissors"
                     round_in_progress = True
+                    action_sound.play()
 
                 if round_in_progress:
                     computer_choice = random.choice(("rock", "paper", "scissors"))
@@ -181,8 +189,10 @@ def game_loop():
             if game_over:
                 if player_score >= 5:
                     draw_box("Victory", 160, 310, 960, 100, green)
+                    victory_sound.play()
                 elif computer_score >= 5:
                     draw_box("Defeat", 160, 310, 960, 100, brown)
+                    defeat_sound.play()
                     
                 draw_text("Click anywhere to continue", font, black, 640, 650)
 
@@ -221,6 +231,8 @@ def game_loop():
 
             luck_effect_radius += 6
             luck_effect_alpha = max(luck_effect_alpha - 8, 0)
+
+            trigger_sound.play()
 
         pygame.display.update()
 
