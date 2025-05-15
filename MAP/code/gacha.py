@@ -5,9 +5,6 @@ pygame.init()
 pygame.mixer.init()
 
 pygame.mixer.music.load("CSP1123-TT3L-3-11/MAP/bgm/gacha_sound.mp3")
-pygame.mixer.music.load("CSP1123-TT3L-3-11/MAP/bgm/tekun.mp3")
-pygame.mixer.music.play(-1)
-
 
 width, height = 1280, 720
 window = pygame.display.set_mode((width, height))
