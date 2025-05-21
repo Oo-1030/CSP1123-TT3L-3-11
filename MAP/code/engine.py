@@ -1,5 +1,4 @@
 import pygame
-from save import SaveLoadSystem
 
 pygame.init()
 pygame.mixer.init()
@@ -11,9 +10,6 @@ engine = None
 default_width = 1280
 default_height = 720
 
-saveloadmanager = SaveLoadSystem(".save", "save_data")
-
-entities, number = saveloadmanager.load_game_data(["entities", "number"], [[], 1])
 
 class Engine:
     def __init__(self, game_title) -> None:
@@ -59,7 +55,6 @@ class Engine:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
-                    saveloadmanager.save_game_data([entities, number], ["entities", "number"])
                 elif event.type == pygame.KEYDOWN:
                     keys_down.add(event.key)
                     keys_just_pressed.add(event.key)
@@ -68,12 +63,6 @@ class Engine:
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_buttons_down.add(event.button)
                     mouse_buttons_just_pressed.add(event.button)
-                    if event.button == 1:
-                        mouse_pos = pygame.mouse.get_pos()
-                        entities.append(mouse_pos)
-
-                    if event.button == 3:
-                        number = 3
                 elif event.type == pygame.MOUSEBUTTONUP:
                     mouse_buttons_down.discard(event.button)
 

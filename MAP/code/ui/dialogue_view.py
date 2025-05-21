@@ -111,6 +111,35 @@ class DialogueView:
                 or is_key_just_pressed(pygame.K_ESCAPE):
             self.breakdown()
 
+    def command(self, line):
+        words = line.split(" ")
+        command = words[1]
+        arguments = words[2:]
+        if command == "playR":
+            import rps
+            rps.run()
+        elif command == "playC":
+            import coin
+            coin.run()
+        elif command == "playD":
+            import dice
+            dice.run()
+        elif command == "goto":
+            self.current_line = int(arguments[0])-2
+            print(self.current_line)
+            self.next_line()
+        elif command == "end":
+            self.breakdown()
+        elif command == "random":
+            import random
+            next_lines = [int(x) for x in arguments]
+            result = random.choice(next_lines)
+            self.current_line = result-2
+            self.next_line()
+        else:
+            print(f"Unknown command {command}")
+
+
     def breakdown(self):
         from engine import engine
         from area import area

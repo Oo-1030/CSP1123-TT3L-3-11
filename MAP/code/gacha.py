@@ -1,8 +1,14 @@
 import pygame
 import random
+from SaveLoadManager import SaveLoadSystem 
+from bagsystem import BagSystem
+
 
 pygame.init()
 pygame.mixer.init()
+
+saveloadmanager = SaveLoadSystem(".save", "save_data")
+items_saved = saveloadmanager.load_game_data(["items_saved", "pity_4", "pity_5"], [[], 0, 0])[0] or []
 
 pygame.mixer.music.load("CSP1123-TT3L-3-11/MAP/bgm/gacha_sound.mp3")
 
@@ -81,8 +87,8 @@ class GachaSystem():
             4:["Umbrella", "Coupon","Tissue"],
             5:["Clover","Black_card","Underwear","Koi_fish"]
         }
-        self.pity_4 = 0
-        self.pity_5 = 0
+        self.pity_4 = saveloadmanager.load_game_data(["pity_4"], [0]) or 0
+        self.pity_5 = saveloadmanager.load_game_data(["pity_5"], [0]) or 0
         self.results = []
         self.rect_map = {}
         self.screen = screen
@@ -164,6 +170,10 @@ class GachaSystem():
             item = random.choice(self.pool[star])
             self.results.append(item)
             self.pull_remaining -= 1
+            saveloadmanager.save_game_data([items_saved], ["items_saved"])
+            saveloadmanager.save_game_data([items_saved, self.pity_4, self.pity_5], 
+                                         ["items_saved", "pity_4", "pity_5"])
+
 
             return item
             
@@ -181,6 +191,7 @@ class GachaSystem():
             x += 110
 
 gacha = GachaSystem(screen)
+bag_system = BagSystem(screen,item_descriptions)
 
 font = pygame.font.SysFont(None, 40)
 small_font = pygame.font.SysFont("Comic Sans MS", 28)
@@ -270,6 +281,7 @@ def animation():
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                saveloadmanager.save_game_data([items_saved], ["items_saved"])
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mouse_clicked = True
