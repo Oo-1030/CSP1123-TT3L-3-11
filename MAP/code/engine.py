@@ -10,6 +10,7 @@ engine = None
 default_width = 1280
 default_height = 720
 
+
 class Engine:
     def __init__(self, game_title) -> None:
         from camera import create_screen
@@ -58,12 +59,12 @@ class Engine:
                     keys_down.add(event.key)
                     keys_just_pressed.add(event.key)
                 elif event.type == pygame.KEYUP:
-                    keys_down.remove(event.key)
+                    keys_down.discard(event.key)
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_buttons_down.add(event.button)
                     mouse_buttons_just_pressed.add(event.button)
                 elif event.type == pygame.MOUSEBUTTONUP:
-                    mouse_buttons_down.remove(event.button)
+                    mouse_buttons_down.discard(event.button)
 
             # Update Code
             for a in self.active_objs:
