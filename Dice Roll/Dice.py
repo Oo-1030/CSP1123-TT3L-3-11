@@ -6,6 +6,12 @@ pygame.mixer.init()
 
 pygame.mixer.music.load("background_music(dice).mp3")
 pygame.mixer.music.play(-1)
+pygame.mixer.music.set_volume(0.4)
+action_sound = pygame.mixer.Sound("dice_roll.mp3")
+trigger_sound = pygame.mixer.Sound("trigger.mp3")
+victory_sound = pygame.mixer.Sound("victory.mp3")
+defeat_sound = pygame.mixer.Sound("defeat.mp3")
+sound_channel = None
 
 width, height = (1280, 720)
 window = pygame.display.set_mode((width, height))
@@ -19,8 +25,9 @@ grey = (128, 128, 128)
 
 font = pygame.font.SysFont(None, 40)
 large_font = pygame.font.SysFont(None, 60)
+versus_font = pygame.font.SysFont("Impact", 70)
 
-img_size = (300, 300)
+img_size = (150, 150)
 dice_img = [
     pygame.transform.scale(pygame.image.load("1.png"), img_size),
     pygame.transform.scale(pygame.image.load("2.png"), img_size),
@@ -38,9 +45,15 @@ roll_img = [
     pygame.transform.scale(pygame.image.load("roll6.png"), img_size),
 ]
 
-img_size2= (1280, 720)
-background = pygame.image.load("table.png")
-background = pygame.transform.scale(background, img_size2)
+background_size= (1280, 720)
+background_img = pygame.image.load("table.png")
+background_img = pygame.transform.scale(background_img, background_size)
+
+char_size = (200, 200)
+char_img = pygame.image.load("character.png")
+npc_img = pygame.image.load("fatguy.png")
+char_img = pygame.transform.scale(char_img, char_size)
+npc_img = pygame.transform.scale(npc_img, char_size)
 
 def draw_text(text, font, color, x, y):
     img = font.render(text, True, color)
@@ -69,7 +82,7 @@ def get_round_outcome(player_dice, computer_dice):
     if player_dice > computer_dice:
         return "You Win!"
     elif computer_dice > player_dice:
-        return "You Lose..."
+        return "Computer Win!"
     else:
         return "It's a tie!"
     
@@ -82,13 +95,13 @@ def luck_system(original_dice, luck, player_dice):
     for _ in range(total_rerolls):
         new_choice = random.randint(0, 5)
         outcome = get_round_outcome(player_dice, new_choice)
-        if outcome != "You Lose...":
+        if outcome != "Computer Win!":
             return new_choice
 
     if remaining_luck > 0 and random.randint(1, 100) <= remaining_luck:
         new_choice = random.randint(0, 5)
         outcome = get_round_outcome(player_dice, new_choice)
-        if outcome != "You Lose...":
+        if outcome != "Computer Win!":
             return new_choice
 
     return new_choice
@@ -107,12 +120,14 @@ def game_loop():
     luck_triggered = False
     luck_effect_alpha = 0
     luck_effect_radius = 1000
+    victory_sound_play = False
+    defeat_sound_play = False
     playing = True
 
     while playing:
         mouse_clicked = False
 
-        window.blit(background, (0, 0))
+        window.blit(background_img, (0, 0))
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -122,7 +137,8 @@ def game_loop():
 
         if not rolling and not show_result:
             click_button = draw_button("Roll", 540, 550, 200, 100, red)
-            draw_text("Roll the dice", large_font, black, width // 2, 100)
+            draw_text("Score 5 points to win!", large_font, black, width // 2, 80)
+            draw_text("Roll the dice.", font, black, width // 2, 120)
             start_rect1 = dice_img[0].get_rect(center = (300, height // 2))
             window.blit(dice_img[0], start_rect1)
             start_rect2 = dice_img[0].get_rect(center = (width - 300, height // 2))
@@ -152,12 +168,12 @@ def game_loop():
                 computer_dice = random.randint(0, 5)
 
                 outcome = get_round_outcome(player_dice, computer_dice)
-                if outcome == "You Lose...":
+                if outcome == "Computer Win!":
                     luck = 100
                     rerolled_choice = luck_system(computer_dice, luck, player_dice)
                     rerolled_outcome = get_round_outcome(player_dice, rerolled_choice)
 
-                    if rerolled_outcome != "You Lose...":
+                    if rerolled_outcome != "Computer Win!":
                         computer_dice = rerolled_choice
                         luck_triggered = True
                         luck_effect_alpha = 255
@@ -167,7 +183,7 @@ def game_loop():
                     result = "You Win!"
                     player_score += 1
                 elif computer_dice > player_dice:
-                    result = "You Lose..."
+                    result = "NPC Win!"
                     computer_score += 1
                 else:
                     result = "It's a tie!"
@@ -175,15 +191,18 @@ def game_loop():
                 show_result = True
 
         else:
-            player_rect = dice_img[player_dice].get_rect(center = (300, height // 2))
+            player_rect = dice_img[player_dice].get_rect(center = (380, height // 2))
             window.blit(dice_img[player_dice], player_rect)
 
-            computer_rect = dice_img[computer_dice].get_rect(center = (width - 300, height // 2))
+            computer_rect = dice_img[computer_dice].get_rect(center = (width - 380, height // 2))
             window.blit(dice_img[computer_dice], computer_rect)
 
+            window.blit(char_img, (50, 260))
+            window.blit(npc_img, (width - 240, 260))
+            draw_text("VS", versus_font, red, width // 2, height // 2)
             draw_text(result, large_font, black, width // 2, 100)
 
-            game_over = player_score >= 3 or computer_score >= 3
+            game_over = player_score >= 5 or computer_score >= 5
             if not game_over:
                 click_button2 = draw_button("Roll Again", 540, 550, 200, 100, red)
                 if click_button2 and mouse_clicked and not click_handled:
@@ -199,13 +218,20 @@ def game_loop():
                     luck_effect_radius = 1000
 
             else:
-                if player_score >= 3:
+                if player_score >= 5:
                     draw_box("Victory", 160, 310, 960, 100, green)
-                elif computer_score >= 3:
+                    if not victory_sound_play:
+                        victory_sound_play = True
+                        sound_channel = victory_sound.play()
+                elif computer_score >= 5:
                     draw_box("Defeat", 160, 310, 960, 100, grey)
+                    if not defeat_sound_play:
+                        defeat_sound_play = True
+                        sound_channel = defeat_sound.play()
 
                 draw_text("Click anywhere to continue", font, black, 640, 650)
                 if mouse_clicked and not click_handled:
+                    sound_channel.stop()
                     player_dice = 0
                     computer_dice = 0
                     player_score = 0
@@ -218,9 +244,11 @@ def game_loop():
                     luck_triggered = False
                     luck_effect_alpha = 0
                     luck_effect_radius = 1000
+                    victory_sound_play = False
+                    defeat_sound_play = False
 
-        draw_text(f"Player: {player_score}", font, black, 100, 50)
-        draw_text(f"Computer: {computer_score}", font, black, width - 120, 50)
+            draw_text(f"Max: {player_score}", large_font, black, 100, 50)
+            draw_text(f"NPC: {computer_score}", large_font, black, width - 120, 50)
 
         if luck_triggered and luck_effect_alpha > 0:
             gold_surface = pygame.Surface((width, height), pygame.SRCALPHA)
@@ -229,8 +257,10 @@ def game_loop():
             pygame.draw.ellipse(gold_surface, glow_color, (width // 2 - luck_effect_radius, height // 2 - luck_effect_radius, luck_effect_radius * 2, luck_effect_radius * 2))
             window.blit(gold_surface, (0, 0))
 
-            luck_effect_radius += 6
+            luck_effect_radius += 8
             luck_effect_alpha = max(luck_effect_alpha - 8, 0)
+
+            trigger_sound.play()
         
         pygame.display.update()
 
@@ -240,5 +270,4 @@ def game_loop():
     pygame.quit()
 
 game_loop()
-
 

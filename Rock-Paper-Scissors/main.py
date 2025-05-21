@@ -11,6 +11,7 @@ action_sound = pygame.mixer.Sound("rps.mp3")
 trigger_sound = pygame.mixer.Sound("trigger.mp3")
 victory_sound = pygame.mixer.Sound("victory.mp3")
 defeat_sound = pygame.mixer.Sound("defeat.mp3")
+sound_channel = None
 
 width, height = 1280, 720
 window = pygame.display.set_mode((width, height))
@@ -27,19 +28,30 @@ purple = (186, 85, 211)
 
 font = pygame.font.SysFont(None, 40)
 large_font = pygame.font.SysFont(None, 60)
+versus_font = pygame.font.SysFont("Impact", 70)
 
-rock_img = pygame.image.load("rock.png")
-paper_img = pygame.image.load("paper.png")
-scissors_img = pygame.image.load("scissors.png")
+rock_img = pygame.image.load("rock1.png")
+paper_img = pygame.image.load("paper2.png")
+scissors_img = pygame.image.load("scissors3.png")
 center_img = pygame.image.load("All.png")
+background_img = pygame.image.load("dtc.png")
+char_img = pygame.image.load("character.png")
+npc_img = pygame.image.load("fatguy.png")
 
-img_size = (300, 300)
+img_size = (200, 200)
 rock_img = pygame.transform.scale(rock_img, img_size)
 paper_img = pygame.transform.scale(paper_img, img_size)
 scissors_img = pygame.transform.scale(scissors_img, img_size)
 
 center_img_size = (960, 350)
 center_img = pygame.transform.scale(center_img, center_img_size)
+
+background_img_size = (1280, 720)
+background_img = pygame.transform.scale(background_img, background_img_size)
+
+char_size = (200, 200)
+char_img = pygame.transform.scale(char_img, char_size)
+npc_img = pygame.transform.scale(npc_img, char_size)
 
 def draw_text(text, font, color, x, y):
     img = font.render(text, True, color)
@@ -107,13 +119,15 @@ def game_loop():
     luck_triggered = False
     luck_effect_alpha = 0
     luck_effect_radius = 1000
+    victory_sound_play = False
+    defeat_sound_play = False
     click_handled = False
     playing = True
 
     while playing:
         mouse_clicked = False
 
-        window.fill(purple)
+        window.blit(background_img, (0, 0))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 playing = False
@@ -124,6 +138,8 @@ def game_loop():
             center_rect = center_img.get_rect(center = (640, height // 2))
             window.blit(center_img, center_rect)
                 
+            draw_text("Score 5 points to win!", large_font, black, width // 2, 80)
+            draw_text("Make a choice.", font, black, width // 2, 120)
             rock_button = draw_button ("Rock", 240, 550, 200, 100, red)
             paper_button = draw_button ("Paper", 540, 550, 200, 100, green)
             scissors_button = draw_button ("Scissors", 840, 550, 200, 100, blue)
@@ -171,32 +187,38 @@ def game_loop():
                         result = "You win!"
                         player_score += 1
                     else:
-                        result = "Computer win!"
+                        result = "NPC win!"
                         computer_score += 1
-
         else:
             player_img = rock_img if player_choice == "rock" else paper_img if player_choice == "paper" else scissors_img
-            player_rect = player_img.get_rect(center = (300, height // 2))
+            player_rect = player_img.get_rect(center = (380, height - 150))
             window.blit(player_img, player_rect)
 
             computer_img = rock_img if computer_choice == "rock" else paper_img if computer_choice == "paper" else scissors_img
-            computer_rect = computer_img.get_rect(center = (width - 300, height // 2))
+            computer_rect = computer_img.get_rect(center = (width - 380, 220))
             window.blit(computer_img, computer_rect)
 
+            window.blit(char_img, (50, 470))
+            window.blit(npc_img, (width - 240, 100))
+            draw_text("VS", versus_font, red, width // 2, height // 2)
             draw_text(result, large_font, black, width // 2, 100)
 
             game_over = player_score >= 5 or computer_score >= 5
             if game_over:
                 if player_score >= 5:
                     draw_box("Victory", 160, 310, 960, 100, green)
-                    victory_sound.play()
+                    if not victory_sound_play:
+                        victory_sound_play = True
+                        sound_channel = victory_sound.play()
                 elif computer_score >= 5:
                     draw_box("Defeat", 160, 310, 960, 100, brown)
-                    defeat_sound.play()
+                    if not defeat_sound_play:
+                        defeat_sound_play = True
+                        sound_channel = defeat_sound.play()
                     
                 draw_text("Click anywhere to continue", font, black, 640, 650)
-
                 if mouse_clicked and not click_handled:
+                    sound_channel.stop()
                     player_score = 0
                     computer_score = 0
                     player_choice = None
@@ -206,6 +228,8 @@ def game_loop():
                     luck_triggered = False
                     luck_effect_alpha = 0
                     luck_effect_radius = 1000
+                    victory_sound_play = False
+                    defeat_sound_play = False
                     click_handled = True
             else:
                 next_round_button = draw_button("Next Round", 540, 550, 200, 100, grey)
@@ -219,8 +243,8 @@ def game_loop():
                     luck_effect_radius = 1000
                     click_handled = True
 
-        draw_text(f"Player: {player_score}", font, black, 100, 50)
-        draw_text(f"Computer: {computer_score}", font, black, width - 120, 50)
+            draw_text(f"Max: {player_score}", font, black, 100, 420)
+            draw_text(f"NPC: {computer_score}", font, black, width - 120, 50)
 
         if luck_triggered and luck_effect_alpha > 0:
             gold_surface = pygame.Surface((width, height), pygame.SRCALPHA)
@@ -229,7 +253,7 @@ def game_loop():
             pygame.draw.ellipse(gold_surface, glow_color, (width // 2 - luck_effect_radius, height // 2 - luck_effect_radius, luck_effect_radius * 2, luck_effect_radius * 2))
             window.blit(gold_surface, (0, 0))
 
-            luck_effect_radius += 6
+            luck_effect_radius += 8
             luck_effect_alpha = max(luck_effect_alpha - 8, 0)
 
             trigger_sound.play()
