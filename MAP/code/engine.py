@@ -58,12 +58,12 @@ class Engine:
                     keys_down.add(event.key)
                     keys_just_pressed.add(event.key)
                 elif event.type == pygame.KEYUP:
-                    keys_down.remove(event.key)
+                    keys_down.discard(event.key)
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     mouse_buttons_down.add(event.button)
                     mouse_buttons_just_pressed.add(event.button)
                 elif event.type == pygame.MOUSEBUTTONUP:
-                    mouse_buttons_down.remove(event.button)
+                    mouse_buttons_down.discard(event.button)
 
             # Update Code
             for a in self.active_objs:
