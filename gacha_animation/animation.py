@@ -1,14 +1,20 @@
 import pygame
 import random
+from SaveLoadManager import SaveLoadSystem 
+from bagsystem import BagSystem
+
 
 pygame.init()
 pygame.mixer.init()
+
+saveloadmanager = SaveLoadSystem(".save", "save_data")
+items_saved = saveloadmanager.load_game_data(["items_saved", "pity_4", "pity_5"], [[], 0, 0])[0] or []
 
 pygame.mixer.music.load("gacha_sound.mp3")
 
 width, height = 1280, 720
 window = pygame.display.set_mode((width, height))
-pygame.display.set_caption("Let's Go Gacha!")
+pygame.display.set_caption("Secret X: Let's Go Gacha!")
 
 background_img = pygame.image.load("background.png")
 background_img = pygame.transform.scale(background_img, (1280, 720))
@@ -45,7 +51,7 @@ item_descriptions = {
     "Rice": "You found the only food can eat in campus, but you also don't want to eat this if you can eat outside.",
     "Coffee": "This coffee give you energy for a day. No sleepy lectures anymore!",
     "Full_mark": "You get 100 mark in exam. This is not luck, is the result of your hardwork!",
-    "Eraser": "You don't need to borrow an eraser from your friend anymore. You've got the aura.",
+    "Eraser": "You don't need to borrow an eraser from your friend anymore. You've got the aura!",
     "Watch": "Imagine wearing this luxury watch as you walk - you'll be the most eye-catching guy in MMU!",
     "Cola":"When you have this on a sunny day, you'll know what heaven feels like.",
     "Umbrella": "Imagine you found this on rainy day! It rescue you from becoming a drowned rat.",
@@ -82,8 +88,8 @@ class GachaSystem():
             4:["Umbrella", "Coupon","Tissue"],
             5:["Clover","Black_card","Underwear","Koi_fish"]
         }
-        self.pity_4 = 0
-        self.pity_5 = 0
+        self.pity_4 = saveloadmanager.load_game_data(["pity_4"], [0]) or 0
+        self.pity_5 = saveloadmanager.load_game_data(["pity_5"], [0]) or 0
         self.results = []
         self.rect_map = {}
         self.screen = screen
@@ -131,7 +137,11 @@ class GachaSystem():
                 self.highest_star_in_pull = star
             item = random.choice(self.pool[star])
             self.results.append(item)
+            items_saved.append(item)
             self.pull_remaining -= 1
+            saveloadmanager.save_game_data([items_saved], ["items_saved"])
+            saveloadmanager.save_game_data([items_saved, self.pity_4, self.pity_5], 
+                                         ["items_saved", "pity_4", "pity_5"])
 
             return item
             
@@ -149,6 +159,8 @@ class GachaSystem():
             x += 110
 
 gacha = GachaSystem(window)
+bag_system = BagSystem(window,item_descriptions)
+
 
 font = pygame.font.SysFont(None, 40)
 small_font = pygame.font.SysFont("Comic Sans MS", 28)
@@ -182,12 +194,12 @@ def draw_wrapped_text(text, font, color, x, y, max_width):
     total_height = len(lines) * line_height
     
     # 绘制边框背景（调整这些数字来改变边框大小）
-    border_padding = 15  # 边框与文字的间距
+    border_padding = 20  # 边框与文字的间距
     border_rect = pygame.Rect(
         x - max_line_width//2 - border_padding,  # 左边位置
         y - border_padding,                      # 上边位置
         max_line_width + border_padding*2,       # 宽度
-        total_height + border_padding*2          # 高度
+        total_height + border_padding*2 - 35          # 高度 -35 是为了底部不要留太多白
     )
     
     pygame.draw.rect(window, (255, 255, 255), border_rect)  # 白色背景
@@ -232,16 +244,19 @@ def animation():
     result_displayed = False
     confirm_dialog = None 
 
-
     while running:
         mouse_clicked = False
         window.blit(Tekun_background_img,(0,0))
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                saveloadmanager.save_game_data([items_saved], ["items_saved"])
                 running = False
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mouse_clicked = True
+            if event.type == pygame.KEYDOWN and not(effect_triggered) and not(confirm_dialog):
+                if event.key == pygame.K_b:
+                    bag_system.open(items_saved)
 
         if effect_triggered and effect_show:
             window.blit(background_img, (0, 0))
@@ -354,6 +369,7 @@ def animation():
 
         pygame.display.update()
         clock.tick(60)
+        
 
     pygame.quit()
 
