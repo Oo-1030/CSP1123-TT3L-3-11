@@ -97,3 +97,4 @@ class Player:
         for t in triggers:
             if body.is_colliding_with(t):
                 t.on(self.entity)
+

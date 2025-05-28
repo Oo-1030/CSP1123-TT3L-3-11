@@ -7,6 +7,12 @@ class Tekun(Usable):
         super().__init__(obj_name)
         self.gacha_active = False
         self.gacha_system = None
+        self.player = None
+    
+    def open_gacha(self):
+        from gacha import gacha
+        gacha.on_exit = self.exit_gacha
+        gacha.run()
 
     def on(self, other, distance):
         from player import Player
@@ -14,22 +20,16 @@ class Tekun(Usable):
 
         if distance < tekun_talk_distance:
             if not self.gacha_active:
-                from gacha import GachaSystem, animation
-                self.gacha_active = True
-                self.gacha_system = GachaSystem()
-                self.gacha_system.on_exit = self.exit_gacha  # Set the exit callback
-                animation()  # Start the gacha game
+               self.gacha_active = True
+               self.player = player
+               self.open_gacha()
             else:
-                player.show_message("Gacha is already open!")
-        else:
-            player.show_message("I need to get closer")
+               player.show_message("Gacha is already open!")
 
     def exit_gacha(self):
-        """Called when Q is pressed or gacha exits"""
+        print("Exiting gacha!")  
         self.gacha_active = False
         self.gacha_system = None
-        # Optional: Notify the player
-        player = self.get_player_somehow()  # Replace with your player reference
+        player = self.player
         if player:
             player.show_message("Returned to the main game!")
-
