@@ -1,5 +1,6 @@
 import pygame
 import random
+import os
 
 pygame.init()
 pygame.mixer.init()
@@ -109,6 +110,21 @@ def luck_system(original_choice, luck, player_choice):
 
     return new_choice
 
+save_dir = os.path.expanduser(r"~\Project\CSP1123")
+os.makedirs(save_dir, exist_ok=True)
+coin_path = os.path.join(save_dir, "coins.txt")
+
+def load_coins():
+    try:
+        with open(coin_path, "r") as f:
+            return int(f.read())
+    except:
+        return 0
+
+def save_coins(coins):
+    with open(coin_path, "w") as f:
+        f.write(str(coins))
+
 def game_loop():
     player_choice = None
     computer_choice = None
@@ -123,6 +139,9 @@ def game_loop():
     defeat_sound_play = False
     click_handled = False
     playing = True
+    add_coins = False
+    trigger_sound_play = False
+    coins = load_coins()
 
     while playing:
         mouse_clicked = False
@@ -206,15 +225,30 @@ def game_loop():
             game_over = player_score >= 5 or computer_score >= 5
             if game_over:
                 if player_score >= 5:
-                    draw_box("Victory", 160, 310, 960, 100, green)
+                    draw_box("", 256, 285, 768, 150, green)
+                    draw_text("Victory!", font, black, width // 2, 320)
+                    draw_text("You get 200 coins.", font, black, width // 2, 360)
+                    draw_text("You gain 10 exp.", font, black, width // 2, 390)
+                    if not add_coins:
+                        add_coins = True
+                        coins += 200
+                        save_coins(coins)
+                    draw_text(f"Coins: {coins}", font, black, width - 250, 50)
                     if not victory_sound_play:
-                        victory_sound_play = True
                         sound_channel = victory_sound.play()
+                        victory_sound_play = True
                 elif computer_score >= 5:
-                    draw_box("Defeat", 160, 310, 960, 100, brown)
+                    draw_box("", 256, 285, 768, 150, brown)
+                    draw_text("Defeat...", font, black, width // 2, 320)
+                    draw_text("You get 100 coins.", font, black, width // 2, 360)
+                    draw_text("You gain 5 exp.", font, black, width // 2, 390)
+                    if not add_coins:
+                        add_coins = True
+                        coins += 100
+                        save_coins(coins)
                     if not defeat_sound_play:
-                        defeat_sound_play = True
                         sound_channel = defeat_sound.play()
+                        defeat_sound_play = True
                     
                 draw_text("Click anywhere to continue", font, black, 640, 650)
                 if mouse_clicked and not click_handled:
@@ -230,7 +264,9 @@ def game_loop():
                     luck_effect_radius = 1000
                     victory_sound_play = False
                     defeat_sound_play = False
+                    trigger_sound_play = False
                     click_handled = True
+                    add_coins = False
             else:
                 next_round_button = draw_button("Next Round", 540, 550, 200, 100, grey)
                 if next_round_button and mouse_clicked and not click_handled:
@@ -242,6 +278,8 @@ def game_loop():
                     luck_effect_alpha = 0
                     luck_effect_radius = 1000
                     click_handled = True
+                    trigger_sound_play = False
+                    add_coins = False
 
             draw_text(f"Max: {player_score}", font, black, 100, 420)
             draw_text(f"NPC: {computer_score}", font, black, width - 120, 50)
@@ -256,7 +294,9 @@ def game_loop():
             luck_effect_radius += 8
             luck_effect_alpha = max(luck_effect_alpha - 8, 0)
 
-            trigger_sound.play()
+            if not trigger_sound_play:
+                trigger_sound.play()
+                trigger_sound_play = True
 
         pygame.display.update()
 
