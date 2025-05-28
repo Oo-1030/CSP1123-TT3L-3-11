@@ -24,8 +24,6 @@ red = (255, 0, 0)
 green = (0, 255, 0)
 blue = (0, 0, 255)
 grey = (128, 128, 128)
-brown = (165, 42, 42)
-purple = (186, 85, 211)
 
 font = pygame.font.SysFont(None, 40)
 large_font = pygame.font.SysFont(None, 60)
@@ -110,7 +108,7 @@ def luck_system(original_choice, luck, player_choice):
 
     return new_choice
 
-save_dir = os.path.expanduser(r"~\Project\CSP1123")
+save_dir = os.path.expanduser(r"~\Documents\Mini IT")
 os.makedirs(save_dir, exist_ok=True)
 coin_path = os.path.join(save_dir, "coins.txt")
 
@@ -233,12 +231,11 @@ def game_loop():
                         add_coins = True
                         coins += 200
                         save_coins(coins)
-                    draw_text(f"Coins: {coins}", font, black, width - 250, 50)
                     if not victory_sound_play:
                         sound_channel = victory_sound.play()
                         victory_sound_play = True
                 elif computer_score >= 5:
-                    draw_box("", 256, 285, 768, 150, brown)
+                    draw_box("", 256, 285, 768, 150, red)
                     draw_text("Defeat...", font, black, width // 2, 320)
                     draw_text("You get 100 coins.", font, black, width // 2, 360)
                     draw_text("You gain 5 exp.", font, black, width // 2, 390)
@@ -249,6 +246,8 @@ def game_loop():
                     if not defeat_sound_play:
                         sound_channel = defeat_sound.play()
                         defeat_sound_play = True
+
+                draw_text(f"Coins: {coins}", font, black, width - 350, 50)
                     
                 draw_text("Click anywhere to continue", font, black, 640, 650)
                 if mouse_clicked and not click_handled:
@@ -281,8 +280,8 @@ def game_loop():
                     trigger_sound_play = False
                     add_coins = False
 
-            draw_text(f"Max: {player_score}", font, black, 100, 420)
-            draw_text(f"NPC: {computer_score}", font, black, width - 120, 50)
+            draw_text(f"Max: {player_score}", large_font, black, 100, 420)
+            draw_text(f"NPC: {computer_score}", large_font, black, width - 120, 50)
 
         if luck_triggered and luck_effect_alpha > 0:
             gold_surface = pygame.Surface((width, height), pygame.SRCALPHA)
