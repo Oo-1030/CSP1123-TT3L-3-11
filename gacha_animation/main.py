@@ -111,10 +111,14 @@ def luck_system(original_choice, luck, player_choice):
 
     return new_choice
 
-save_dir = os.path.expanduser(r"C:\Users\User\Desktop\mini it\0\CSP1123-TT3L-3-11")
+save_dir = os.path.expanduser(r"C:\Users\User\Desktop\test mini it\test\Rock-Paper-Scissors\gacha_animation")
 os.makedirs(save_dir, exist_ok=True)
 coin_path = os.path.join(save_dir, "coins.txt")
+level_path = os.path.join(save_dir, "level.txt")
+exp_path = os.path.join(save_dir, "exp.txt")
+luck_path = os.path.join(save_dir, "luck.txt")
 
+#load coins
 def load_coins():
     try:
         with open(coin_path, "r") as f:
@@ -126,7 +130,89 @@ def save_coins(coins):
     with open(coin_path, "w") as f:
         f.write(str(coins))
 
+#load level
+def load_level():
+    try:
+        with open(level_path, "r") as f:
+            return int(f.read())
+    except:
+        return 1  # Default to level 1 if file doesn't exist
+
+def save_level(level):
+    with open(level_path, "w") as f:
+        f.write(str(level))
+
+#load exp
+def load_exp():
+    try:
+        with open(exp_path, "r") as f:
+            return int(f.read())
+    except:
+        return 0  # Default to 0 EXP if file doesn't exist
+
+def save_exp(exp):
+    with open(exp_path, "w") as f:
+        f.write(str(exp))
+
+#load luck
+def load_luck():
+    try:
+        with open(luck_path, "r") as f:
+            return int(f.read())
+    except:
+        return 100  # Default to 0 luck if file doesn't exist
+
+def save_luck(luck):
+    with open(luck_path, "w") as f:
+        f.write(str(luck))
+
+level = 1
+exp = 0 
+luck = 100
+max_exp = 100 * level
+max_level = 20
+
+font = pygame.font.SysFont('microsoftyahei', 20)
+
+def exp_system():
+    global max_exp, exp, level,luck
+
+    max_exp = 100 * level
+    if level < max_level:
+        if exp >= max_exp:
+            exp_left = exp - max_exp
+            exp = exp_left
+            level += 1
+            luck += 10
+    
+        ratio = exp / max_exp
+        level_text = font.render(f"Level:{level}", True, (255,255,255))
+        window.blit(level_text, (55, 685))
+
+        exp_text = font.render(f"{exp}/{max_exp}",True,(255,255,255))
+        window.blit(exp_text, (1165, 685))
+
+        pygame.draw.rect(window,(0,50,255),(135,685,1010,30)) # outline
+        pygame.draw.rect(window,(250,250,250),(140,690,1000,20)) # max
+        pygame.draw.rect(window,(85,160,255),(140,690,1000*ratio,20)) # ratio
+
+    else:
+        level_text = font.render(f"Level:{level}", True, (0,0,0))
+        window.blit(level_text, (55, 685))
+        exp_text = font.render("max/max",True,(0,0,0))
+        window.blit(exp_text, (1165, 685))
+        pygame.draw.rect(window,(0,50,255),(135,685,1010,30)) # outline
+        pygame.draw.rect(window,(85,160,255),(140,690,1000,20)) # ratio
+    
+    exp_text = font.render(f"Luck:{luck}",True,(0,0,0))
+    window.blit(exp_text, (20, 20))
+
 def game_loop():
+    global max_exp, exp, level,luck
+    level = load_level() 
+    exp = load_exp()      
+    luck = load_luck()   
+    coins = load_coins()  
     player_choice = None
     computer_choice = None
     result = None
@@ -142,14 +228,18 @@ def game_loop():
     playing = True
     add_coins = False
     trigger_sound_play = False
-    coins = load_coins()
 
     while playing:
         mouse_clicked = False
 
         window.blit(background_img, (0, 0))
+        exp_system()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                save_level(level)
+                save_exp(exp)
+                save_coins(coins)
+                save_luck(luck)
                 playing = False
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mouse_clicked = True
@@ -183,7 +273,6 @@ def game_loop():
 
                     outcome = get_round_outcome(player_choice, computer_choice)
                     if outcome == "computer_win":
-                        luck = 100
                         rerolled_choice = luck_system(computer_choice, luck, player_choice)
                         rerolled_outcome = get_round_outcome(player_choice, rerolled_choice)
 
@@ -229,11 +318,13 @@ def game_loop():
                     draw_box("", 256, 285, 768, 150, green)
                     draw_text("Victory!", font, black, width // 2, 320)
                     draw_text("You get 200 coins.", font, black, width // 2, 360)
-                    draw_text("You gain 10 exp.", font, black, width // 2, 390)
+                    draw_text("You gain 100 exp.", font, black, width // 2, 390)
                     if not add_coins:
                         add_coins = True
                         coins += 200
+                        exp += 100
                         save_coins(coins)
+                        save_exp(exp)
                     draw_text(f"Coins: {coins}", font, black, width - 250, 50)
                     if not victory_sound_play:
                         sound_channel = victory_sound.play()
@@ -242,11 +333,13 @@ def game_loop():
                     draw_box("", 256, 285, 768, 150, brown)
                     draw_text("Defeat...", font, black, width // 2, 320)
                     draw_text("You get 100 coins.", font, black, width // 2, 360)
-                    draw_text("You gain 5 exp.", font, black, width // 2, 390)
+                    draw_text("You gain 50 exp.", font, black, width // 2, 390)
                     if not add_coins:
                         add_coins = True
                         coins += 100
+                        exp +=50
                         save_coins(coins)
+                        save_exp(exp)
                     if not defeat_sound_play:
                         sound_channel = defeat_sound.play()
                         defeat_sound_play = True
@@ -305,5 +398,9 @@ def game_loop():
             click_handled = False
 
     pygame.quit()
+    save_level(level)
+    save_exp(exp)
+    save_coins(coins)
+    save_luck(luck)
 
 game_loop()
