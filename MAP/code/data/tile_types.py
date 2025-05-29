@@ -9,5 +9,18 @@ tile_kinds = [
     TileKind("stairM", "stairM.png", False), # 5
     TileKind("stairR", "stairR.png", False), # 6
     TileKind("blueWall", "blueWall.png", True), # 7
-    TileKind("whiteWall", "whiteWall.png", True) # 8
+    TileKind("whiteWall", "whiteWall.png", True), # 8
+    TileKind("roadG", "roadG.png", False), # 9
+    TileKind("crosswalk", "crosswalk.png", False), # 10
+    TileKind("grayWall", "grayWall.png", True), # 11
+    TileKind("white", "white.png", False), # 12
+    TileKind("hajiTable", "hajiTable.png", True), # 13
+    TileKind("hajiTableCurry", "hajiTableCurry.png", True), # 14
+    TileKind("hajiTableMachine", "hajiTableMachine.png", True), # 15
+    TileKind("food", "food.png", True), # 16
+    TileKind("redWall", "redWall.png", True), # 17
+    TileKind("floor", "floor.png", False), # 18
+    TileKind("floorW", "floorW.png", False), # 19
+    TileKind("floorB", "floorB.png", False), # 20 
 ]
+
