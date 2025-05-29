@@ -1,6 +1,7 @@
 import pygame
 import random
 import math
+import os
 
 pygame.init()
 pygame.mixer.init()
@@ -24,7 +25,6 @@ red = (255, 0, 0)
 blue = (0, 0, 255)
 green = (0, 255, 0)
 grey = (128, 128, 128)
-brown = (165, 42, 42)
 
 font = pygame.font.SysFont(None, 40)
 large_font = pygame.font.SysFont(None, 60)
@@ -32,7 +32,7 @@ large_font = pygame.font.SysFont(None, 60)
 head_img = pygame.image.load("head2.png")
 tail_img = pygame.image.load("tail2.png")
 spining_img = pygame.image.load("spining2.png")
-background_img = pygame.image.load("background(coin).png")
+background_img = pygame.image.load("mmu_table().png")
 char_img = pygame.image.load("character.png")
 npc_img = pygame.image.load("fatguy.png")
 
@@ -97,12 +97,28 @@ def luck_system(original_choice, luck, player_choice):
             return new_choice
 
     return new_choice
+
+save_dir = os.path.expanduser(r"~\Documents\Mini IT")
+os.makedirs(save_dir, exist_ok=True)
+coin_path = os.path.join(save_dir, "coins.txt")
+
+def load_coins():
+    try:
+        with open(coin_path, "r") as f:
+            return int(f.read())
+    except:
+        return 0
+
+def save_coins(coins):
+    with open(coin_path, "w") as f:
+        f.write(str(coins))
+
 def game_loop():
     flipping = False
     result = None
     angle = 0
-    spin_speed = 10
-    spin_duration = 250
+    spin_speed = 30
+    spin_duration = 100
     frame_counter = 0
     player_choice = None
     player_score = 0
@@ -115,8 +131,13 @@ def game_loop():
     victory_sound_play = False
     defeat_sound_play = False
     playing = True
+    add_coins = False
+    trigger_sound_play = False
+    coins = load_coins()
+    clock = pygame.time.Clock()
 
     while playing:
+        clock.tick(60)
         mouse_clicked = False
 
         window.blit(background_img, (0, 0))
@@ -126,6 +147,9 @@ def game_loop():
                 playing = False
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mouse_clicked = True
+
+        window.blit(char_img, (20, 300))
+        window.blit(npc_img, (width - 220, 200))
 
         if not flipping and not show_result:
             draw_text("Score 5 points to win!", large_font, black, width // 2, 80)
@@ -150,9 +174,9 @@ def game_loop():
 
         elif flipping:
             angle += spin_speed
-            frame_counter += 1
+            frame_counter += 3
 
-            scale_x = abs(math.cos(math.radians(angle)))
+            scale_x = abs(math.cos(math.radians(angle * 1.5)))
             if scale_x < 0.1:
                 scale_x = 0.1
 
@@ -191,22 +215,36 @@ def game_loop():
             result_rect = result_img.get_rect(center=(width // 2, height // 2))
             window.blit(result_img, result_rect)
 
-            window.blit(char_img, (50, 260))
-            window.blit(npc_img, (width - 250, 260))
             draw_text(outcome_text, large_font, black, width // 2, 100)
 
             game_over = player_score >= 5 or computer_score >= 5
             if game_over:
                 if player_score >= 5:
-                    draw_box("Victory", 160, 310, 960, 100, green)
+                    draw_box("", 256, 285, 768, 150, green)
+                    draw_text("Victory!", font, black, width // 2, 320)
+                    draw_text("You get 200 coins.", font, black, width // 2, 360)
+                    draw_text("You gain 10 exp.", font, black, width // 2, 390)
+                    if not add_coins:
+                        add_coins = True
+                        coins += 200
+                        save_coins(coins)
                     if not victory_sound_play:
                         victory_sound_play = True
                         sound_channel = victory_sound.play()
                 elif computer_score >= 5:
-                    draw_box("Defeat", 160, 310, 960, 100, brown)
+                    draw_box("", 256, 285, 768, 150, red)
+                    draw_text("Defeat...", font, black, width // 2, 320)
+                    draw_text("You get 100 coins.", font, black, width // 2, 360)
+                    draw_text("You gain 5 exp.", font, black, width // 2, 390)
+                    if not add_coins:
+                        add_coins = True
+                        coins += 100
+                        save_coins(coins)
                     if not defeat_sound_play:
                         defeat_sound_play = True
                         sound_channel = defeat_sound.play()
+
+                draw_text(f"Coins: {coins}", font, black, width - 350, 50)
 
                 draw_text("Click anywhere to continue", font, black, 640, 650)
                 if mouse_clicked:
@@ -225,6 +263,8 @@ def game_loop():
                     luck_effect_radius = 1000
                     victory_sound_play = False
                     defeat_sound_play = False
+                    add_coins = False
+                    trigger_sound_play = False
 
             else:
                 next_round_button = draw_button("Flip Again", 540, 550, 200, 100, grey)
@@ -239,10 +279,11 @@ def game_loop():
                     luck_triggered = False
                     luck_effect_alpha = 0
                     luck_effect_radius = 1000
+                    add_coins = False
+                    trigger_sound_play = False
 
-
-            draw_text(f"Max: {player_score}", font, black, 100, 50)
-            draw_text(f"NPC: {computer_score}", font, black, width - 120, 50)
+            draw_text(f"Max: {player_score}", large_font, black, 100, 50)
+            draw_text(f"NPC: {computer_score}", large_font, black, width - 120, 50)
 
         if luck_triggered and luck_effect_alpha > 0:
             gold_surface = pygame.Surface((width, height), pygame.SRCALPHA)
@@ -254,9 +295,10 @@ def game_loop():
             luck_effect_radius += 8
             luck_effect_alpha = max(luck_effect_alpha - 8, 0)
 
-            trigger_sound.play()
+            if not trigger_sound_play:
+                trigger_sound.play()
+                trigger_sound_play = True
 
         pygame.display.flip()
     pygame.quit()
 game_loop()
-
