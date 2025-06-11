@@ -10,9 +10,8 @@ class Tekun(Usable):
         self.player = None
     
     def open_gacha(self):
-        from gacha import gacha
-        gacha.on_exit = self.exit_gacha
-        gacha.run()
+        from gacha import animation
+        animation()
 
     def on(self, other, distance):
         from player import Player
@@ -24,7 +23,7 @@ class Tekun(Usable):
                self.player = player
                self.open_gacha()
             else:
-               player.show_message("Gacha is already open!")
+               player.show_message("CLOSE(Go to another map and come back)")
 
     def exit_gacha(self):
         print("Exiting gacha!")  
@@ -32,4 +31,4 @@ class Tekun(Usable):
         self.gacha_system = None
         player = self.player
         if player:
-            player.show_message("Returned to the main game!")
+            player.show_message("Returned to HB3!")
