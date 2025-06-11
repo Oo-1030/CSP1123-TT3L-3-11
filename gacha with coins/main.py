@@ -111,7 +111,8 @@ def luck_system(original_choice, luck, player_choice):
 
     return new_choice
 
-save_dir = os.path.expanduser(r"C:\Users\User\Desktop\test mini it\test\Rock-Paper-Scissors\gacha_animation")
+base_dir = os.path.dirname(os.path.abspath(__file__))
+save_dir = os.path.join(base_dir, "saves")
 os.makedirs(save_dir, exist_ok=True)
 coin_path = os.path.join(save_dir, "coins.txt")
 level_path = os.path.join(save_dir, "level.txt")
@@ -172,7 +173,7 @@ luck = 100
 max_exp = 100 * level
 max_level = 20
 
-font = pygame.font.SysFont('microsoftyahei', 20)
+font_exp = pygame.font.SysFont('microsoftyahei', 20)
 
 def exp_system():
     global max_exp, exp, level,luck
@@ -186,10 +187,10 @@ def exp_system():
             luck += 10
     
         ratio = exp / max_exp
-        level_text = font.render(f"Level:{level}", True, (255,255,255))
+        level_text = font_exp.render(f"Level:{level}", True, (255,255,255))
         window.blit(level_text, (55, 685))
 
-        exp_text = font.render(f"{exp}/{max_exp}",True,(255,255,255))
+        exp_text = font_exp.render(f"{exp}/{max_exp}",True,(255,255,255))
         window.blit(exp_text, (1165, 685))
 
         pygame.draw.rect(window,(0,50,255),(135,685,1010,30)) # outline

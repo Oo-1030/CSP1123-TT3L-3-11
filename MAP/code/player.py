@@ -33,7 +33,7 @@ class Player:
         engine.active_objs.append(self)
         self.message_label = Entity(Label("BrunoAce-Regular.ttf", 
                                        area.name)).get(Label)
-        from camera import camera
+        
 
         self.message_label.entity.x = 10
         self.show_message(f"Entering {area.name}")
@@ -119,10 +119,6 @@ class Player:
         if not body.is_position_valid():
             self.entity.y = previous_y
 
-        if is_key_pressed(pygame.K_ESCAPE):
-            from engine import engine
-            engine.switch_to("Menu")
-
         from input import is_mouse_just_pressed
         mouse_pos = pygame.mouse.get_pos()
         if is_mouse_just_pressed(1):
@@ -137,6 +133,17 @@ class Player:
             self.entity.x += movement_speed
             future_direction = right
             future_frames = right_frames
+
+        if is_key_pressed(pygame.K_ESCAPE):
+            from gui import show_pause_menu
+            screen = pygame.display.get_surface()
+            if screen:
+                show_pause_menu(screen)
+                from input import keys_down, keys_just_pressed, mouse_buttons_down, mouse_buttons_just_pressed
+                keys_down.clear()
+                keys_just_pressed.clear()
+                mouse_buttons_down.clear()
+                mouse_buttons_just_pressed.clear()
 
         if not body.is_position_valid():
             self.entity.x = previous_x

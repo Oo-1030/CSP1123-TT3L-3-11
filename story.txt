@@ -8,7 +8,6 @@ Rane at the Learning Point.
 Edeline at the Faculty of Computing & Informatics (FCI) building.
 Elves at the Dewan Tun Canselor (DTC).
 Max needs to find them and gets info about X from them.
-There is also information about X hidden in various places in the school, so Max must explore this school.
 
 # Start
 (Max spawns in MMU Hostel Building 2[HB2].)
@@ -34,11 +33,11 @@ Fat guy : No time to waste, let's begin the fight!
 (Tutorial end.)
 Fat guy : I have nothing more to teach you. From here on, you'll have to walk the path on your own.
 Max : Although it’s all a bit strange, thank you anyway. But—who are you, and why did you teach me all this?
-Gok Jun ：My name is Gok Jun. I’m just a senior who happened to pass by—once, I walked the same path as you, in search of X.
+Fat guy ：I’m just a senior who happened to pass by—once, I walked the same path as you, in search of X.
 Max : Wait, you already know who is X? Why won’t you just tell me who X is, and what the secret is?
-Gok Jun : Didn't I already say? That would make this "GAME" way too boring.
+Fat guy : Didn't I already say? That would make this "GAME" way too boring.
 Max : ......Ok, bye.
-Gok Jun : Farewell. May you overcome all the challenges that lie ahead. Now, you need to find the first person, Fazir at Haji Tapah.
+Fat guy : Farewell. May you overcome all the challenges that lie ahead. Now, you need to find the first person, Fazir at Haji Tapah.
 
 (Exploring.)
 On the road, Max encountered an NPC and engaged in battle.
@@ -128,18 +127,10 @@ Max: ......
 Elves: I was the first one to meet X. Back when we had to form a group of four for an assignment and were short one person, I saw X sitting alone in a corner of the classroom, so I invited him to join. Sigh… I guess I was too young then to see through people. It was my fault for not having the eye to judge character. But the past is the past. Let me give you the final piece of information — X is currently working at Tekun Mart. If you want the full truth, you’ll have to ask him yourself.
 Max: I’ve finally gathered all the info on X! Awesome!
 
-Max gathers X’s phone number through:
--Part of it from an NPC
--Part found during an exploration at Learning Point
--Part from a poster on the road
 Max collects all the information and returns to Tekun Mart.
 
 # X’s Scene
 Max talks to a store staff standing outside.
-???: Phone number.
-Max: 01X-XXX XXXX (option)
-???: Name.
-Max: Ah Ben (option)
 X: Looks like you got all the intel.
 Max: I finally found you. Now hand over the Secret.
 X: If you want the Secret, beat me first.
