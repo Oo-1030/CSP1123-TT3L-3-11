@@ -32,6 +32,9 @@ Full_mark_img = pygame.transform.scale(pygame.image.load('Full_mark.png'), (imag
 Eraser_img = pygame.transform.scale(pygame.image.load('Eraser.png'), (image_width, image_height))
 Watch_img = pygame.transform.scale(pygame.image.load('Watch.png'), (image_width, image_height))
 Cola_img = pygame.transform.scale(pygame.image.load('Cola.png'), (image_width, image_height))
+Calculator_img = pygame.transform.scale(pygame.image.load('Calculaotr.png'), (image_width, image_height))
+Cat_img = pygame.transform.scale(pygame.image.load('Cat.png'), (image_width, image_height))
+Icecream_img = pygame.transform.scale(pygame.image.load('Icecream.png'), (image_width, image_height))
 
 # 4 star image
 Umbrella_img = pygame.transform.scale(pygame.image.load('Umbrella.png'), (image_width, image_height))
@@ -54,6 +57,9 @@ item_descriptions = {
     "Eraser": "You don't need to borrow an eraser from your friend anymore. You've got the aura!",
     "Watch": "Imagine wearing this luxury watch as you walk - you'll be the most eye-catching guy in MMU!",
     "Cola":"When you have this on a sunny day, you'll know what heaven feels like.",
+    "Calculator":"Your best partner in exam, you know you can't without it.",
+    "Cat":"It's so cute that your day brightened when you found it on the way to the lecturer.",
+    "Icecream":"On a hot day, having an ice cream is the best treat!",
     "Umbrella": "Imagine you found this on rainy day! It rescue you from becoming a drowned rat.",
     "Coupon": "An MC0 coupon. You can get a 70% discount on buying burger combos with this coupon at any MC0 branch.",
     "Clover": "Only 1/10000 clover has four leafs.You are the lucky one!",
@@ -70,6 +76,9 @@ image_map = {
     "Eraser": Eraser_img,
     "Watch": Watch_img,
     "Cola": Cola_img,
+    "Calculator": Calculator_img,
+    "Cat": Cat_img,
+    "Icecream": Icecream_img,
     "Umbrella": Umbrella_img,
     "Coupon": Coupon_img,
     "Clover": Clover_img,
@@ -84,7 +93,7 @@ class GachaSystem():
         self.stars = [3, 4, 5]
         self.weights = [943, 51, 6] # 5star(0.6%), 4star(5.1%)
         self.pool = {
-            3:["Rice", "Coffee", "Full_mark","Eraser","Watch","Cola"],
+            3:["Rice", "Coffee", "Full_mark","Eraser","Watch","Cola","Calculator","Cat","Icecream"],
             4:["Umbrella", "Coupon","Tissue"],
             5:["Clover","Black_card","Underwear","Koi_fish"]
         }
