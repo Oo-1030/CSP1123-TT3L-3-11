@@ -1,5 +1,6 @@
 import pygame
 import random
+import os
 
 pygame.init()
 pygame.mixer.init()
@@ -46,7 +47,7 @@ roll_img = [
 ]
 
 background_size= (1280, 720)
-background_img = pygame.image.load("table.png")
+background_img = pygame.image.load("mmu_table().png")
 background_img = pygame.transform.scale(background_img, background_size)
 
 char_size = (200, 200)
@@ -106,6 +107,21 @@ def luck_system(original_dice, luck, player_dice):
 
     return new_choice
 
+save_dir = os.path.expanduser(r"~\Documents\Mini IT")
+os.makedirs(save_dir, exist_ok=True)
+coin_path = os.path.join(save_dir, "coins.txt")
+
+def load_coins():
+    try:
+        with open(coin_path, "r") as f:
+            return int(f.read())
+    except:
+        return 0
+
+def save_coins(coins):
+    with open(coin_path, "w") as f:
+        f.write(str(coins))
+
 def game_loop():
     player_dice = 0
     computer_dice = 0
@@ -123,6 +139,9 @@ def game_loop():
     victory_sound_play = False
     defeat_sound_play = False
     playing = True
+    add_coins = False
+    trigger_sound_play = False
+    coins = load_coins()
 
     while playing:
         mouse_clicked = False
@@ -135,13 +154,16 @@ def game_loop():
             if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mouse_clicked = True
 
+        window.blit(char_img, (20, 300))
+        window.blit(npc_img, (width - 220, 200))
+
         if not rolling and not show_result:
             click_button = draw_button("Roll", 540, 550, 200, 100, red)
             draw_text("Score 5 points to win!", large_font, black, width // 2, 80)
             draw_text("Roll the dice.", font, black, width // 2, 120)
-            start_rect1 = dice_img[0].get_rect(center = (300, height // 2))
+            start_rect1 = dice_img[0].get_rect(center = (380, height // 2))
             window.blit(dice_img[0], start_rect1)
-            start_rect2 = dice_img[0].get_rect(center = (width - 300, height // 2))
+            start_rect2 = dice_img[0].get_rect(center = (width - 380, height // 2))
             window.blit(dice_img[0], start_rect2)
 
             if mouse_clicked and not click_handled:
@@ -149,17 +171,18 @@ def game_loop():
                     rolling = True
                     roll_timer = 0
                     click_handled = True
+                    action_sound.play()
 
         elif rolling:
-            roll_timer += 1
+            roll_timer += 3
 
             temp_player = random.randint(0, 5)
             temp_computer = random.randint(0, 5)
 
-            player_rect = roll_img[temp_player].get_rect(center = (300, height // 2))
+            player_rect = roll_img[temp_player].get_rect(center = (380, height // 2))
             window.blit(roll_img[temp_player], player_rect)
 
-            computer_rect = roll_img[temp_computer].get_rect(center = (width - 300, height // 2))
+            computer_rect = roll_img[temp_computer].get_rect(center = (width - 380, height // 2))
             window.blit(roll_img[temp_computer], computer_rect)
 
             if roll_timer >= roll_duration:
@@ -197,8 +220,6 @@ def game_loop():
             computer_rect = dice_img[computer_dice].get_rect(center = (width - 380, height // 2))
             window.blit(dice_img[computer_dice], computer_rect)
 
-            window.blit(char_img, (50, 260))
-            window.blit(npc_img, (width - 240, 260))
             draw_text("VS", versus_font, red, width // 2, height // 2)
             draw_text(result, large_font, black, width // 2, 100)
 
@@ -216,18 +237,36 @@ def game_loop():
                     luck_triggered = False
                     luck_effect_alpha = 0
                     luck_effect_radius = 1000
+                    add_coins = False
+                    trigger_sound_play = False
 
             else:
                 if player_score >= 5:
-                    draw_box("Victory", 160, 310, 960, 100, green)
+                    draw_box("", 256, 285, 768, 150, green)
+                    draw_text("Victory!", font, black, width // 2, 320)
+                    draw_text("You get 200 coins.", font, black, width // 2, 360)
+                    draw_text("You gain 10 exp.", font, black, width // 2, 390)
+                    if not add_coins:
+                        add_coins = True
+                        coins += 200
+                        save_coins(coins)
                     if not victory_sound_play:
                         victory_sound_play = True
                         sound_channel = victory_sound.play()
                 elif computer_score >= 5:
-                    draw_box("Defeat", 160, 310, 960, 100, grey)
+                    draw_box("", 256, 285, 768, 150, red)
+                    draw_text("Defeat...", font, black, width // 2, 320)
+                    draw_text("You get 100 coins.", font, black, width // 2, 360)
+                    draw_text("You gain 5 exp.", font, black, width // 2, 390)
+                    if not add_coins:
+                        add_coins = True
+                        coins += 100
+                        save_coins(coins)
                     if not defeat_sound_play:
                         defeat_sound_play = True
                         sound_channel = defeat_sound.play()
+
+                draw_text(f"Coins: {coins}", font, black, width - 350, 50)
 
                 draw_text("Click anywhere to continue", font, black, 640, 650)
                 if mouse_clicked and not click_handled:
@@ -246,6 +285,8 @@ def game_loop():
                     luck_effect_radius = 1000
                     victory_sound_play = False
                     defeat_sound_play = False
+                    add_coins = False
+                    trigger_sound_play = False
 
             draw_text(f"Max: {player_score}", large_font, black, 100, 50)
             draw_text(f"NPC: {computer_score}", large_font, black, width - 120, 50)
@@ -260,7 +301,9 @@ def game_loop():
             luck_effect_radius += 8
             luck_effect_alpha = max(luck_effect_alpha - 8, 0)
 
-            trigger_sound.play()
+            if not trigger_sound_play:
+                trigger_sound.play()
+                trigger_sound_play = True
         
         pygame.display.update()
 
