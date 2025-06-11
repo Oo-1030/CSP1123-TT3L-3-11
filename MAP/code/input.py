@@ -15,3 +15,4 @@ def is_mouse_pressed(button):
 
 def is_mouse_just_pressed(button):
     return button in mouse_buttons_just_pressed
+

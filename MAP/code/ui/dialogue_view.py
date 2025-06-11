@@ -8,7 +8,7 @@ from button import Button
 from label import Label
 from input import is_key_just_pressed
 
-dialogue_box_width = 500  # The size, left and right, of the dialogue box in pixels
+dialogue_box_width = 1000  # The size, left and right, of the dialogue box in pixels
 dialogue_box_height = 200 # The size, up and down, of the dialogue box in pixels
 padding_bottom = 50       # Empty pixels separating the dialogue box and the bottom
                           # of the window
@@ -95,7 +95,7 @@ class DialogueView:
         self.content_label.set_text(line)
 
     def player_speak(self, line):
-        self.speaker_label.set_text("You")
+        self.speaker_label.set_text("Max")
         self.content_label.set_text(line[1:])
 
     def narrate(self, line):
@@ -124,6 +124,9 @@ class DialogueView:
         elif command == "playD":
             import dice
             dice.run()
+        elif command == "playRandom":
+            import RandomGame
+            RandomGame.start_random_game()
         elif command == "goto":
             self.current_line = int(arguments[0])-2
             print(self.current_line)

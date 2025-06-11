@@ -234,7 +234,8 @@ def draw_glow_layered(center_x, center_y, radius, alpha, color_base):
     
     window.blit(glow_surface, (0, 0))
 
-save_dir = os.path.expanduser(r"C:\Users\User\Desktop\test mini it\test\Rock-Paper-Scissors\gacha_animation")
+base_dir = os.path.dirname(os.path.abspath(__file__))
+save_dir = os.path.join(base_dir, "saves")
 os.makedirs(save_dir, exist_ok=True)
 coin_path = os.path.join(save_dir, "coins.txt")
 luck_path = os.path.join(save_dir, "luck.txt")
