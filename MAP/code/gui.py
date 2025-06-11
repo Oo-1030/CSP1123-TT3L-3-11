@@ -1,7 +1,7 @@
 import pygame
 import sys
 
-def show_pause_menu(screen):
+def show_pause_menu(screen, background_image=None):
     font = pygame.font.SysFont(None, 40)
     button_color = (70, 130, 180)
     hover_color = (100, 149, 237)
@@ -28,57 +28,103 @@ def show_pause_menu(screen):
         screen.blit(txt, txt_rect)
 
     def draw_main_menu():
+        # Create a surface with per-pixel alpha for the panel
+        panel_surface = pygame.Surface((panel_width, panel_height), pygame.SRCALPHA)
+        # Semi-transparent dark background (last number is alpha: 0-255)
+        panel_surface.fill((50, 50, 50, 200))
+        
         # Button positions relative to panel
-        continue_rect = pygame.Rect(panel_rect.x + 100, panel_rect.y + 80, 200, 50)
-        exit_rect = pygame.Rect(panel_rect.x + 100, panel_rect.y + 160, 200, 50)
+        continue_rect = pygame.Rect(100, 80, 200, 50)
+        exit_rect = pygame.Rect(100, 160, 200, 50)
 
         while True:
-            screen.fill((0, 0, 0, 180))  # dim background
-            pygame.draw.rect(screen, (50, 50, 50), panel_rect, border_radius=15)
+            # Draw background image if provided, otherwise use dimmed screen
+            if background_image:
+                # Scale background image to fit screen if needed
+                bg = pygame.transform.scale(background_image, (screen_width, screen_height))
+                screen.blit(bg, (0, 0))
+            else:
+                # Fallback to dimmed background
+                dim_surface = pygame.Surface((screen_width, screen_height), pygame.SRCALPHA)
+                dim_surface.fill((0, 0, 0, 128))
+                screen.blit(dim_surface, (0, 0))
+            
+            # Draw the semi-transparent panel
+            screen.blit(panel_surface, panel_rect)
 
             mouse_pos = pygame.mouse.get_pos()
-
-            draw_button(continue_rect, "Continue Game", continue_rect.collidepoint(mouse_pos))
-            draw_button(exit_rect, "Exit Game", exit_rect.collidepoint(mouse_pos))
+            
+            # Adjust button positions to screen coordinates
+            screen_continue_rect = continue_rect.move(panel_rect.x, panel_rect.y)
+            screen_exit_rect = exit_rect.move(panel_rect.x, panel_rect.y)
+            
+            # Draw buttons directly on screen (not on panel_surface)
+            draw_button(screen_continue_rect, "Continue", screen_continue_rect.collidepoint(mouse_pos))
+            draw_button(screen_exit_rect, "Exit", screen_exit_rect.collidepoint(mouse_pos))
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    if continue_rect.collidepoint(mouse_pos):
+                    if screen_continue_rect.collidepoint(mouse_pos):
                         return
-                    elif exit_rect.collidepoint(mouse_pos):
+                    elif screen_exit_rect.collidepoint(mouse_pos):
                         confirm_exit()
 
             pygame.display.flip()
             clock.tick(60)
 
     def confirm_exit():
-        yes_rect = pygame.Rect(panel_rect.x + 50, panel_rect.y + 180, 100, 50)
-        no_rect = pygame.Rect(panel_rect.x + 250, panel_rect.y + 180, 100, 50)
+        # Create a surface with per-pixel alpha for the panel
+        panel_surface = pygame.Surface((panel_width, panel_height), pygame.SRCALPHA)
+        # Semi-transparent dark background
+        panel_surface.fill((50, 50, 50, 200))
+        
+        yes_rect = pygame.Rect(50, 180, 100, 50)
+        no_rect = pygame.Rect(250, 180, 100, 50)
 
         while True:
-            screen.fill((0, 0, 0, 180))  # dim background
-            pygame.draw.rect(screen, (50, 50, 50), panel_rect, border_radius=15)
+            # Draw background image if provided
+            if background_image:
+                bg = pygame.transform.scale(background_image, (screen_width, screen_height))
+                screen.blit(bg, (0, 0))
+            else:
+                # Fallback to dimmed background
+                dim_surface = pygame.Surface((screen_width, screen_height), pygame.SRCALPHA)
+                dim_surface.fill((0, 0, 0, 128))
+                screen.blit(dim_surface, (0, 0))
+            
+            # Draw the panel
+            screen.blit(panel_surface, panel_rect)
 
-            prompt_text = font.render("Are you sure you want to exit?", True, text_color)
-            prompt_rect = prompt_text.get_rect(center=(panel_rect.centerx, panel_rect.y + 100))
+            # Draw prompt text
+            prompt_text = font.render("Do you want to return to HB2 to rest?", True, text_color)
+            prompt_rect = prompt_text.get_rect(center=(panel_rect.centerx, panel_rect.y + 80))
             screen.blit(prompt_text, prompt_rect)
+            
+            prompt_text2 = font.render("(Exiting will take you back to HB2)", True, text_color)
+            prompt_rect2 = prompt_text2.get_rect(center=(panel_rect.centerx, panel_rect.y + 120))
+            screen.blit(prompt_text2, prompt_rect2)
 
             mouse_pos = pygame.mouse.get_pos()
-            draw_button(yes_rect, "Yes", yes_rect.collidepoint(mouse_pos))
-            draw_button(no_rect, "No", no_rect.collidepoint(mouse_pos))
+            # Adjust button positions to screen coordinates
+            screen_yes_rect = yes_rect.move(panel_rect.x, panel_rect.y)
+            screen_no_rect = no_rect.move(panel_rect.x, panel_rect.y)
+            
+            # Draw buttons
+            draw_button(screen_yes_rect, "Yes", screen_yes_rect.collidepoint(mouse_pos))
+            draw_button(screen_no_rect, "No", screen_no_rect.collidepoint(mouse_pos))
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    if yes_rect.collidepoint(mouse_pos):
+                    if screen_yes_rect.collidepoint(mouse_pos):
                         pygame.quit()
                         sys.exit()
-                    elif no_rect.collidepoint(mouse_pos):
+                    elif screen_no_rect.collidepoint(mouse_pos):
                         return
 
             pygame.display.flip()
