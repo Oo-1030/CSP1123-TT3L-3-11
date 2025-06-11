@@ -107,7 +107,7 @@ def luck_system(original_dice, luck, player_dice):
 
     return new_choice
 
-save_dir = os.path.expanduser(r"~\Documents\Mini IT")
+save_dir = os.path.join(os.path.expanduser("~"), "Documents", "CSP1123 3-11")
 os.makedirs(save_dir, exist_ok=True)
 coin_path = os.path.join(save_dir, "coins.txt")
 
@@ -245,7 +245,7 @@ def game_loop():
                     draw_box("", 256, 285, 768, 150, green)
                     draw_text("Victory!", font, black, width // 2, 320)
                     draw_text("You get 200 coins.", font, black, width // 2, 360)
-                    draw_text("You gain 10 exp.", font, black, width // 2, 390)
+                    draw_text("You gain 100 exp.", font, black, width // 2, 390)
                     if not add_coins:
                         add_coins = True
                         coins += 200
@@ -257,7 +257,7 @@ def game_loop():
                     draw_box("", 256, 285, 768, 150, red)
                     draw_text("Defeat...", font, black, width // 2, 320)
                     draw_text("You get 100 coins.", font, black, width // 2, 360)
-                    draw_text("You gain 5 exp.", font, black, width // 2, 390)
+                    draw_text("You gain 50 exp.", font, black, width // 2, 390)
                     if not add_coins:
                         add_coins = True
                         coins += 100
