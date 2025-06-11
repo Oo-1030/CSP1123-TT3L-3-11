@@ -3,7 +3,23 @@ import pygame
 import os
 import math
 
-def game1():
+npc_assets = {
+    "npc1": {
+        "name": "Professor Oak",
+        "image": pygame.image.load("npc1.png")
+    },
+    "npc2": {
+        "name": "Ms. Daisy",
+        "image": pygame.image.load("npc2.png")
+    },
+    "npc3": {
+        "name": "Coach Rex",
+        "image": pygame.image.load("npc3.png")
+    }
+}
+
+
+def game1(npc_key = None):
     pygame.init()
     pygame.mixer.init()
 
@@ -37,7 +53,6 @@ def game1():
     center_img = pygame.image.load("All.png")
     background_img = pygame.image.load("dtc.png")
     char_img = pygame.image.load("character.png")
-    npc_img = pygame.image.load("fatguy.png")
 
     img_size = (200, 200)
     rock_img = pygame.transform.scale(rock_img, img_size)
@@ -52,7 +67,6 @@ def game1():
 
     char_size = (200, 200)
     char_img = pygame.transform.scale(char_img, char_size)
-    npc_img = pygame.transform.scale(npc_img, char_size)
 
     def draw_text(text, font, color, x, y):
         img = font.render(text, True, color)
@@ -125,7 +139,7 @@ def game1():
         with open(coin_path, "w") as f:
             f.write(str(coins))
 
-    def game_loop():
+    def game_loop(npc_key):
         player_choice = None
         computer_choice = None
         result = None
@@ -142,6 +156,8 @@ def game1():
         add_coins = False
         trigger_sound_play = False
         coins = load_coins()
+        npc_img = npc_assets[npc_key]["image"]
+        npc_name = npc_assets[npc_key]["name"]
 
         while playing:
             mouse_clicked = False
@@ -283,7 +299,7 @@ def game1():
                         add_coins = False
 
                 draw_text(f"Max: {player_score}", large_font, black, 100, 420)
-                draw_text(f"NPC: {computer_score}", large_font, black, width - 120, 50)
+                draw_text(f"{npc_name}: {computer_score}", large_font, black, width - 120, 50)
 
             if luck_triggered and luck_effect_alpha > 0:
                 gold_surface = pygame.Surface((width, height), pygame.SRCALPHA)
@@ -305,8 +321,9 @@ def game1():
                 click_handled = False
 
         pygame.quit()
+    game_loop(npc_key)
 
-def game2():
+def game2(npc_key = None):
     pygame.init()
     pygame.mixer.init()
 
@@ -357,9 +374,7 @@ def game2():
 
     char_size = (200, 200)
     char_img = pygame.image.load("character.png")
-    npc_img = pygame.image.load("fatguy.png")
     char_img = pygame.transform.scale(char_img, char_size)
-    npc_img = pygame.transform.scale(npc_img, char_size)
 
     def draw_text(text, font, color, x, y):
         img = font.render(text, True, color)
@@ -427,7 +442,7 @@ def game2():
         with open(coin_path, "w") as f:
             f.write(str(coins))
 
-    def game_loop():
+    def game_loop(npc_key):
         player_dice = 0
         computer_dice = 0
         player_score = 0
@@ -447,6 +462,8 @@ def game2():
         add_coins = False
         trigger_sound_play = False
         coins = load_coins()
+        npc_img = npc_assets[npc_key]["image"]
+        npc_name = npc_assets[npc_key]["name"]
 
         while playing:
             mouse_clicked = False
@@ -594,7 +611,7 @@ def game2():
                         trigger_sound_play = False
 
                 draw_text(f"Max: {player_score}", large_font, black, 100, 50)
-                draw_text(f"NPC: {computer_score}", large_font, black, width - 120, 50)
+                draw_text(f"{npc_name}: {computer_score}", large_font, black, width - 120, 50)
 
             if luck_triggered and luck_effect_alpha > 0:
                 gold_surface = pygame.Surface((width, height), pygame.SRCALPHA)
@@ -616,8 +633,9 @@ def game2():
                 click_handled = False
 
         pygame.quit()
+    game_loop(npc_key)
 
-def game3():
+def game3(npc_key = None):
     pygame.init()
     pygame.mixer.init()
 
@@ -649,7 +667,6 @@ def game3():
     spining_img = pygame.image.load("spining2.png")
     background_img = pygame.image.load("mmu_table().png")
     char_img = pygame.image.load("character.png")
-    npc_img = pygame.image.load("fatguy.png")
 
     img_size = (350, 350)
     head_img = pygame.transform.scale(head_img, img_size)
@@ -661,7 +678,6 @@ def game3():
 
     char_size = (200, 200)
     char_img = pygame.transform.scale(char_img, char_size)
-    npc_img = pygame.transform.scale(npc_img, char_size)
 
     def draw_text(text, font, color, x, y):
         img = font.render(text, True, color)
@@ -728,7 +744,7 @@ def game3():
         with open(coin_path, "w") as f:
             f.write(str(coins))
 
-    def game_loop():
+    def game_loop(npc_key):
         flipping = False
         result = None
         angle = 0
@@ -749,6 +765,8 @@ def game3():
         add_coins = False
         trigger_sound_play = False
         coins = load_coins()
+        npc_img = npc_assets[npc_key]["image"]
+        npc_name = npc_assets[npc_key]["name"]
         clock = pygame.time.Clock()
 
         while playing:
@@ -898,7 +916,7 @@ def game3():
                         trigger_sound_play = False
 
                 draw_text(f"Max: {player_score}", large_font, black, 100, 50)
-                draw_text(f"NPC: {computer_score}", large_font, black, width - 120, 50)
+                draw_text(f"{npc_name}: {computer_score}", large_font, black, width - 120, 50)
 
             if luck_triggered and luck_effect_alpha > 0:
                 gold_surface = pygame.Surface((width, height), pygame.SRCALPHA)
@@ -916,8 +934,9 @@ def game3():
 
             pygame.display.flip()
         pygame.quit()
+    game_loop(npc_key)
 
-def start_random_game():
+def start_random_game(npc_key):
     games = [game1, game2, game3]
     selected_game = random.choice(games)
-    selected_game()
+    selected_game(npc_key)
