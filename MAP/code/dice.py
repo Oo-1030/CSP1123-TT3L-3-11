@@ -15,7 +15,6 @@ sound_channel = None
 
 width, height = (1280, 720)
 window = pygame.display.set_mode((width, height))
-pygame.display.set_caption("Dice Roll")
 
 black = (0, 0, 0)
 white = (255, 255, 255)
@@ -267,6 +266,5 @@ def game_loop():
         if not mouse_clicked:
             click_handled = False
 
-    pygame.quit()
-
-game_loop()
+def run():
+    game_loop()

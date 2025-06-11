@@ -86,6 +86,7 @@ def get_round_outcome(player_choice, computer_choice):
         return "player_win"
     else:
         return "computer_win"
+            
 
 def luck_system(original_choice, luck, player_choice):
     choices = ["rock", "paper", "scissors"]
@@ -108,7 +109,12 @@ def luck_system(original_choice, luck, player_choice):
 
     return new_choice
 
+<<<<<<< HEAD:All/Rock Paper Scissors/main.py
 save_dir = os.path.join(os.path.expanduser("~"), "Documents", "CSP1123 3-11")
+=======
+
+save_dir = os.path.expanduser(r"~\Documents\Mini IT")
+>>>>>>> 719ccfff352c0b195c24982775dfcf1e4f696d75:Rock-Paper-Scissors/main.py
 os.makedirs(save_dir, exist_ok=True)
 coin_path = os.path.join(save_dir, "coins.txt")
 

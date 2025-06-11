@@ -16,7 +16,6 @@ sound_channel = None
 
 width, height = 1280, 720
 window = pygame.display.set_mode((width, height))
-pygame.display.set_caption("Coin Flip")
 
 black = (0, 0, 0)
 white = (255, 255, 255)
@@ -257,5 +256,6 @@ def game_loop():
             trigger_sound.play()
 
         pygame.display.flip()
-    pygame.quit()
-game_loop()
+
+def run():
+    game_loop()

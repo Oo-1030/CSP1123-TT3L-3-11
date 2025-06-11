@@ -288,6 +288,9 @@ def animation():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:  # Press Q to quit gacha
                     running = False
+            if event.type == pygame.KEYDOWN and not(effect_triggered) and not(confirm_dialog):
+                if event.key == pygame.K_b:
+                    bag_system.open(items_saved)
 
         if effect_triggered and effect_show:
             screen.blit(background_img, (0, 0))

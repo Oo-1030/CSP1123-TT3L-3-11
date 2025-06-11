@@ -5,6 +5,30 @@ map_folder_location = "CSP1123-TT3L-3-11/MAP/maps"
 image_path = "CSP1123-TT3L-3-11/MAP/images"
 tile_size = 32
 
+tile_char_map = {
+    '0': 0,
+    '1': 1,
+    '2': 2,
+    '3': 3,
+    '4': 4,
+    '5': 5,
+    '6': 6,
+    '7': 7,
+    '8': 8,
+    '9': 9,
+    '!': 10,
+    '@': 11, 
+    '#': 12,
+    '$': 13,
+    '%': 14,
+    '^': 15,
+    '&': 16,
+    'r': 17,
+    'f': 18,
+    'w': 19,
+    'b': 20,
+}
+
 class TileKind:
     def __init__(self, name, image, is_solid):
         self.name = name
@@ -22,8 +46,11 @@ class Map:
         self.tiles = []
         for line in data.split('\n'):
             row = []
-            for tile_number in line:
-                row.append(int(tile_number))
+            for tile_char in line:
+                if tile_char in tile_char_map:
+                    row.append(tile_char_map[tile_char])
+                else:
+                    raise ValueError(f"Unknown tile character: '{tile_char}'")
             self.tiles.append(row)
 
         # How big in pixels are the tiles?

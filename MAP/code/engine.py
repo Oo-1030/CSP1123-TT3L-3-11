@@ -3,8 +3,7 @@ import pygame
 pygame.init()
 pygame.mixer.init()
 
-pygame.mixer.music.load("CSP1123-TT3L-3-11/MAP/bgm/menuMusic.mp3")
-pygame.mixer.music.play(-1)
+
 
 engine = None
 default_width = 1280
