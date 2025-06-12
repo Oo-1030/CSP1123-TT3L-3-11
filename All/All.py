@@ -4,17 +4,17 @@ import os
 import math
 
 npc_assets = {
-    "npc1": {
-        "name": "Professor Oak",
-        "image": pygame.image.load("npc1.png")
+    "fatguy": {
+        "name": "Fat Guy",
+        "image": pygame.transform.scale(pygame.image.load("fatguyR.png"), (200, 200))
     },
-    "npc2": {
-        "name": "Ms. Daisy",
-        "image": pygame.image.load("npc2.png")
+    "ooi": {
+        "name": "ooi",
+        "image": pygame.transform.scale(pygame.image.load("ooi.png"), (200, 200))
     },
-    "npc3": {
-        "name": "Coach Rex",
-        "image": pygame.image.load("npc3.png")
+    "TTTS": {
+        "name": "Tung Tung Tung Sahur",
+        "image": pygame.transform.scale(pygame.image.load("TTTS.png"), (200, 200))
     }
 }
 
@@ -1241,6 +1241,3 @@ def start_random_game(npc_key):
     games = [game1, game2, game3]
     selected_game = random.choice(games)
     selected_game(npc_key)
-
-npc_key = "ninja"  # 假设你刚跟 ninja 对话完
-start_random_game(npc_key)

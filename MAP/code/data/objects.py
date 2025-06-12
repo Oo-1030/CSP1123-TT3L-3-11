@@ -44,10 +44,22 @@ entity_factories = [
     EntityFactory('MMU Bus', "bus.png", lambda args: Entity(Sprite("bus.png", scale=(450, 179)), Body(0, 0, 450, 179))),
 
     # 8 - Haji Boss 
-    EntityFactory('Haji Boss', "htcboss.npy", lambda args: Entity(Sprite(args[1]), NPC(args[0], args[2]), Body(20, 32, 40, 64))),
+    EntityFactory('Haji Boss', "htcboss.png", lambda args: Entity(Sprite(args[1]), NPC(args[0], args[2]), Body(20, 32, 40, 64))),
 
     # 9 - Table
     EntityFactory('Table', "eatTable.png", lambda args: Entity(Sprite("eatTable.png", scale=(64, 64)), Body(0, 0, 64, 64))),
+
+    # 10 - Fazir 
+    EntityFactory('Fazir', "fazir.png", lambda args: Entity(Sprite(args[1]), NPC(args[0], args[2]), Body(20, 32, 40, 64))),
+
+    # 11 - Rane
+    EntityFactory('Rane', "rane.png", lambda args: Entity(Sprite(args[1]), NPC(args[0], args[2]), Body(20, 32, 40, 64))),
+
+    # 12 - Edeline
+    EntityFactory('Edeline', "edeline.png", lambda args: Entity(Sprite(args[1]), NPC(args[0], args[2]), Body(20, 32, 40, 64))),
+
+    # 13 - Elves
+    EntityFactory('Elves', "elves.png", lambda args: Entity(Sprite(args[1]), NPC(args[0], args[2]), Body(20, 32, 40, 64))),
 ]
 
 def create_entity(id, x, y, data=None, index=None):

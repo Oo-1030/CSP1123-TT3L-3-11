@@ -9,12 +9,12 @@ npc_assets = {
         "image": pygame.transform.scale(pygame.image.load("CSP1123-TT3L-3-11/MAP/images/fatguyR.png"), (200, 200))
     },
     "ooi": {
-        "name": "Oasis",
+        "name": "ooi",
         "image": pygame.transform.scale(pygame.image.load("CSP1123-TT3L-3-11/MAP/images/ooi.png"), (200, 200))
     },
     "TTTS": {
         "name": "Tung Tung Tung Sahur",
-        "image": pygame.transform.scale(pygame.image.load("CSP1123-TT3L-3-11/MAP/images/ttts.png"), (200, 200))
+        "image": pygame.transform.scale(pygame.image.load("CSP1123-TT3L-3-11/MAP/images/TTTS.png"), (200, 200))
     }
 }
 
@@ -51,6 +51,8 @@ def game1(npc_key = None):
     center_img = pygame.image.load("CSP1123-TT3L-3-11/MAP/images/All.png")
     background_img = pygame.image.load("CSP1123-TT3L-3-11/MAP/images/dtc.png")
     char_img = pygame.image.load("CSP1123-TT3L-3-11/MAP/images/character.png")
+    suzume = pygame.image.load("CSP1123-TT3L-3-11/MAP/images/Suzume.jpg")
+    honkai = pygame.image.load("CSP1123-TT3L-3-11/MAP/images/..png")
 
     img_size = (200, 200)
     rock_img = pygame.transform.scale(rock_img, img_size)
@@ -65,6 +67,10 @@ def game1(npc_key = None):
 
     char_size = (200, 200)
     char_img = pygame.transform.scale(char_img, char_size)
+
+    manga_img_size = (1080, 600)
+    manga_img1 = pygame.transform.scale(suzume, manga_img_size)
+    manga_img2 = pygame.transform.scale(honkai, manga_img_size)
 
     def draw_text(text, font, color, x, y):
         img = font.render(text, True, color)
@@ -179,6 +185,8 @@ def game1(npc_key = None):
             f.write(str(luck))
 
     level = 1
+    exp = 0 
+    luck = 0
     max_exp = 100 * level
     max_level = 20
 
@@ -241,6 +249,7 @@ def game1(npc_key = None):
         coins = load_coins()
         npc_img = npc_assets[npc_key]["image"]
         npc_name = npc_assets[npc_key]["name"]
+        show_ending_image = False
 
         while playing:
             mouse_clicked = False
@@ -304,16 +313,16 @@ def game1(npc_key = None):
                         if player_choice == computer_choice:
                             result = "It's a tie."
                         elif player_choice == "rock" and computer_choice == "scissors":
-                            result = "You win!"
+                            result = "You Win!"
                             player_score += 1
                         elif player_choice == "paper" and computer_choice == "rock":
-                            result = "You win!"
+                            result = "You Win!"
                             player_score += 1
                         elif player_choice == "scissors" and computer_choice == "paper":
-                            result = "You win!"
+                            result = "You Win!"
                             player_score += 1
                         else:
-                            result = "NPC win!"
+                            result = f"{npc_name} Win!"
                             computer_score += 1
 
             else:
@@ -358,23 +367,22 @@ def game1(npc_key = None):
                             sound_channel = defeat_sound.play()
                             defeat_sound_play = True
                         
-                    draw_text("Click anywhere to continue", font, black, 640, 650)
-                    if mouse_clicked and not click_handled:
-                        sound_channel.stop()
-                        player_score = 0
-                        computer_score = 0
-                        player_choice = None
-                        computer_choice = None
-                        result = None
-                        round_in_progress = False
-                        luck_triggered = False
-                        luck_effect_alpha = 0
-                        luck_effect_radius = 1000
-                        victory_sound_play = False
-                        defeat_sound_play = False
-                        trigger_sound_play = False
-                        click_handled = True
-                        add_coins = False
+                    if show_ending_image:
+                        if player_score >= 5:
+                            window.blit(manga_img1, (100, 60))
+                        elif computer_score >= 5:
+                            window.blit(manga_img2, (100, 60))
+
+                        draw_text("Click to exit", font, black, 640, 650)
+
+                        if mouse_clicked and not click_handled:
+                            playing = False
+                            click_handled = True
+                    else:
+                        draw_text("Click to continue", font, black, 640, 650)
+                        if mouse_clicked and not click_handled:
+                            show_ending_image = True
+                            click_handled = True
                 else:
                     next_round_button = draw_button("Next Round", 540, 550, 200, 100, grey)
                     if next_round_button and mouse_clicked and not click_handled:
@@ -411,7 +419,6 @@ def game1(npc_key = None):
             if not mouse_clicked:
                 click_handled = False
 
-    
         save_level(level)
         save_exp(exp)
         save_coins(coins)
@@ -467,6 +474,12 @@ def game2(npc_key = None):
     char_size = (200, 200)
     char_img = pygame.image.load("CSP1123-TT3L-3-11/MAP/images/character.png")
     char_img = pygame.transform.scale(char_img, char_size)
+
+    manga_img_size = (1080, 600)
+    suzume = pygame.image.load("CSP1123-TT3L-3-11/MAP/images/Suzume.jpg")
+    honkai = pygame.image.load("CSP1123-TT3L-3-11/MAP/images/..png")
+    manga_img1 = pygame.transform.scale(suzume, manga_img_size)
+    manga_img2 = pygame.transform.scale(honkai, manga_img_size)
 
     def draw_text(text, font, color, x, y):
         img = font.render(text, True, color)
@@ -576,6 +589,8 @@ def game2(npc_key = None):
             f.write(str(luck))
 
     level = 1
+    exp = 0 
+    luck = 0
     max_exp = 100 * level
     max_level = 20
 
@@ -641,6 +656,7 @@ def game2(npc_key = None):
         coins = load_coins()
         npc_img = npc_assets[npc_key]["image"]
         npc_name = npc_assets[npc_key]["name"]
+        show_ending_image = False
 
         while playing:
             mouse_clicked = False
@@ -709,7 +725,7 @@ def game2(npc_key = None):
                         result = "You Win!"
                         player_score += 1
                     elif computer_dice > player_dice:
-                        result = "NPC Win!"
+                        result = f"{npc_name} Win!"
                         computer_score += 1
                     else:
                         result = "It's a tie!"
@@ -774,25 +790,22 @@ def game2(npc_key = None):
                             defeat_sound_play = True
                             sound_channel = defeat_sound.play()
 
-                    draw_text("Click anywhere to continue", font, black, 640, 650)
-                    if mouse_clicked and not click_handled:
-                        sound_channel.stop()
-                        player_dice = 0
-                        computer_dice = 0
-                        player_score = 0
-                        computer_score = 0
-                        roll_timer = 0
-                        result = ""
-                        show_result = False
-                        rolling = False
-                        click_handled = True
-                        luck_triggered = False
-                        luck_effect_alpha = 0
-                        luck_effect_radius = 1000
-                        victory_sound_play = False
-                        defeat_sound_play = False
-                        add_coins = False
-                        trigger_sound_play = False
+                    if show_ending_image:
+                        if player_score >= 5:
+                            window.blit(manga_img1, (100, 60))
+                        elif computer_score >= 5:
+                            window.blit(manga_img2, (100, 60))
+
+                        draw_text("Click to exit", font, black, 640, 650)
+
+                        if mouse_clicked and not click_handled:
+                            playing = False
+                            click_handled = True
+                    else:
+                        draw_text("Click to continue", font, black, 640, 650)
+                        if mouse_clicked and not click_handled:
+                            show_ending_image = True
+                            click_handled = True
 
                 draw_text(f"Max: {player_score}", large_font, black, 100, 50)
                 draw_text(f"{npc_name}: {computer_score}", large_font, black, width - 120, 50)
@@ -816,7 +829,6 @@ def game2(npc_key = None):
             if not mouse_clicked:
                 click_handled = False
 
-       
         save_level(level)
         save_exp(exp)
         save_coins(coins)
@@ -864,6 +876,12 @@ def game3(npc_key = None):
 
     char_size = (200, 200)
     char_img = pygame.transform.scale(char_img, char_size)
+
+    manga_img_size = (1080, 600)
+    suzume = pygame.image.load("CSP1123-TT3L-3-11/MAP/images/Suzume.jpg")
+    honkai = pygame.image.load("CSP1123-TT3L-3-11/MAP/images/..png")
+    manga_img1 = pygame.transform.scale(suzume, manga_img_size)
+    manga_img2 = pygame.transform.scale(honkai, manga_img_size)
 
     def draw_text(text, font, color, x, y):
         img = font.render(text, True, color)
@@ -972,6 +990,8 @@ def game3(npc_key = None):
             f.write(str(luck))
 
     level = 1
+    exp = 0 
+    luck = 0
     max_exp = 100 * level
     max_level = 20
 
@@ -1039,6 +1059,7 @@ def game3(npc_key = None):
         npc_img = npc_assets[npc_key]["image"]
         npc_name = npc_assets[npc_key]["name"]
         clock = pygame.time.Clock()
+        show_ending_image = False
 
         while playing:
             clock.tick(60)
@@ -1158,25 +1179,21 @@ def game3(npc_key = None):
                             defeat_sound_play = True
                             sound_channel = defeat_sound.play()
 
-                    draw_text("Click anywhere to continue", font, black, 640, 650)
-                    if mouse_clicked:
-                        sound_channel.stop()
-                        flipping = False
-                        result = None
-                        player_choice = None
-                        player_score = 0
-                        computer_score = 0
-                        outcome_text = ""
-                        show_result = False
-                        angle = 0
-                        frame_counter = 0
-                        luck_triggered = False
-                        luck_effect_alpha = 0
-                        luck_effect_radius = 1000
-                        victory_sound_play = False
-                        defeat_sound_play = False
-                        add_coins = False
-                        trigger_sound_play = False
+                    if show_ending_image:
+                        if player_score >= 5:
+                            window.blit(manga_img1, (100, 60))
+                        elif computer_score >= 5:
+                            window.blit(manga_img2, (100, 60))
+
+                        draw_text("Click to exit", font, black, 640, 650)
+
+                        if mouse_clicked:
+                            playing = False
+        
+                    else:
+                        draw_text("Click to continue", font, black, 640, 650)
+                        if mouse_clicked:
+                            show_ending_image = True
 
                 else:
                     next_round_button = draw_button("Flip Again", 540, 550, 200, 100, grey)
@@ -1212,7 +1229,7 @@ def game3(npc_key = None):
                     trigger_sound_play = True
 
             pygame.display.flip()
-        
+
         save_level(level)
         save_exp(exp)
         save_coins(coins)
