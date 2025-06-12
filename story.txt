@@ -51,7 +51,7 @@ Max had a conversation with the first main character, Fazir.
 Max : Hey, are you Fazir?
 Fazir : Yes,is there something you need? 
 Max : I’m here just to get information about "him."
-Fazir : Hmph, I had already guessed that. Enough with the small talk—let’s duel!
+Fazir : Hmm, I had already guessed that. Enough with the small talk—let’s duel!
 Max : Wow, I really have to duel first to get the information.
 (Get into fight.)
 
@@ -69,6 +69,7 @@ Max: That’s it? Fine. Thanks anyway.
 Fazir: Don’t mention it. Now go. I think the next person you’re looking for is Rane in Learning Point.
 
 # Rane's Scene
+Rane: Hey you.
 Max: You know who I am?
 Rane: Of course. Fazir already told us about you.
 Max: Then let’s skip the small talk.

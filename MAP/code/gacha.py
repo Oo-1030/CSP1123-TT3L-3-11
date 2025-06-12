@@ -2,6 +2,7 @@ import pygame
 import random
 from SaveLoadManager import SaveLoadSystem 
 from bagsystem import BagSystem
+import os
 
 
 pygame.init()
@@ -13,7 +14,8 @@ items_saved = saveloadmanager.load_game_data(["items_saved", "pity_4", "pity_5"]
 pygame.mixer.music.load("CSP1123-TT3L-3-11/MAP/bgm/gacha_sound.mp3")
 
 width, height = 1280, 720
-screen = pygame.display.set_mode((width, height))
+window = pygame.display.set_mode((width, height))
+
 
 background_img = pygame.image.load("CSP1123-TT3L-3-11/MAP/images/background.png")
 background_img = pygame.transform.scale(background_img, (1280, 720))
@@ -50,7 +52,7 @@ item_descriptions = {
     "Rice": "You found the only food can eat in campus, but you also don't want to eat this if you can eat outside.",
     "Coffee": "This coffee give you energy for a day. No sleepy lectures anymore!",
     "Full_mark": "You get 100 mark in exam. This is not luck, is the result of your hardwork!",
-    "Eraser": "You don't need to borrow an eraser from your friend anymore. You've got the aura.",
+    "Eraser": "You don't need to borrow an eraser from your friend anymore. You've got the aura!",
     "Watch": "Imagine wearing this luxury watch as you walk - you'll be the most eye-catching guy in MMU!",
     "Cola":"When you have this on a sunny day, you'll know what heaven feels like.",
     "Umbrella": "Imagine you found this on rainy day! It rescue you from becoming a drowned rat.",
@@ -78,6 +80,7 @@ image_map = {
     "Koi_fish": Koi_fish_img
 }
 
+
 class GachaSystem():
     def __init__(self, screen):
         self.stars = [3, 4, 5]
@@ -97,40 +100,7 @@ class GachaSystem():
         self.current_star = None
         self.highest_star_in_pull = None 
         self.one_pull = False
-        self.running = False
         self.on_exit = None
-    
-    def run(self):
-        """Start the gacha game loop."""
-        self.running = True
-        self.animation_loop()  # Renamed from `animation`
-        if self.on_exit:
-            self.on_exit()
-
-    def animation_loop(self):
-        """Handles gacha animations and Q key."""
-        clock = pygame.time.Clock()
-        while self.running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.exit()
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_q:  # Q to quit
-                        self.exit()
-
-            # Your existing animation/drawing logic here
-            self.screen.blit(Tekun_background_img, (0, 0))
-            # ... (rest of your drawing code)
-
-            pygame.display.flip()
-            clock.tick(60)
-
-    def exit(self):
-        """Close the gacha and return to the main game."""
-        self.running = False
-        if self.on_exit:
-            self.on_exit()  # Callback to Tekun
-
 
     def set_pull(self, count):
         self.pull_remaining = count 
@@ -169,14 +139,13 @@ class GachaSystem():
                 self.highest_star_in_pull = star
             item = random.choice(self.pool[star])
             self.results.append(item)
+            items_saved.append(item)
             self.pull_remaining -= 1
             saveloadmanager.save_game_data([items_saved], ["items_saved"])
             saveloadmanager.save_game_data([items_saved, self.pity_4, self.pity_5], 
                                          ["items_saved", "pity_4", "pity_5"])
 
-
             return item
-            
     
     def draw(self):
         x, y = 95, 310
@@ -190,8 +159,15 @@ class GachaSystem():
             self.rect_map[rect.topleft] = item 
             x += 110
 
-gacha = GachaSystem(screen)
-bag_system = BagSystem(screen,item_descriptions)
+    def animation(self):
+        print("Animation triggered")
+
+    def run(self):
+        self.animation()
+
+gacha = GachaSystem(window)
+bag_system = BagSystem(window,item_descriptions)
+
 
 font = pygame.font.SysFont(None, 40)
 small_font = pygame.font.SysFont("Comic Sans MS", 28)
@@ -200,7 +176,7 @@ clock = pygame.time.Clock()
 def draw_text(text, font, color, x, y):
     img = font.render(text, True, color)
     text_rect = img.get_rect(center = (x, y))
-    screen.blit(img, text_rect)
+    window.blit(img, text_rect)
 
 def draw_wrapped_text(text, font, color, x, y, max_width):
     words = text.split(' ')
@@ -225,31 +201,31 @@ def draw_wrapped_text(text, font, color, x, y, max_width):
     total_height = len(lines) * line_height
     
     # 绘制边框背景（调整这些数字来改变边框大小）
-    border_padding = 15  # 边框与文字的间距
+    border_padding = 20  # 边框与文字的间距
     border_rect = pygame.Rect(
         x - max_line_width//2 - border_padding,  # 左边位置
         y - border_padding,                      # 上边位置
         max_line_width + border_padding*2,       # 宽度
-        total_height + border_padding*2          # 高度
+        total_height + border_padding*2 - 35          # 高度 -35 是为了底部不要留太多白
     )
     
-    pygame.draw.rect(screen, (255, 255, 255), border_rect)  # 白色背景
-    pygame.draw.rect(screen, (0, 0, 0), border_rect, 2)     # 黑色边框
+    pygame.draw.rect(window, (255, 255, 255), border_rect)  # 白色背景
+    pygame.draw.rect(window, (0, 0, 0), border_rect, 2)     # 黑色边框
     
     # 绘制文本
     for i, line in enumerate(lines):
         text_surf = font.render(line, True, color)
         text_rect = text_surf.get_rect(center=(x, y + i * line_height))
-        screen.blit(text_surf, text_rect)
+        window.blit(text_surf, text_rect)
 
 def draw_button(text, x, y, w, h, color):
     mouse = pygame.mouse.get_pos()
 
-    pygame.draw.rect(screen, color, (x, y, w, h))
+    pygame.draw.rect(window, color, (x, y, w, h))
 
     text_surf = font.render(text, True, (0, 0, 0))
     text_rect = text_surf.get_rect(center=(x + w / 2, y + h / 2))
-    screen.blit(text_surf, text_rect)
+    window.blit(text_surf, text_rect)
 
     return x + w > mouse[0] > x and y + h > mouse[1] > y
 
@@ -262,7 +238,101 @@ def draw_glow_layered(center_x, center_y, radius, alpha, color_base):
         color = (*color_base, current_alpha)
         pygame.draw.circle(glow_surface, color, (center_x, center_y), current_radius)
     
-    screen.blit(glow_surface, (0, 0))
+    window.blit(glow_surface, (0, 0))
+
+base_dir = os.path.dirname(os.path.abspath(__file__))
+save_dir = os.path.join(base_dir, "saves")
+os.makedirs(save_dir, exist_ok=True)
+coin_path = os.path.join(save_dir, "coins.txt")
+luck_path = os.path.join(save_dir, "luck.txt")
+#load luck
+def load_luck():
+    try:
+        with open(luck_path, "r") as f:
+            return int(f.read())
+    except:
+        return 100
+    
+def save_luck(luck):
+    with open(luck_path, "w") as f:
+        f.write(str(luck))
+
+#load coins
+def load_coins():
+    try:
+        with open(coin_path, "r") as f:
+            return int(f.read())
+    except:
+        return 0
+
+def save_coins(coins):
+    with open(coin_path, "w") as f:
+        f.write(str(coins))
+
+coin_font = pygame.font.SysFont(None, 36)  # Font for coins display
+def draw_coins(coins):
+    # Draw a semi-transparent background for the coins display
+    coin_bg = pygame.Surface((200, 50), pygame.SRCALPHA)
+    coin_bg.fill((0, 0, 0, 128))  # Black with 50% opacity
+    window.blit(coin_bg, (20, 20))
+    
+    # Draw the coins text
+    coin_text = coin_font.render(f"M Coins: {coins}", True, (255, 255, 255))
+    window.blit(coin_text, (30, 30))
+
+def show_warning_message(message):
+    overlay = pygame.Surface((width, height))
+    overlay.set_alpha(128)
+    overlay.fill((0, 0, 0))
+    window.blit(overlay, (0, 0))
+
+    dialog_rect = pygame.Rect(width//2 - 250, height//2 - 100, 500, 200)
+    pygame.draw.rect(window, (255, 255, 255), dialog_rect)
+    pygame.draw.rect(window, (0, 0, 0), dialog_rect, 3)
+
+    draw_text(message, font, (0, 0, 0), width//2, height//2 - 30)
+    draw_text("Click anywhere to close", small_font, (0, 0, 0), width//2, height//2 + 50)
+
+def load_processed_items():
+    try:
+        with open("processed_items.txt", "r") as f:
+            return set(line.strip() for line in f)
+    except FileNotFoundError:
+        return set()
+
+def save_processed_items(items):
+    with open("processed_items.txt", "w") as f:
+        for item in items:
+            f.write(f"{item}\n")
+
+def item_luck():
+    luck = load_luck()
+    three_star_item = {"Rice", "Coffee", "Full_mark", "Eraser", "Watch", "Cola"}
+    four_star_item = {"Umbrella", "Coupon", "Tissue"}
+    five_star_item = {"Clover", "Black_card", "Underwear", "Koi_fish"}
+    
+    # 加载已处理的物品集合
+    processed_items = load_processed_items()
+    
+    # 找出新物品
+    new_items = set(items_saved) - processed_items
+    
+    # 计算新增的luck
+    for item in new_items:
+        if item in three_star_item:
+            luck += 5
+        elif item in four_star_item:
+            luck += 10
+        elif item in five_star_item:
+            luck += 20
+    
+    # 更新已处理物品集合
+    if new_items:
+        processed_items.update(new_items)
+        save_processed_items(processed_items)
+        
+    save_luck(luck)
+    return luck
 
 def animation():
     running = True
@@ -274,26 +344,41 @@ def animation():
     effect_color = (0, 0, 0)
     result_displayed = False
     confirm_dialog = None 
+    coins = load_coins()
+    warning_message = None
+    
 
     while running:
         mouse_clicked = False
-        screen.blit(Tekun_background_img,(0,0))
+        window.blit(Tekun_background_img,(0,0))
+        draw_coins(coins)
+        item_luck()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 saveloadmanager.save_game_data([items_saved], ["items_saved"])
+                save_coins(coins)
                 running = False
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+
+            elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 mouse_clicked = True
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_q:  # Press Q to quit gacha
-                    running = False
-            if event.type == pygame.KEYDOWN and not(effect_triggered) and not(confirm_dialog):
+                if warning_message:
+                    warning_message = None
+
+            elif event.type == pygame.KEYDOWN and not effect_triggered and not confirm_dialog and not warning_message:
                 if event.key == pygame.K_b:
                     bag_system.open(items_saved)
 
+                elif event.key == pygame.K_q:
+                    saveloadmanager.save_game_data([items_saved], ["items_saved"])
+                    save_coins(coins)
+                    if hasattr(gacha, 'on_exit') and gacha.on_exit:
+                        gacha.on_exit()
+                    running = False
+
+
         if effect_triggered and effect_show:
-            screen.blit(background_img, (0, 0))
+            window.blit(background_img, (0, 0))
             gacha.draw()
             mouse_pos = pygame.mouse.get_pos()
             description_to_show = None
@@ -305,6 +390,7 @@ def animation():
 
             if description_to_show:
                 draw_wrapped_text(description_to_show, small_font, (0,0,0), width // 2, 610, 1000)
+
 
             if effect_alpha > 0:
                 draw_glow_layered(effect_center[0], effect_center[1], effect_radius, effect_alpha, effect_color)
@@ -325,18 +411,19 @@ def animation():
                     result_displayed = False
 
         else:
-            One_pull = screen.blit(One_pull_img,(240,550))
-            Ten_pull = screen.blit(Ten_pull_img, (840, 550))
+            One_pull = window.blit(One_pull_img,(240,550))
+            
+            Ten_pull = window.blit(Ten_pull_img, (840, 550))
 
             if confirm_dialog:
                 overlay = pygame.Surface((width, height))
                 overlay.set_alpha(128)
                 overlay.fill((0, 0, 0))
-                screen.blit(overlay, (0, 0))
+                window.blit(overlay, (0, 0))
 
                 dialog_rect = pygame.Rect(width//2 - 250, height//2 - 100, 500, 200)
-                pygame.draw.rect(screen, (255, 255, 255), dialog_rect)
-                pygame.draw.rect(screen, (0, 0, 0), dialog_rect, 3)
+                pygame.draw.rect(window, (255, 255, 255), dialog_rect)
+                pygame.draw.rect(window, (0, 0, 0), dialog_rect, 3)
 
                 if confirm_dialog == "one":
                     prompt_text = "Spend 160 M Coins for one pull?"
@@ -344,24 +431,38 @@ def animation():
                     prompt_text = "Spend 1600 M Coins for ten pulls?"
                 draw_text(prompt_text, font, (0, 0, 0), width//2, height//2 - 50)
 
+
                 confirm_button = pygame.Rect(width//2 - 120, height//2 + 30, 100, 40)
                 cancel_button = pygame.Rect(width//2 + 20, height//2 + 30, 100, 40)
-                pygame.draw.rect(screen, (0, 200, 0), confirm_button)
-                pygame.draw.rect(screen, (200, 0, 0), cancel_button)
+                pygame.draw.rect(window, (0, 200, 0), confirm_button)
+                pygame.draw.rect(window, (200, 0, 0), cancel_button)
 
                 draw_text("Confirm", font, (255, 255, 255), confirm_button.centerx, confirm_button.centery)
                 draw_text("Cancel", font, (255, 255, 255), cancel_button.centerx, cancel_button.centery)
 
+
             if mouse_clicked:
                 if confirm_dialog:
                     if confirm_button.collidepoint(pygame.mouse.get_pos()):
-                        if confirm_dialog == "one":
+                        if confirm_dialog == "one" and coins >= 160:
                             gacha.set_pull(1)
                             gacha.one_pull = True
-                        elif confirm_dialog == "ten":
+                            coins -= 160
+                            save_coins(coins)
+                            confirm_dialog = None  
+                        elif confirm_dialog == "ten" and coins >= 1600:
                             gacha.set_pull(10)
                             gacha.one_pull = False
-                        confirm_dialog = None  
+                            coins -= 1600
+                            save_coins(coins)
+                            confirm_dialog = None  
+                        else:
+                            # 修改这里，不再调用show_warning_message，而是设置warning_message
+                            if confirm_dialog == "one":
+                                warning_message = "Not enough M Coins! (Need 160)"
+                            else:
+                                warning_message = "Not enough M Coins! (Need 1600)"
+                            confirm_dialog = None
                     elif cancel_button.collidepoint(pygame.mouse.get_pos()):
                         confirm_dialog = None  
                 else:
@@ -369,6 +470,10 @@ def animation():
                         confirm_dialog = "one"
                     elif Ten_pull.collidepoint(pygame.mouse.get_pos()):
                         confirm_dialog = "ten"
+
+        # 在绘制其他内容后，如果有警告消息则显示
+            if warning_message:
+                show_warning_message(warning_message)
 
             if gacha.pull_remaining > 0:
                 result = gacha.pull()
@@ -397,5 +502,8 @@ def animation():
 
         pygame.display.update()
         clock.tick(60)
+
+    save_coins(coins)
+
 
 animation()

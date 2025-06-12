@@ -124,9 +124,18 @@ class DialogueView:
         elif command == "playD":
             import dice
             dice.run()
-        elif command == "playRandom":
-            import RandomGame
-            RandomGame.start_random_game()
+        elif command == "fatguy":
+            from RandomGame import start_random_game
+            npc_key = "fatguy"
+            start_random_game(npc_key)
+        elif command == "ooi":
+            from RandomGame import start_random_game
+            npc_key = "ooi"
+            start_random_game(npc_key)
+        elif command == "TTTS":
+            from RandomGame import start_random_game
+            npc_key = "TTTS"
+            start_random_game(npc_key)
         elif command == "goto":
             self.current_line = int(arguments[0])-2
             print(self.current_line)

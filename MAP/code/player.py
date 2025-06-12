@@ -150,6 +150,40 @@ class Player:
         camera.x = self.entity.x - camera.width/2 + sprite.image.get_width()/2
         camera.y = self.entity.y - camera.height/2 + sprite.image.get_height()/2
 
+        if is_key_pressed(pygame.K_b):  
+            from bagsystem import BagSystem
+            from SaveLoadManager import SaveLoadSystem
+            screen = pygame.display.get_surface()
+            saveloadmanager = SaveLoadSystem(".save", "save_data")
+            items_saved = saveloadmanager.load_game_data(["items_saved", "pity_4", "pity_5"], [[], 0, 0])[0] or []
+
+            if screen:
+                # Define your item descriptions (you should move this to a config file)
+                item_descriptions = {
+                    "Rice": "You found the only food can eat in campus, but you also don't want to eat this if you can eat outside.",
+                    "Coffee": "This coffee give you energy for a day. No sleepy lectures anymore!",
+                    "Full_mark": "You get 100 mark in exam. This is not luck, is the result of your hardwork!",
+                    "Eraser": "You don't need to borrow an eraser from your friend anymore. You've got the aura!",
+                    "Watch": "Imagine wearing this luxury watch as you walk - you'll be the most eye-catching guy in MMU!",
+                    "Cola":"When you have this on a sunny day, you'll know what heaven feels like.",
+                    "Umbrella": "Imagine you found this on rainy day! It rescue you from becoming a drowned rat.",
+                    "Coupon": "An MC0 coupon. You can get a 70% discount on buying burger combos with this coupon at any MC0 branch.",
+                    "Clover": "Only 1/10000 clover has four leafs.You are the lucky one!",
+                    "Tissue": "Tissue saves you from spilled drinks, sneezing, and crying, you won't know how important it is until you need it.",
+                    "Black_card": "You found someone's black card and a note beside it reads you can use it however you want!",
+                    "Underwear": "Not anyone can found a random underwear beside the road of campus, I think you are lucky! (Based on true story)",
+                    "Koi_fish": "You found this golden fish in the pond in campus. It will bring good luck and wealth to you!"
+                }
+
+                bag_system = BagSystem(screen, item_descriptions)
+                bag_system.open(items_saved)
+                from input import keys_down, keys_just_pressed, mouse_buttons_down, mouse_buttons_just_pressed
+                keys_down.clear()
+                keys_just_pressed.clear()
+                mouse_buttons_down.clear()
+                mouse_buttons_just_pressed.clear()
+
+
         if future_direction is not None:
             self.walk_animation(future_direction, future_frames)
         elif self.is_walking:
