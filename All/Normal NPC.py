@@ -3,33 +3,37 @@ import pygame
 import os
 import math
 
+npc_path = os.path.join("assets")
+
 npc_assets = {
     "fatguy": {
         "name": "Fat Guy",
-        "image": pygame.transform.scale(pygame.image.load("fatguyR.png"), (200, 200))
+        "image": pygame.transform.scale(pygame.image.load(os.path.join(npc_path, "fatguyR.png")), (200, 200))
     },
     "ooi": {
         "name": "ooi",
-        "image": pygame.transform.scale(pygame.image.load("ooi.png"), (200, 200))
+        "image": pygame.transform.scale(pygame.image.load(os.path.join(npc_path, "ooi.png")), (200, 200))
     },
     "TTTS": {
         "name": "Tung Tung Tung Sahur",
-        "image": pygame.transform.scale(pygame.image.load("TTTS.png"), (200, 200))
+        "image": pygame.transform.scale(pygame.image.load(os.path.join(npc_path, "TTTS.png")), (200, 200))
     }
 }
-
 
 def game1(npc_key = None):
     pygame.init()
     pygame.mixer.init()
 
-    pygame.mixer.music.load("background_music(rps).mp3")
-    pygame.mixer.music.play(-1)
-    pygame.mixer.music.set_volume(0)
-    action_sound = pygame.mixer.Sound("rps.mp3")
-    trigger_sound = pygame.mixer.Sound("trigger.mp3")
-    victory_sound = pygame.mixer.Sound("victory.mp3")
-    defeat_sound = pygame.mixer.Sound("defeat.mp3")
+    base_path = os.path.dirname(__file__)
+    assets_path = os.path.join(base_path, "assets")
+    game_bgm = pygame.mixer.Sound(os.path.join(assets_path, "background_music(rps).mp3"))
+    game_channel = pygame.mixer.Channel(1)
+    game_channel.play(game_bgm, loops=-1)
+    game_channel.set_volume(0.4)
+    action_sound = pygame.mixer.Sound(os.path.join(assets_path, "rps.mp3"))
+    trigger_sound = pygame.mixer.Sound(os.path.join(assets_path, "trigger.mp3"))
+    victory_sound = pygame.mixer.Sound(os.path.join(assets_path, "victory.mp3"))
+    defeat_sound = pygame.mixer.Sound(os.path.join(assets_path, "defeat.mp3"))
     sound_channel = None
 
     width, height = 1280, 720
@@ -46,14 +50,12 @@ def game1(npc_key = None):
     large_font = pygame.font.SysFont(None, 60)
     versus_font = pygame.font.SysFont("Impact", 70)
 
-    rock_img = pygame.image.load("rock1.png")
-    paper_img = pygame.image.load("paper2.png")
-    scissors_img = pygame.image.load("scissors3.png")
-    center_img = pygame.image.load("All.png")
-    background_img = pygame.image.load("dtc.png")
-    char_img = pygame.image.load("character.png")
-    suzume = pygame.image.load("Suzume.jpg")
-    honkai = pygame.image.load("..png")
+    rock_img = pygame.image.load(os.path.join(assets_path, "rock1.png"))
+    paper_img = pygame.image.load(os.path.join(assets_path, "paper2.png"))
+    scissors_img = pygame.image.load(os.path.join(assets_path, "scissors3.png"))
+    center_img = pygame.image.load(os.path.join(assets_path, "All.png"))
+    background_img = pygame.image.load(os.path.join(assets_path, "dtc.png"))
+    char_img = pygame.image.load(os.path.join(assets_path, "character.png"))
 
     img_size = (200, 200)
     rock_img = pygame.transform.scale(rock_img, img_size)
@@ -68,10 +70,6 @@ def game1(npc_key = None):
 
     char_size = (200, 200)
     char_img = pygame.transform.scale(char_img, char_size)
-
-    manga_img_size = (1080, 600)
-    manga_img1 = pygame.transform.scale(suzume, manga_img_size)
-    manga_img2 = pygame.transform.scale(honkai, manga_img_size)
 
     def draw_text(text, font, color, x, y):
         img = font.render(text, True, color)
@@ -248,7 +246,6 @@ def game1(npc_key = None):
         add_coins = False
         trigger_sound_play = False
         coins = load_coins()
-        show_ending_image = False
         npc_img = npc_assets[npc_key]["image"]
         npc_name = npc_assets[npc_key]["name"]
 
@@ -368,22 +365,12 @@ def game1(npc_key = None):
                             sound_channel = defeat_sound.play()
                             defeat_sound_play = True
                         
-                    if show_ending_image:
-                        if player_score >= 5:
-                            window.blit(manga_img1, (100, 60))
-                        elif computer_score >= 5:
-                            window.blit(manga_img2, (100, 60))
+                    draw_text("Click anywhere to exit", font, black, 640, 650)
+                    if mouse_clicked and not click_handled:
+                        click_handled = True
+                        pygame.mixer.stop()
+                        playing = False
 
-                        draw_text("Click to exit", font, black, 640, 650)
-
-                        if mouse_clicked and not click_handled:
-                            playing = False
-                            click_handled = True
-                    else:
-                        draw_text("Click to continue", font, black, 640, 650)
-                        if mouse_clicked and not click_handled:
-                            show_ending_image = True
-                            click_handled = True
                 else:
                     next_round_button = draw_button("Next Round", 540, 550, 200, 100, grey)
                     if next_round_button and mouse_clicked and not click_handled:
@@ -430,13 +417,16 @@ def game2(npc_key = None):
     pygame.init()
     pygame.mixer.init()
 
-    pygame.mixer.music.load("background_music(dice).mp3")
-    pygame.mixer.music.play(-1)
-    pygame.mixer.music.set_volume(0.4)
-    action_sound = pygame.mixer.Sound("dice_roll.mp3")
-    trigger_sound = pygame.mixer.Sound("trigger.mp3")
-    victory_sound = pygame.mixer.Sound("victory.mp3")
-    defeat_sound = pygame.mixer.Sound("defeat.mp3")
+    base_path = os.path.dirname(__file__)
+    assets_path = os.path.join(base_path, "assets")
+    game_bgm = pygame.mixer.Sound(os.path.join(assets_path, "background_music(dice).mp3"))
+    game_channel = pygame.mixer.Channel(1)
+    game_channel.play(game_bgm, loops=-1)
+    game_channel.set_volume(0.4)
+    action_sound = pygame.mixer.Sound(os.path.join(assets_path, "dice_roll.mp3"))
+    trigger_sound = pygame.mixer.Sound(os.path.join(assets_path, "trigger.mp3"))
+    victory_sound = pygame.mixer.Sound(os.path.join(assets_path, "victory.mp3"))
+    defeat_sound = pygame.mixer.Sound(os.path.join(assets_path, "defeat.mp3"))
     sound_channel = None
 
     width, height = (1280, 720)
@@ -453,35 +443,29 @@ def game2(npc_key = None):
 
     img_size = (150, 150)
     dice_img = [
-        pygame.transform.scale(pygame.image.load("1.png"), img_size),
-        pygame.transform.scale(pygame.image.load("2.png"), img_size),
-        pygame.transform.scale(pygame.image.load("3.png"), img_size),
-        pygame.transform.scale(pygame.image.load("4.png"), img_size),
-        pygame.transform.scale(pygame.image.load("5.png"), img_size),
-        pygame.transform.scale(pygame.image.load("6.png"), img_size),
+        pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "1.png")), img_size),
+        pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "2.png")), img_size),
+        pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "3.png")), img_size),
+        pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "4.png")), img_size),
+        pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "5.png")), img_size),
+        pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "6.png")), img_size),
     ]
     roll_img = [
-        pygame.transform.scale(pygame.image.load("roll1.png"), img_size),
-        pygame.transform.scale(pygame.image.load("roll2.png"), img_size),
-        pygame.transform.scale(pygame.image.load("roll3.png"), img_size),
-        pygame.transform.scale(pygame.image.load("roll4.png"), img_size),
-        pygame.transform.scale(pygame.image.load("roll5.png"), img_size),
-        pygame.transform.scale(pygame.image.load("roll6.png"), img_size),
+        pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "roll1.png")), img_size),
+        pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "roll2.png")), img_size),
+        pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "roll3.png")), img_size),
+        pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "roll4.png")), img_size),
+        pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "roll5.png")), img_size),
+        pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "roll6.png")), img_size),
     ]
 
     background_size= (1280, 720)
-    background_img = pygame.image.load("mmu_table().png")
+    background_img = pygame.image.load(os.path.join(assets_path, "mmu_table().png"))
     background_img = pygame.transform.scale(background_img, background_size)
 
     char_size = (200, 200)
-    char_img = pygame.image.load("character.png")
+    char_img = pygame.image.load(os.path.join(assets_path, "character.png"))
     char_img = pygame.transform.scale(char_img, char_size)
-
-    manga_img_size = (1080, 600)
-    suzume = pygame.image.load("Suzume.jpg")
-    honkai = pygame.image.load("..png")
-    manga_img1 = pygame.transform.scale(suzume, manga_img_size)
-    manga_img2 = pygame.transform.scale(honkai, manga_img_size)
 
     def draw_text(text, font, color, x, y):
         img = font.render(text, True, color)
@@ -656,7 +640,6 @@ def game2(npc_key = None):
         add_coins = False
         trigger_sound_play = False
         coins = load_coins()
-        show_ending_image = False
         npc_img = npc_assets[npc_key]["image"]
         npc_name = npc_assets[npc_key]["name"]
 
@@ -772,7 +755,6 @@ def game2(npc_key = None):
                             exp += 100
                             save_coins(coins)
                             save_exp(exp)
-                            save_coins(coins)
                         if not victory_sound_play:
                             victory_sound_play = True
                             sound_channel = victory_sound.play()
@@ -787,27 +769,15 @@ def game2(npc_key = None):
                             exp += 50
                             save_coins(coins)
                             save_exp(exp)
-                            save_coins(coins)
                         if not defeat_sound_play:
                             defeat_sound_play = True
                             sound_channel = defeat_sound.play()
 
-                    if show_ending_image:
-                        if player_score >= 5:
-                            window.blit(manga_img1, (100, 60))
-                        elif computer_score >= 5:
-                            window.blit(manga_img2, (100, 60))
-
-                        draw_text("Click to exit", font, black, 640, 650)
-
-                        if mouse_clicked and not click_handled:
-                            playing = False
-                            click_handled = True
-                    else:
-                        draw_text("Click to continue", font, black, 640, 650)
-                        if mouse_clicked and not click_handled:
-                            show_ending_image = True
-                            click_handled = True
+                    draw_text("Click anywhere to exit", font, black, 640, 650)
+                    if mouse_clicked and not click_handled:
+                        click_handled = True
+                        pygame.mixer.stop()
+                        playing = False
 
                 draw_text(f"Max: {player_score}", large_font, black, 100, 50)
                 draw_text(f"{npc_name}: {computer_score}", large_font, black, width - 120, 50)
@@ -841,13 +811,16 @@ def game3(npc_key = None):
     pygame.init()
     pygame.mixer.init()
 
-    pygame.mixer.music.load("background_music(coin).mp3")
-    pygame.mixer.music.play(-1)
-    pygame.mixer.music.set_volume(0.4)
-    action_sound = pygame.mixer.Sound("coin_flip.mp3")
-    trigger_sound = pygame.mixer.Sound("trigger.mp3")
-    victory_sound = pygame.mixer.Sound("victory.mp3")
-    defeat_sound = pygame.mixer.Sound("defeat.mp3")
+    base_path = os.path.dirname(__file__)
+    assets_path = os.path.join(base_path, "assets")
+    game_bgm = pygame.mixer.Sound(os.path.join(assets_path, "background_music(coin).mp3"))
+    game_channel = pygame.mixer.Channel(1)
+    game_channel.play(game_bgm, loops=-1)
+    game_channel.set_volume(0.4)
+    action_sound = pygame.mixer.Sound(os.path.join(assets_path, "coin_flip.mp3"))
+    trigger_sound = pygame.mixer.Sound(os.path.join(assets_path, "trigger.mp3"))
+    victory_sound = pygame.mixer.Sound(os.path.join(assets_path, "victory.mp3"))
+    defeat_sound = pygame.mixer.Sound(os.path.join(assets_path, "defeat.mp3"))
     sound_channel = None
 
     width, height = 1280, 720
@@ -863,11 +836,11 @@ def game3(npc_key = None):
     font = pygame.font.SysFont(None, 40)
     large_font = pygame.font.SysFont(None, 60)
 
-    head_img = pygame.image.load("head2.png")
-    tail_img = pygame.image.load("tail2.png")
-    spining_img = pygame.image.load("spining2.png")
-    background_img = pygame.image.load("mmu_table().png")
-    char_img = pygame.image.load("character.png")
+    head_img = pygame.image.load(os.path.join(assets_path, "head2.png"))
+    tail_img = pygame.image.load(os.path.join(assets_path, "tail2.png"))
+    spining_img = pygame.image.load(os.path.join(assets_path, "spining2.png"))
+    background_img = pygame.image.load(os.path.join(assets_path, "mmu_table().png"))
+    char_img = pygame.image.load(os.path.join(assets_path, "character.png"))
 
     img_size = (350, 350)
     head_img = pygame.transform.scale(head_img, img_size)
@@ -879,12 +852,6 @@ def game3(npc_key = None):
 
     char_size = (200, 200)
     char_img = pygame.transform.scale(char_img, char_size)
-
-    manga_img_size = (1080, 600)
-    suzume = pygame.image.load("Suzume.jpg")
-    honkai = pygame.image.load("..png")
-    manga_img1 = pygame.transform.scale(suzume, manga_img_size)
-    manga_img2 = pygame.transform.scale(honkai, manga_img_size)
 
     def draw_text(text, font, color, x, y):
         img = font.render(text, True, color)
@@ -1059,7 +1026,6 @@ def game3(npc_key = None):
         add_coins = False
         trigger_sound_play = False
         coins = load_coins()
-        show_ending_image = False
         npc_img = npc_assets[npc_key]["image"]
         npc_name = npc_assets[npc_key]["name"]
         clock = pygame.time.Clock()
@@ -1162,7 +1128,6 @@ def game3(npc_key = None):
                             exp += 100
                             save_coins(coins)
                             save_exp(exp)
-                            save_coins(coins)
                         if not victory_sound_play:
                             victory_sound_play = True
                             sound_channel = victory_sound.play()
@@ -1177,27 +1142,14 @@ def game3(npc_key = None):
                             exp += 50
                             save_coins(coins)
                             save_exp(exp)
-                            save_coins(coins)
                         if not defeat_sound_play:
                             defeat_sound_play = True
                             sound_channel = defeat_sound.play()
 
-                    if show_ending_image:
-                        if player_score >= 5:
-                            window.blit(manga_img1, (100, 60))
-                        elif computer_score >= 5:
-                            window.blit(manga_img2, (100, 60))
-
-                        draw_text("Click to exit", font, black, 640, 650)
-
-                        if mouse_clicked and not click_handled:
-                            playing = False
-                            click_handled = True
-                    else:
-                        draw_text("Click to continue", font, black, 640, 650)
-                        if mouse_clicked and not click_handled:
-                            show_ending_image = True
-                            click_handled = True
+                    draw_text("Click anywhere to exit", font, black, 640, 650)
+                    if mouse_clicked:
+                        pygame.mixer.stop()
+                        playing = False
 
                 else:
                     next_round_button = draw_button("Flip Again", 540, 550, 200, 100, grey)
@@ -1232,7 +1184,7 @@ def game3(npc_key = None):
                     trigger_sound.play()
                     trigger_sound_play = True
 
-            pygame.display.flip()
+            pygame.display.update()
 
         save_level(level)
         save_exp(exp)
@@ -1240,7 +1192,7 @@ def game3(npc_key = None):
         save_luck(luck)
     game_loop(npc_key)
 
-def start_random_game(npc_key):
+def start_random_gameNN(npc_key):
     games = [game1, game2, game3]
     selected_game = random.choice(games)
     selected_game(npc_key)
