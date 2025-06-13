@@ -51,7 +51,6 @@ def game1(npc_key = None):
 
     width, height = 1280, 720
     window = pygame.display.set_mode((width, height))
-    pygame.display.set_caption("Rock, Paper, Scissors")
 
     black = (0, 0, 0)
     red = (255, 0, 0)
@@ -69,8 +68,6 @@ def game1(npc_key = None):
     center_img = pygame.image.load(os.path.join(assets_path, "All.png"))
     background_img = pygame.image.load(os.path.join(assets_path, "dtc.png"))
     char_img = pygame.image.load(os.path.join(assets_path, "character.png"))
-    suzume = pygame.image.load(os.path.join(assets_path, "Suzume.jpg"))
-    honkai = pygame.image.load(os.path.join(assets_path, "..png"))
 
     img_size = (200, 200)
     rock_img = pygame.transform.scale(rock_img, img_size)
@@ -85,10 +82,6 @@ def game1(npc_key = None):
 
     char_size = (200, 200)
     char_img = pygame.transform.scale(char_img, char_size)
-
-    manga_img_size = (1080, 600)
-    manga_img1 = pygame.transform.scale(suzume, manga_img_size)
-    manga_img2 = pygame.transform.scale(honkai, manga_img_size)
 
     def draw_text(text, font, color, x, y):
         img = font.render(text, True, color)
@@ -203,8 +196,6 @@ def game1(npc_key = None):
             f.write(str(luck))
 
     level = 1
-    exp = 0 
-    luck = 0
     max_exp = 100 * level
     max_level = 20
 
@@ -220,6 +211,8 @@ def game1(npc_key = None):
                 exp = exp_left
                 level += 1
                 luck += 10
+                save_luck(luck)
+                save_level(level)
         
             ratio = exp / max_exp
             level_text = font_exp.render(f"Level:{level}", True, (255,255,255))
@@ -395,7 +388,7 @@ def game1(npc_key = None):
                             window.blit(lose_manga, (100, 60))
 
 
-                        draw_text("Click to exit", font, black, 640, 650)
+                        draw_text("Click anywhere to exit", font, black, 640, 650)
 
                         if mouse_clicked and not click_handled:
                             pygame.mixer.stop()
@@ -406,7 +399,7 @@ def game1(npc_key = None):
                             playing = False
                             click_handled = True
                     else:
-                        draw_text("Click to continue", font, black, 640, 650)
+                        draw_text("Click anywhere to continue", font, black, 640, 650)
                         if mouse_clicked and not click_handled:
                             show_ending_image = True
                             click_handled = True
@@ -470,7 +463,6 @@ def game2(npc_key = None):
 
     width, height = (1280, 720)
     window = pygame.display.set_mode((width, height))
-    pygame.display.set_caption("Dice Roll")
 
     black = (0, 0, 0)
     red = (255, 0, 0)
@@ -505,12 +497,6 @@ def game2(npc_key = None):
     char_size = (200, 200)
     char_img = pygame.image.load(os.path.join(assets_path, "character.png"))
     char_img = pygame.transform.scale(char_img, char_size)
-
-    manga_img_size = (1080, 600)
-    suzume = pygame.image.load(os.path.join(assets_path, "Suzume.jpg"))
-    honkai = pygame.image.load(os.path.join(assets_path, "..png"))
-    manga_img1 = pygame.transform.scale(suzume, manga_img_size)
-    manga_img2 = pygame.transform.scale(honkai, manga_img_size)
 
     def draw_text(text, font, color, x, y):
         img = font.render(text, True, color)
@@ -620,8 +606,6 @@ def game2(npc_key = None):
             f.write(str(luck))
 
     level = 1
-    exp = 0 
-    luck = 0
     max_exp = 100 * level
     max_level = 20
 
@@ -637,6 +621,8 @@ def game2(npc_key = None):
                 exp = exp_left
                 level += 1
                 luck += 10
+                save_luck(luck)
+                save_level(level)
         
             ratio = exp / max_exp
             level_text = font_exp.render(f"Level:{level}", True, (255,255,255))
@@ -827,7 +813,7 @@ def game2(npc_key = None):
                         elif computer_score >= 5:
                             window.blit(lose_manga, (100, 60))
 
-                        draw_text("Click to exit", font, black, 640, 650)
+                        draw_text("Click anywhere to exit", font, black, 640, 650)
 
                         if mouse_clicked and not click_handled:
                             pygame.mixer.stop()
@@ -838,7 +824,7 @@ def game2(npc_key = None):
                             playing = False
                             click_handled = True
                     else:
-                        draw_text("Click to continue", font, black, 640, 650)
+                        draw_text("Click anywhere to continue", font, black, 640, 650)
                         if mouse_clicked and not click_handled:
                             show_ending_image = True
                             click_handled = True
@@ -889,7 +875,6 @@ def game3(npc_key = None):
 
     width, height = 1280, 720
     window = pygame.display.set_mode((width, height))
-    pygame.display.set_caption("Coin Flip")
 
     black = (0, 0, 0)
     red = (255, 0, 0)
@@ -916,12 +901,6 @@ def game3(npc_key = None):
 
     char_size = (200, 200)
     char_img = pygame.transform.scale(char_img, char_size)
-
-    manga_img_size = (1080, 600)
-    suzume = pygame.image.load(os.path.join(assets_path, "Suzume.jpg"))
-    honkai = pygame.image.load(os.path.join(assets_path, "..png"))
-    manga_img1 = pygame.transform.scale(suzume, manga_img_size)
-    manga_img2 = pygame.transform.scale(honkai, manga_img_size)
 
     def draw_text(text, font, color, x, y):
         img = font.render(text, True, color)
@@ -1030,8 +1009,6 @@ def game3(npc_key = None):
             f.write(str(luck))
 
     level = 1
-    exp = 0 
-    luck = 0
     max_exp = 100 * level
     max_level = 20
 
@@ -1047,6 +1024,8 @@ def game3(npc_key = None):
                 exp = exp_left
                 level += 1
                 luck += 10
+                save_luck(luck)
+                save_level(level)
         
             ratio = exp / max_exp
             level_text = font_exp.render(f"Level:{level}", True, (255,255,255))
@@ -1162,7 +1141,6 @@ def game3(npc_key = None):
 
                     outcome = get_round_outcome(result, player_choice)
                     if outcome == "You guessed wrong!":
-                        luck = 100
                         rerolled_choice = luck_system(result, luck, player_choice)
                         rerolled_outcome = get_round_outcome(player_choice, rerolled_choice)
 
@@ -1225,7 +1203,7 @@ def game3(npc_key = None):
                         elif computer_score >= 5:
                             window.blit(lose_manga, (100, 60))
 
-                        draw_text("Click to exit", font, black, 640, 650)
+                        draw_text("Click anywhere to exit", font, black, 640, 650)
 
                         if mouse_clicked:
                             pygame.mixer.stop()
@@ -1235,7 +1213,7 @@ def game3(npc_key = None):
                             save_luck(luck)
                             playing = False
                     else:
-                        draw_text("Click to continue", font, black, 640, 650)
+                        draw_text("Click anywhere to continue", font, black, 640, 650)
                         if mouse_clicked:
                             show_ending_image = True
 

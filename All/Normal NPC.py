@@ -38,7 +38,6 @@ def game1(npc_key = None):
 
     width, height = 1280, 720
     window = pygame.display.set_mode((width, height))
-    pygame.display.set_caption("Rock, Paper, Scissors")
 
     black = (0, 0, 0)
     red = (255, 0, 0)
@@ -184,8 +183,6 @@ def game1(npc_key = None):
             f.write(str(luck))
 
     level = 1
-    exp = 0 
-    luck = 0
     max_exp = 100 * level
     max_level = 20
 
@@ -201,6 +198,8 @@ def game1(npc_key = None):
                 exp = exp_left
                 level += 1
                 luck += 10
+                save_luck(luck)
+                save_level(level)
         
             ratio = exp / max_exp
             level_text = font_exp.render(f"Level:{level}", True, (255,255,255))
@@ -431,7 +430,6 @@ def game2(npc_key = None):
 
     width, height = (1280, 720)
     window = pygame.display.set_mode((width, height))
-    pygame.display.set_caption("Dice Roll")
 
     black = (0, 0, 0)
     red = (255, 0, 0)
@@ -575,8 +573,6 @@ def game2(npc_key = None):
             f.write(str(luck))
 
     level = 1
-    exp = 0 
-    luck = 0
     max_exp = 100 * level
     max_level = 20
 
@@ -592,6 +588,8 @@ def game2(npc_key = None):
                 exp = exp_left
                 level += 1
                 luck += 10
+                save_luck(luck)
+                save_level(level)
         
             ratio = exp / max_exp
             level_text = font_exp.render(f"Level:{level}", True, (255,255,255))
@@ -825,7 +823,6 @@ def game3(npc_key = None):
 
     width, height = 1280, 720
     window = pygame.display.set_mode((width, height))
-    pygame.display.set_caption("Coin Flip")
 
     black = (0, 0, 0)
     red = (255, 0, 0)
@@ -960,8 +957,6 @@ def game3(npc_key = None):
             f.write(str(luck))
 
     level = 1
-    exp = 0 
-    luck = 0
     max_exp = 100 * level
     max_level = 20
 
@@ -977,6 +972,8 @@ def game3(npc_key = None):
                 exp = exp_left
                 level += 1
                 luck += 10
+                save_luck(luck)
+                save_level(level)
         
             ratio = exp / max_exp
             level_text = font_exp.render(f"Level:{level}", True, (255,255,255))
@@ -1089,7 +1086,6 @@ def game3(npc_key = None):
 
                     outcome = get_round_outcome(result, player_choice)
                     if outcome == "You guessed wrong!":
-                        luck = 100
                         rerolled_choice = luck_system(result, luck, player_choice)
                         rerolled_outcome = get_round_outcome(player_choice, rerolled_choice)
 
