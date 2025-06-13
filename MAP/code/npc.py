@@ -1,7 +1,7 @@
 from usable import Usable
 from sprite import Sprite
 
-npc_folder_location = "CSP1123-TT3L-3-11/MAP/npcs"
+npc_folder_location = "npcs"
 npc_talk_distance = 150
 
 class NPC(Usable):

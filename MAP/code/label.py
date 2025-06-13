@@ -3,7 +3,7 @@ import pygame
 fonts = {}
 
 anti_alias = True
-font_folder_path = "CSP1123-TT3L-3-11/MAP/fonts"
+font_folder_path = "fonts"
 
 class Label:
     def __init__(self, font, text, size=32, color=(255, 255, 255)):

@@ -1,8 +1,10 @@
 import pygame
 from math import ceil
+import os
 
-map_folder_location = "CSP1123-TT3L-3-11/MAP/maps"
-image_path = "CSP1123-TT3L-3-11/MAP/images"
+map_folder_location = "maps"
+base_path = os.path.dirname(__file__)
+assets_path = os.path.join(base_path, "assets")
 tile_size = 32
 
 tile_char_map = {
@@ -32,7 +34,7 @@ tile_char_map = {
 class TileKind:
     def __init__(self, name, image, is_solid):
         self.name = name
-        self.image = pygame.image.load(image_path + "/" + image)
+        self.image = pygame.image.load(assets_path + "/" + image)
         self.is_solid = is_solid
 
 class Map:

@@ -11,42 +11,45 @@ pygame.mixer.init()
 saveloadmanager = SaveLoadSystem(".save", "save_data")
 items_saved = saveloadmanager.load_game_data(["items_saved", "pity_4", "pity_5"], [[], 0, 0])[0] or []
 
-pygame.mixer.music.load("CSP1123-TT3L-3-11/MAP/bgm/gacha_sound.mp3")
+base_path = os.path.dirname(__file__)
+assets_path = os.path.join(base_path, "assets")
+
+pygame.mixer.music.load(os.path.join(assets_path, "gacha_sound.mp3"))
 
 width, height = 1280, 720
 window = pygame.display.set_mode((width, height))
 
 
-background_img = pygame.image.load("CSP1123-TT3L-3-11/MAP/images/background.png")
+background_img = pygame.image.load(os.path.join(assets_path, "background.png"))
 background_img = pygame.transform.scale(background_img, (1280, 720))
 
-Tekun_background_img = pygame.image.load("CSP1123-TT3L-3-11/MAP/images/Tekun_background.png")
+Tekun_background_img = pygame.image.load(os.path.join(assets_path, "Tekun_background.png"))
 Tekun_background_img = pygame.transform.scale(Tekun_background_img, (1280, 720))
 
 image_width = 100
 image_height = 100
 
 # 3 star image
-Rice_img = pygame.transform.scale(pygame.image.load('CSP1123-TT3L-3-11/MAP/images/Rice.png'), (image_width, image_height))
-Coffee_img = pygame.transform.scale(pygame.image.load('CSP1123-TT3L-3-11/MAP/images/Coffee.png'), (image_width, image_height))
-Full_mark_img = pygame.transform.scale(pygame.image.load('CSP1123-TT3L-3-11/MAP/images/Full_mark.png'), (image_width, image_height))
-Eraser_img = pygame.transform.scale(pygame.image.load('CSP1123-TT3L-3-11/MAP/images/Eraser.png'), (image_width, image_height))
-Watch_img = pygame.transform.scale(pygame.image.load('CSP1123-TT3L-3-11/MAP/images/Watch.png'), (image_width, image_height))
-Cola_img = pygame.transform.scale(pygame.image.load('CSP1123-TT3L-3-11/MAP/images/Cola.png'), (image_width, image_height))
+Rice_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Rice.png")), (image_width, image_height))
+Coffee_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Coffee.png")), (image_width, image_height))
+Full_mark_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Full_mark.png")), (image_width, image_height))
+Eraser_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Eraser.png")), (image_width, image_height))
+Watch_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Watch.png")), (image_width, image_height))
+Cola_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Cola.png")), (image_width, image_height))
 
 # 4 star image
-Umbrella_img = pygame.transform.scale(pygame.image.load('CSP1123-TT3L-3-11/MAP/images/Umbrella.png'), (image_width, image_height))
-Coupon_img = pygame.transform.scale(pygame.image.load('CSP1123-TT3L-3-11/MAP/images/Coupon.png'), (image_width, image_height))
-Tissue_img = pygame.transform.scale(pygame.image.load('CSP1123-TT3L-3-11/MAP/images/Tissue.png'), (image_width, image_height))
+Umbrella_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Umbrella.png")), (image_width, image_height))
+Coupon_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Coupon.png")), (image_width, image_height))
+Tissue_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Tissue.png")), (image_width, image_height))
 
 # 5 star image
-Clover_img = pygame.transform.scale(pygame.image.load('CSP1123-TT3L-3-11/MAP/images/Clover.png'), (image_width, image_height))
-Black_card_img = pygame.transform.scale(pygame.image.load('CSP1123-TT3L-3-11/MAP/images/Black_card.png'), (image_width, image_height))
-Underwear_img = pygame.transform.scale(pygame.image.load('CSP1123-TT3L-3-11/MAP/images/Underwear.png'), (image_width, image_height))
-Koi_fish_img = pygame.transform.scale(pygame.image.load('CSP1123-TT3L-3-11/MAP/images/Koi_fish.png'), (image_width, image_height))
+Clover_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Clover.png")), (image_width, image_height))
+Black_card_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Black_card.png")), (image_width, image_height))
+Underwear_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Underwear.png")), (image_width, image_height))
+Koi_fish_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Koi_fish.png")), (image_width, image_height))
 
-One_pull_img = pygame.transform.scale(pygame.image.load('CSP1123-TT3L-3-11/MAP/images/One_pull.png'), (200, 100))
-Ten_pull_img = pygame.transform.scale(pygame.image.load('CSP1123-TT3L-3-11/MAP/images/Ten_pull.png'), (200, 100))
+One_pull_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path,'One_pull.png')), (200, 100))
+Ten_pull_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path,'Ten_pull.png')), (200, 100))
 
 item_descriptions = {
     "Rice": "You found the only food can eat in campus, but you also don't want to eat this if you can eat outside.",

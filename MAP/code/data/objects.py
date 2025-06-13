@@ -60,6 +60,12 @@ entity_factories = [
 
     # 13 - Elves
     EntityFactory('Elves', "elves.png", lambda args: Entity(Sprite(args[1]), NPC(args[0], args[2]), Body(20, 32, 40, 64))),
+
+    # 14 - Make hidden teleport
+    EntityFactory('Teleport', "teleport.png", lambda args: Entity(Teleporter(args[0], args[1], args[2]), Sprite("grass.png"))),
+
+    # 15 - X
+    EntityFactory('X', "X.png", lambda args: Entity(Sprite(args[1]), NPC(args[0], args[2]), Body(20, 32, 40, 64))),
 ]
 
 def create_entity(id, x, y, data=None, index=None):
