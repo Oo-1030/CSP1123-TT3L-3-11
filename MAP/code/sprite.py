@@ -1,7 +1,9 @@
 import pygame
 from camera import camera
+import os
 
-image_path = "CSP1123-TT3L-3-11/MAP/images"
+base_path = os.path.dirname(__file__)
+assets_path = os.path.join(base_path, "assets")
 loaded = {}
 
 class Sprite:
@@ -15,7 +17,7 @@ class Sprite:
 
     def _load_image(self, image):
         global loaded
-        full_path = image_path + "/" + image
+        full_path = assets_path + "/" + image
         if (image, self.scale) in loaded:
             self.image = loaded[(image, self.scale)]
         else:

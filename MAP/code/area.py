@@ -1,7 +1,7 @@
 from map import Map
 
 area = None
-map_folder_location = "CSP1123-TT3L-3-11/MAP/maps"
+map_folder_location = "maps"
 
 class Area:
     def __init__(self, area_file, tile_types):

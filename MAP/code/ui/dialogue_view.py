@@ -115,27 +115,46 @@ class DialogueView:
         words = line.split(" ")
         command = words[1]
         arguments = words[2:]
-        if command == "playR":
-            import rps
-            rps.run()
-        elif command == "playC":
-            import coin
-            coin.run()
-        elif command == "playD":
-            import dice
-            dice.run()
+        if command == "Barbie":
+            from RandomGame import start_random_gameNN
+            npc_key = "Barbie"
+            start_random_gameNN(npc_key)
         elif command == "fatguy":
-            from RandomGame import start_random_game
+            from RandomGame import start_random_gameNN
             npc_key = "fatguy"
-            start_random_game(npc_key)
+            start_random_gameNN(npc_key)
         elif command == "ooi":
-            from RandomGame import start_random_game
+            from RandomGame import start_random_gameNN
             npc_key = "ooi"
-            start_random_game(npc_key)
-        elif command == "TTTS":
-            from RandomGame import start_random_game
-            npc_key = "TTTS"
-            start_random_game(npc_key)
+            start_random_gameNN(npc_key)
+        elif command == "Ivan":
+            from RandomGame import start_random_gameNN
+            npc_key = "Ivan"
+            start_random_gameNN(npc_key)
+        elif command == "Sek":
+            from RandomGame import start_random_gameNN
+            npc_key = "Sek"
+            start_random_gameNN(npc_key)
+        elif command == "Fazir":
+            from smallBoss import start_random_gameSB
+            npc_key = "Fazir"
+            start_random_gameSB(npc_key)
+        elif command == "Rane":
+            from smallBoss import start_random_gameSB
+            npc_key = "Rane"
+            start_random_gameSB(npc_key)
+        elif command == "Edeline":
+            from smallBoss import start_random_gameSB
+            npc_key = "Edeline"
+            start_random_gameSB(npc_key)
+        elif command == "Elves":
+            from smallBoss import start_random_gameSB
+            npc_key = "Elves"
+            start_random_gameSB(npc_key)
+        elif command == "X":
+            from x import play_all_gamesX
+            npc_key = "X"
+            play_all_gamesX(npc_key)
         elif command == "goto":
             self.current_line = int(arguments[0])-2
             print(self.current_line)

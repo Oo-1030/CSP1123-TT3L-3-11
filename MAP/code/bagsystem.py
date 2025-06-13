@@ -1,6 +1,8 @@
 import pygame
 import os
 
+base_path = os.path.dirname(__file__)
+assets_path = os.path.join(base_path, "assets")
 base_dir = os.path.dirname(os.path.abspath(__file__))
 save_dir = os.path.join(base_dir, "saves")
 os.makedirs(save_dir, exist_ok=True)
@@ -13,23 +15,23 @@ image_width = 64
 image_height = 64
 
 # 3 star image
-Rice_img = pygame.transform.scale(pygame.image.load('CSP1123-TT3L-3-11/MAP/images/Rice.png'), (image_width, image_height))
-Coffee_img = pygame.transform.scale(pygame.image.load('CSP1123-TT3L-3-11/MAP/images/Coffee.png'), (image_width, image_height))
-Full_mark_img = pygame.transform.scale(pygame.image.load('CSP1123-TT3L-3-11/MAP/images/Full_mark.png'), (image_width, image_height))
-Eraser_img = pygame.transform.scale(pygame.image.load('CSP1123-TT3L-3-11/MAP/images/Eraser.png'), (image_width, image_height))
-Watch_img = pygame.transform.scale(pygame.image.load('CSP1123-TT3L-3-11/MAP/images/Watch.png'), (image_width, image_height))
-Cola_img = pygame.transform.scale(pygame.image.load('CSP1123-TT3L-3-11/MAP/images/Cola.png'), (image_width, image_height))
+Rice_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Rice.png")), (image_width, image_height))
+Coffee_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Coffee.png")), (image_width, image_height))
+Full_mark_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Full_mark.png")), (image_width, image_height))
+Eraser_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Eraser.png")), (image_width, image_height))
+Watch_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Watch.png")), (image_width, image_height))
+Cola_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Cola.png")), (image_width, image_height))
 
 # 4 star image
-Umbrella_img = pygame.transform.scale(pygame.image.load('CSP1123-TT3L-3-11/MAP/images/Umbrella.png'), (image_width, image_height))
-Coupon_img = pygame.transform.scale(pygame.image.load('CSP1123-TT3L-3-11/MAP/images/Coupon.png'), (image_width, image_height))
-Tissue_img = pygame.transform.scale(pygame.image.load('CSP1123-TT3L-3-11/MAP/images/Tissue.png'), (image_width, image_height))
+Umbrella_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Umbrella.png")), (image_width, image_height))
+Coupon_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Coupon.png")), (image_width, image_height))
+Tissue_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Tissue.png")), (image_width, image_height))
 
 # 5 star image
-Clover_img = pygame.transform.scale(pygame.image.load('CSP1123-TT3L-3-11/MAP/images/Clover.png'), (image_width, image_height))
-Black_card_img = pygame.transform.scale(pygame.image.load('CSP1123-TT3L-3-11/MAP/images/Black_card.png'), (image_width, image_height))
-Underwear_img = pygame.transform.scale(pygame.image.load('CSP1123-TT3L-3-11/MAP/images/Underwear.png'), (image_width, image_height))
-Koi_fish_img = pygame.transform.scale(pygame.image.load('CSP1123-TT3L-3-11/MAP/images/Koi_fish.png'), (image_width, image_height))
+Clover_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Clover.png")), (image_width, image_height))
+Black_card_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Black_card.png")), (image_width, image_height))
+Underwear_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Underwear.png")), (image_width, image_height))
+Koi_fish_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Koi_fish.png")), (image_width, image_height))
 
 
 #load luck
@@ -102,7 +104,7 @@ class BagSystem:
                             self.GRID_ROWS * (self.GRID_CELL_SIZE + self.GRID_SPACING)
         
         # 背景参数
-        self.BG_IMAGE = pygame.transform.scale(pygame.image.load('CSP1123-TT3L-3-11/MAP/images/Bag_background.png'), (self.WINDOW_WIDTH, self.WINDOW_HEIGHT))
+        self.BG_IMAGE = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Bag_background.png")), (self.WINDOW_WIDTH, self.WINDOW_HEIGHT))
         
         # 文字参数
         self.PAGE_INFO_POS = (self.WINDOW_WIDTH//2, self.WINDOW_HEIGHT-30)  # 页码位置
@@ -157,7 +159,7 @@ class BagSystem:
             try:
                 # Use the same path pattern as your hardcoded images
                 return pygame.transform.scale(
-                    pygame.image.load(f'CSP1123-TT3L-3-11/MAP/images/{name}.png'), 
+                    pygame.image.load(os.path.join(assets_path, f'{name}.png')), 
                     (self.ITEM_ICON_SIZE, self.ITEM_ICON_SIZE)
                 )
             except Exception as e:
