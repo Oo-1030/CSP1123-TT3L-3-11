@@ -66,6 +66,9 @@ entity_factories = [
 
     # 15 - X
     EntityFactory('X', "X.png", lambda args: Entity(Sprite(args[1]), NPC(args[0], args[2]), Body(20, 32, 40, 64))),
+
+    # 16 - Red Table
+    EntityFactory('Red Table', "redTable.png", lambda args: Entity(Sprite("redTable.png", scale=(64, 64)), Body(0, 0, 64, 64))),
 ]
 
 def create_entity(id, x, y, data=None, index=None):

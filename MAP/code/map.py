@@ -29,6 +29,7 @@ tile_char_map = {
     'f': 18,
     'w': 19,
     'b': 20,
+    'g': 21,
 }
 
 class TileKind:
