@@ -22,5 +22,6 @@ tile_kinds = [
     TileKind("floor", "floor.png", False), # 18
     TileKind("floorW", "floorW.png", False), # 19
     TileKind("floorB", "floorB.png", False), # 20 
+    TileKind("glass", "glass.png", True), # 21
 ]
 
