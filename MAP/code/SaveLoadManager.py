@@ -38,5 +38,3 @@ class SaveLoadSystem:
     def save_game_data(self, data_to_save, file_names):
         for index, file in enumerate(data_to_save):
             self.save_data(file, file_names[index])    
-
-
