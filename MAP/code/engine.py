@@ -1,9 +1,14 @@
 import pygame
+import os
 
 pygame.init()
 pygame.mixer.init()
 
+base_path = os.path.dirname(__file__)
+assets_path = os.path.join(base_path, "assets")
 
+music = pygame.mixer.music.load(os.path.join(assets_path, "gameMusic.mp3"))
+pygame.mixer.music.play(-1)
 
 engine = None
 default_width = 1280

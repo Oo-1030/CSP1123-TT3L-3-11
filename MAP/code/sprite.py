@@ -86,7 +86,7 @@ class Atlas(Sprite):
     # Override the set_image to not do the base functionality of Sprite
     def set_image(self, image):
         if not image in loaded:
-            loaded[image] = pygame.image.load(image_path + "/" + image)
+            loaded[image] = pygame.image.load(assets_path + "/" + image)
             self.base_image = loaded[image]
         
         self.switch_to(self.cell_x, self.cell_y)

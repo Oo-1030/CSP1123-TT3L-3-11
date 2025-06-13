@@ -118,43 +118,63 @@ class DialogueView:
         if command == "Barbie":
             from RandomGame import start_random_gameNN
             npc_key = "Barbie"
+            pygame.mixer.music.stop()
             start_random_gameNN(npc_key)
+            pygame.mixer.music.play()
         elif command == "fatguy":
             from RandomGame import start_random_gameNN
             npc_key = "fatguy"
+            pygame.mixer.music.stop()
             start_random_gameNN(npc_key)
+            pygame.mixer.music.play()
         elif command == "ooi":
             from RandomGame import start_random_gameNN
             npc_key = "ooi"
+            pygame.mixer.music.stop()
             start_random_gameNN(npc_key)
+            pygame.mixer.music.play()
         elif command == "Ivan":
             from RandomGame import start_random_gameNN
             npc_key = "Ivan"
+            pygame.mixer.music.stop()
             start_random_gameNN(npc_key)
+            pygame.mixer.music.play()
         elif command == "Sek":
             from RandomGame import start_random_gameNN
             npc_key = "Sek"
+            pygame.mixer.music.stop()
             start_random_gameNN(npc_key)
+            pygame.mixer.music.play()
         elif command == "Fazir":
             from smallBoss import start_random_gameSB
             npc_key = "Fazir"
+            pygame.mixer.music.stop()
             start_random_gameSB(npc_key)
+            pygame.mixer.music.play()
         elif command == "Rane":
             from smallBoss import start_random_gameSB
             npc_key = "Rane"
+            pygame.mixer.music.stop()
             start_random_gameSB(npc_key)
+            pygame.mixer.music.play()
         elif command == "Edeline":
             from smallBoss import start_random_gameSB
             npc_key = "Edeline"
+            pygame.mixer.music.stop()
             start_random_gameSB(npc_key)
+            pygame.mixer.music.play()
         elif command == "Elves":
             from smallBoss import start_random_gameSB
             npc_key = "Elves"
+            pygame.mixer.music.stop()
             start_random_gameSB(npc_key)
+            pygame.mixer.music.play()
         elif command == "X":
             from x import play_all_gamesX
             npc_key = "X"
+            pygame.mixer.music.stop()
             play_all_gamesX(npc_key)
+            pygame.mixer.music.play()
         elif command == "goto":
             self.current_line = int(arguments[0])-2
             print(self.current_line)
