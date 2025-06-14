@@ -122,10 +122,10 @@ class DialogueView:
             start_random_gameNN(npc_key)
             pygame.mixer.music.play()
         elif command == "fatguy":
-            from RandomGame import start_random_gameNN
-            npc_key = "fatguy"
+            from FatGuy import play_all_gamesFG
+            npc_key = "Fat Guy"
             pygame.mixer.music.stop()
-            start_random_gameNN(npc_key)
+            play_all_gamesFG(npc_key)
             pygame.mixer.music.play()
         elif command == "ooi":
             from RandomGame import start_random_gameNN

@@ -101,6 +101,21 @@ def game1(npc_key = None):
         text_rect = text_surf.get_rect(center=(x + w / 2, y + h / 2))
         window.blit(text_surf, text_rect)
 
+    def draw_special_box(text, x, y, w, h, color):
+        snapshot = window.copy()
+
+        scale = 0.1
+        small = pygame.transform.smoothscale(snapshot, (int(window.get_width() * scale), int(window.get_height() * scale)))
+        blur = pygame.transform.smoothscale(small, window.get_size())
+
+        window.blit(blur, (0, 0))
+
+        pygame.draw.rect(window, color, (x, y, w, h))
+
+        text_surf = font.render(text, True, black)
+        text_rect = text_surf.get_rect(center=(x + w / 2, y + h / 2))
+        window.blit(text_surf, text_rect)
+
     def get_round_outcome(player_choice, computer_choice):
         if player_choice == computer_choice:
             return "tie"
@@ -184,7 +199,7 @@ def game1(npc_key = None):
             with open(luck_path, "r") as f:
                 return int(f.read())
         except:
-            return 100  # Default to 100 luck if file doesn't exist
+            return 0  # Default to 100 luck if file doesn't exist
 
     def save_luck(luck):
         with open(luck_path, "w") as f:
@@ -206,28 +221,30 @@ def game1(npc_key = None):
                 exp = exp_left
                 level += 1
                 luck += 10
+                save_luck(luck)
+                save_level(level)
         
             ratio = exp / max_exp
             level_text = font_exp.render(f"Level:{level}", True, (255,255,255))
             window.blit(level_text, (55, 685))
 
-            exp_text = font_exp.render(f"{exp}/{max_exp}",True,(255,255,255))
-            window.blit(exp_text, (1165, 685))
-
             pygame.draw.rect(window,(0,50,255),(135,685,1010,30)) # outline
             pygame.draw.rect(window,(250,250,250),(140,690,1000,20)) # max
             pygame.draw.rect(window,(85,160,255),(140,690,1000*ratio,20)) # ratio
+
+            exp_text = font_exp.render(f"{exp}/{max_exp}",True,(0, 0, 0))
+            window.blit(exp_text, (590, 685))
 
         else:
             level_text = font.render(f"Level:{level}", True, (0,0,0))
             window.blit(level_text, (55, 685))
             exp_text = font.render("max/max",True,(0,0,0))
-            window.blit(exp_text, (1165, 685))
+            window.blit(exp_text, (590, 685))
             pygame.draw.rect(window,(0,50,255),(135,685,1010,30)) # outline
             pygame.draw.rect(window,(85,160,255),(140,690,1000,20)) # ratio
         
-        exp_text = font.render(f"Luck:{luck}",True,(0,0,0))
-        window.blit(exp_text, (20, 20))
+        exp_text = font_exp.render(f"Luck:{luck}",True,(255,255,255))
+        window.blit(exp_text, (1165, 685))
 
     def game_loop(npc_key):
         global max_exp, exp, level, luck
@@ -342,7 +359,7 @@ def game1(npc_key = None):
                 game_over = player_score >= 5 or computer_score >= 5
                 if game_over:
                     if player_score >= 5:
-                        draw_box("", 256, 285, 768, 150, green)
+                        draw_special_box("", 256, 285, 768, 150, green)
                         draw_text("Victory!", font, black, width // 2, 320)
                         draw_text("You get 200 coins.", font, black, width // 2, 360)
                         draw_text("You gain 100 exp.", font, black, width // 2, 390)
@@ -356,7 +373,7 @@ def game1(npc_key = None):
                             sound_channel = victory_sound.play()
                             victory_sound_play = True
                     elif computer_score >= 5:
-                        draw_box("", 256, 285, 768, 150, red)
+                        draw_special_box("", 256, 285, 768, 150, red)
                         draw_text("Defeat...", font, black, width // 2, 320)
                         draw_text("You get 100 coins.", font, black, width // 2, 360)
                         draw_text("You gain 50 exp.", font, black, width // 2, 390)
@@ -370,7 +387,7 @@ def game1(npc_key = None):
                             sound_channel = defeat_sound.play()
                             defeat_sound_play = True
                         
-                    draw_text("Click anywhere to exit", font, black, 640, 650)
+                    draw_text("Click anywhere to exit", font, black, 640, 685)
                     if mouse_clicked and not click_handled:
                         click_handled = True
                         pygame.mixer.stop()
@@ -494,6 +511,21 @@ def game2(npc_key = None):
         text_rect = text_surf.get_rect(center=(x + w / 2, y + h / 2))
         window.blit(text_surf, text_rect)
 
+    def draw_special_box(text, x, y, w, h, color):
+        snapshot = window.copy()
+
+        scale = 0.1
+        small = pygame.transform.smoothscale(snapshot, (int(window.get_width() * scale), int(window.get_height() * scale)))
+        blur = pygame.transform.smoothscale(small, window.get_size())
+
+        window.blit(blur, (0, 0))
+
+        pygame.draw.rect(window, color, (x, y, w, h))
+
+        text_surf = font.render(text, True, black)
+        text_rect = text_surf.get_rect(center=(x + w / 2, y + h / 2))
+        window.blit(text_surf, text_rect)
+
     def get_round_outcome(player_dice, computer_dice):
         if player_dice > computer_dice:
             return "You Win!"
@@ -572,7 +604,7 @@ def game2(npc_key = None):
             with open(luck_path, "r") as f:
                 return int(f.read())
         except:
-            return 100  # Default to 0 luck if file doesn't exist
+            return 0  # Default to 0 luck if file doesn't exist
 
     def save_luck(luck):
         with open(luck_path, "w") as f:
@@ -595,28 +627,29 @@ def game2(npc_key = None):
                 level += 1
                 luck += 10
                 save_luck(luck)
+                save_level(level)
         
             ratio = exp / max_exp
             level_text = font_exp.render(f"Level:{level}", True, (255,255,255))
             window.blit(level_text, (55, 685))
 
-            exp_text = font_exp.render(f"{exp}/{max_exp}",True,(255,255,255))
-            window.blit(exp_text, (1165, 685))
-
             pygame.draw.rect(window,(0,50,255),(135,685,1010,30)) # outline
             pygame.draw.rect(window,(250,250,250),(140,690,1000,20)) # max
             pygame.draw.rect(window,(85,160,255),(140,690,1000*ratio,20)) # ratio
+
+            exp_text = font_exp.render(f"{exp}/{max_exp}",True,(0, 0, 0))
+            window.blit(exp_text, (590, 685))
 
         else:
             level_text = font.render(f"Level:{level}", True, (0,0,0))
             window.blit(level_text, (55, 685))
             exp_text = font.render("max/max",True,(0,0,0))
-            window.blit(exp_text, (1165, 685))
+            window.blit(exp_text, (590, 685))
             pygame.draw.rect(window,(0,50,255),(135,685,1010,30)) # outline
             pygame.draw.rect(window,(85,160,255),(140,690,1000,20)) # ratio
         
-        exp_text = font.render(f"Luck:{luck}",True,(0,0,0))
-        window.blit(exp_text, (20, 20))
+        exp_text = font_exp.render(f"Luck:{luck}",True,(255,255,255))
+        window.blit(exp_text, (1165, 685))
 
     def game_loop(npc_key):
         global max_exp, exp, level, luck
@@ -748,7 +781,7 @@ def game2(npc_key = None):
 
                 else:
                     if player_score >= 5:
-                        draw_box("", 256, 285, 768, 150, green)
+                        draw_special_box("", 256, 285, 768, 150, green)
                         draw_text("Victory!", font, black, width // 2, 320)
                         draw_text("You get 200 coins.", font, black, width // 2, 360)
                         draw_text("You gain 100 exp.", font, black, width // 2, 390)
@@ -762,7 +795,7 @@ def game2(npc_key = None):
                             victory_sound_play = True
                             sound_channel = victory_sound.play()
                     elif computer_score >= 5:
-                        draw_box("", 256, 285, 768, 150, red)
+                        draw_special_box("", 256, 285, 768, 150, red)
                         draw_text("Defeat...", font, black, width // 2, 320)
                         draw_text("You get 100 coins.", font, black, width // 2, 360)
                         draw_text("You gain 50 exp.", font, black, width // 2, 390)
@@ -776,7 +809,7 @@ def game2(npc_key = None):
                             defeat_sound_play = True
                             sound_channel = defeat_sound.play()
 
-                    draw_text("Click anywhere to exit", font, black, 640, 650)
+                    draw_text("Click anywhere to exit", font, black, 640, 685)
                     if mouse_clicked and not click_handled:
                         click_handled = True
                         pygame.mixer.stop()
@@ -878,6 +911,21 @@ def game3(npc_key = None):
         text_rect = text_surf.get_rect(center=(x + w / 2, y + h / 2))
         window.blit(text_surf, text_rect)
 
+    def draw_special_box(text, x, y, w, h, color):
+        snapshot = window.copy()
+
+        scale = 0.1
+        small = pygame.transform.smoothscale(snapshot, (int(window.get_width() * scale), int(window.get_height() * scale)))
+        blur = pygame.transform.smoothscale(small, window.get_size())
+
+        window.blit(blur, (0, 0))
+
+        pygame.draw.rect(window, color, (x, y, w, h))
+
+        text_surf = font.render(text, True, black)
+        text_rect = text_surf.get_rect(center=(x + w / 2, y + h / 2))
+        window.blit(text_surf, text_rect)
+
     def get_round_outcome(result, player_choice):
         if result == player_choice:
             return "You guessed right!"
@@ -955,7 +1003,7 @@ def game3(npc_key = None):
             with open(luck_path, "r") as f:
                 return int(f.read())
         except:
-            return 100  # Default to 0 luck if file doesn't exist
+            return 0  # Default to 0 luck if file doesn't exist
 
     def save_luck(luck):
         with open(luck_path, "w") as f:
@@ -977,28 +1025,30 @@ def game3(npc_key = None):
                 exp = exp_left
                 level += 1
                 luck += 10
+                save_luck(luck)
+                save_level(level)
         
             ratio = exp / max_exp
             level_text = font_exp.render(f"Level:{level}", True, (255,255,255))
             window.blit(level_text, (55, 685))
 
-            exp_text = font_exp.render(f"{exp}/{max_exp}",True,(255,255,255))
-            window.blit(exp_text, (1165, 685))
-
             pygame.draw.rect(window,(0,50,255),(135,685,1010,30)) # outline
             pygame.draw.rect(window,(250,250,250),(140,690,1000,20)) # max
             pygame.draw.rect(window,(85,160,255),(140,690,1000*ratio,20)) # ratio
+
+            exp_text = font_exp.render(f"{exp}/{max_exp}",True,(0, 0, 0))
+            window.blit(exp_text, (590, 685))
 
         else:
             level_text = font.render(f"Level:{level}", True, (0,0,0))
             window.blit(level_text, (55, 685))
             exp_text = font.render("max/max",True,(0,0,0))
-            window.blit(exp_text, (1165, 685))
+            window.blit(exp_text, (590, 685))
             pygame.draw.rect(window,(0,50,255),(135,685,1010,30)) # outline
             pygame.draw.rect(window,(85,160,255),(140,690,1000,20)) # ratio
         
-        exp_text = font.render(f"Luck:{luck}",True,(0,0,0))
-        window.blit(exp_text, (20, 20))
+        exp_text = font_exp.render(f"Luck:{luck}",True,(255,255,255))
+        window.blit(exp_text, (1165,685))
 
     def game_loop(npc_key):
         global max_exp, exp, level,luck
@@ -1117,7 +1167,7 @@ def game3(npc_key = None):
                 game_over = player_score >= 5 or computer_score >= 5
                 if game_over:
                     if player_score >= 5:
-                        draw_box("", 256, 285, 768, 150, green)
+                        draw_special_box("", 256, 285, 768, 150, green)
                         draw_text("Victory!", font, black, width // 2, 320)
                         draw_text("You get 200 coins.", font, black, width // 2, 360)
                         draw_text("You gain 100 exp.", font, black, width // 2, 390)
@@ -1131,7 +1181,7 @@ def game3(npc_key = None):
                             victory_sound_play = True
                             sound_channel = victory_sound.play()
                     elif computer_score >= 5:
-                        draw_box("", 256, 285, 768, 150, red)
+                        draw_special_box("", 256, 285, 768, 150, red)
                         draw_text("Defeat...", font, black, width // 2, 320)
                         draw_text("You get 100 coins.", font, black, width // 2, 360)
                         draw_text("You gain 50 exp.", font, black, width // 2, 390)
@@ -1145,7 +1195,7 @@ def game3(npc_key = None):
                             defeat_sound_play = True
                             sound_channel = defeat_sound.play()
 
-                    draw_text("Click anywhere to exit", font, black, 640, 650)
+                    draw_text("Click anywhere to exit", font, black, 640, 685)
                     if mouse_clicked:
                         pygame.mixer.stop()
                         playing = False
