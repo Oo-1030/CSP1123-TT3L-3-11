@@ -430,7 +430,9 @@ def game1(npc_key = None):
         save_exp(exp)
         save_coins(coins)
         save_luck(luck)
-    game_loop(npc_key)
+        return False
+    
+    return game_loop(npc_key)
 
 def game2(npc_key = None):
     pygame.init()
@@ -844,7 +846,10 @@ def game2(npc_key = None):
         save_exp(exp)
         save_coins(coins)
         save_luck(luck)
-    game_loop(npc_key)
+        return False
+    
+    return game_loop(npc_key)
+
 
 def game3(npc_key = None):
     pygame.init()
@@ -1248,7 +1253,10 @@ def game3(npc_key = None):
         save_exp(exp)
         save_coins(coins)
         save_luck(luck)
-    game_loop(npc_key)
+        return False
+    
+    return game_loop(npc_key)
+
 
 width, height = 1280, 720
 window = pygame.display.set_mode((width, height))
@@ -1257,7 +1265,7 @@ base_path = os.path.dirname(__file__)
 assets_path = os.path.join(base_path, "assets")
 table_png = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "table.png")), (1280, 720))
 manga_img_size = (1080, 600)
-win_manga = pygame.image.load(os.path.join(assets_path, "Suzume.jpg"))
+win_manga = pygame.image.load(os.path.join(assets_path, "x_win.png"))
 lose_manga = pygame.image.load(os.path.join(assets_path, "..png"))
 win_manga = pygame.transform.scale(win_manga, manga_img_size)
 lose_manga = pygame.transform.scale(lose_manga, manga_img_size)
@@ -1299,6 +1307,8 @@ def play_all_gamesX(npc_key):
         game_result = game(npc_key)
         if game_result:
             win_count += 1
+        else:
+            win_count += 0
 
     window.blit(table_png, (0, 0))
     pygame.display.update()

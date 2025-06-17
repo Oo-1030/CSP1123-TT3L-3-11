@@ -1249,7 +1249,7 @@ base_path = os.path.dirname(__file__)
 assets_path = os.path.join(base_path, "assets")
 table_png = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "table.png")), (1280, 720))
 manga_img_size = (1080, 600)
-manga_img = pygame.image.load(os.path.join(assets_path, "Suzume.jpg"))
+manga_img = pygame.image.load(os.path.join(assets_path, "fat_tutorial.png"))
 manga_img = pygame.transform.scale(manga_img, manga_img_size)
 
 black = (0, 0, 0)
