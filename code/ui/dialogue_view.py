@@ -145,6 +145,36 @@ class DialogueView:
             pygame.mixer.music.stop()
             start_random_gameNN(npc_key)
             pygame.mixer.music.play()
+        elif command == "Preshen":
+            from RandomGame import start_random_gameNN
+            npc_key = "Preshen"
+            pygame.mixer.music.stop()
+            start_random_gameNN(npc_key)
+            pygame.mixer.music.play()
+        elif command == "Terrence":
+            from RandomGame import start_random_gameNN
+            npc_key = "Terrence"
+            pygame.mixer.music.stop()
+            start_random_gameNN(npc_key)
+            pygame.mixer.music.play()
+        elif command == "YuXiang":
+            from RandomGame import start_random_gameNN
+            npc_key = "YuXiang"
+            pygame.mixer.music.stop()
+            start_random_gameNN(npc_key)
+            pygame.mixer.music.play()
+        elif command == "weihang":
+            from RandomGame import start_random_gameNN
+            npc_key = "weihang"
+            pygame.mixer.music.stop()
+            start_random_gameNN(npc_key)
+            pygame.mixer.music.play()
+        elif command == "Aiksheng":
+            from RandomGame import start_random_gameNN
+            npc_key = "Aiksheng"
+            pygame.mixer.music.stop()
+            start_random_gameNN(npc_key)
+            pygame.mixer.music.play()
         elif command == "Fazir":
             from smallBoss import start_random_gameSB
             npc_key = "Fazir"

@@ -19,14 +19,14 @@ entity_factories = [
     # 0 - Make a player
     EntityFactory('Player', 
                   "character.png",
-                 lambda args: Entity(Player(), Animation("player_sheet1.png", 64, 64, [(0, 0)], 10), Body(8, 48, 16, 16)),
+                 lambda args: Entity(Player(), Animation("player_sheet1.png", 64, 64, [(0, 0)], 10), Body(18, 48, 16, 16)),
                  ),
     
     # 1 - Make a cat
     EntityFactory('Cat', "cat.png", lambda args: Entity(Sprite("cat.png"), Body(0, 0, 32, 32))),
     
     # 2 - Make NPC 
-    EntityFactory('Fat Guy', "fatguy.png", lambda args: Entity(Sprite(args[1]), NPC(args[0], args[2]), Body(20, 32, 40, 64))),
+    EntityFactory('Fat Guy', "fatguy.png", lambda args: Entity(Sprite(args[1]), NPC(args[0], args[2]), Body(10, 32, 32, 64))),
 
     # 3 - Make teleport
     EntityFactory('Teleport', "teleport.png", lambda args: Entity(Teleporter(args[0], args[1], args[2]), Sprite("teleport.png"))),
@@ -81,6 +81,19 @@ entity_factories = [
 
     # 20 - Coway LP
     EntityFactory('CowayLP', "cowayLP.png", lambda args: Entity(Sprite("cowayLP.png", scale=(64, 64)), Body(0, 0, 64, 64))),
+
+    # 21 - help
+    EntityFactory('Help', "help.png", lambda args: Entity(Sprite("help.png"))),
+
+    # 22 - click
+    EntityFactory('click', "click.png", lambda args: Entity(Sprite("click.png"))),
+
+    # 23 - shop
+    EntityFactory('shop', "shop.png", lambda args: Entity(Sprite("shop.png"))),
+
+    # 24 - Make a tree
+    EntityFactory('Tree', "tree.png", lambda args: Entity(Sprite("tree.png", scale=(128,128)), Body(0, 0, 128, 128))),
+
 ]
 
 def create_entity(id, x, y, data=None, index=None):

@@ -332,9 +332,9 @@ def game1(npc_key = None):
                 draw_text("VS", versus_font, red, width // 2, height // 2)
                 draw_text(result, large_font, black, width // 2, 100)
 
-                game_over = player_score >= 5 or computer_score >= 5
+                game_over = player_score >= 3 or computer_score >= 3
                 if game_over:
-                    if player_score >= 5:
+                    if player_score >= 3:
                         draw_special_box("", 256, 285, 768, 150, green)
                         draw_text("Victory!", font, black, width // 2, 320)
                         draw_text("You get 200 coins.", font, black, width // 2, 360)
@@ -349,7 +349,7 @@ def game1(npc_key = None):
                             sound_channel = victory_sound.play()
                             victory_sound_play = True
                         game_result = True
-                    elif computer_score >= 5:
+                    elif computer_score >= 3:
                         draw_special_box("", 256, 285, 768, 150, red)
                         draw_text("Defeat...", font, black, width // 2, 320)
                         draw_text("You get 100 coins.", font, black, width // 2, 360)
@@ -738,7 +738,7 @@ def game2(npc_key = None):
 
                 draw_text(result, large_font, black, width // 2, 100)
 
-                game_over = player_score >= 5 or computer_score >= 5
+                game_over = player_score >= 3 or computer_score >= 3
                 if not game_over:
                     click_button2 = draw_button("Roll Again", 540, 550, 200, 100, red)
                     if click_button2 and mouse_clicked and not click_handled:
@@ -756,7 +756,7 @@ def game2(npc_key = None):
                         trigger_sound_play = False
 
                 else:
-                    if player_score >= 5:
+                    if player_score >= 3:
                         draw_special_box("", 256, 285, 768, 150, green)
                         draw_text("Victory!", font, black, width // 2, 320)
                         draw_text("You get 200 coins.", font, black, width // 2, 360)
@@ -771,7 +771,7 @@ def game2(npc_key = None):
                             victory_sound_play = True
                             sound_channel = victory_sound.play()
                         game_result = True
-                    elif computer_score >= 5:
+                    elif computer_score >= 3:
                         draw_special_box("", 256, 285, 768, 150, red)
                         draw_text("Defeat...", font, black, width // 2, 320)
                         draw_text("You get 100 coins.", font, black, width // 2, 360)
@@ -1140,9 +1140,9 @@ def game3(npc_key = None):
 
                 draw_text(outcome_text, large_font, black, width // 2, 100)
 
-                game_over = player_score >= 5 or computer_score >= 5
+                game_over = player_score >= 3 or computer_score >= 3
                 if game_over:
-                    if player_score >= 5:
+                    if player_score >= 3:
                         draw_special_box("", 256, 285, 768, 150, green)
                         draw_text("Victory!", font, black, width // 2, 320)
                         draw_text("You get 200 coins.", font, black, width // 2, 360)
@@ -1157,7 +1157,7 @@ def game3(npc_key = None):
                             victory_sound_play = True
                             sound_channel = victory_sound.play()
                         game_result = True
-                    elif computer_score >= 5:
+                    elif computer_score >= 3:
                         draw_special_box("", 256, 285, 768, 150, red)
                         draw_text("Defeat...", font, black, width // 2, 320)
                         draw_text("You get 100 coins.", font, black, width // 2, 360)
