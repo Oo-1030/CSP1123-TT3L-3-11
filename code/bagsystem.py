@@ -21,11 +21,15 @@ Full_mark_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_pat
 Eraser_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Eraser.png")), (image_width, image_height))
 Watch_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Watch.png")), (image_width, image_height))
 Cola_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Cola.png")), (image_width, image_height))
+Cibaicat_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Cibaicat.png")), (image_width, image_height))
+Calculator_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Calculator.png")), (image_width, image_height))
+Icecream_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Icecream.png")), (image_width, image_height))
 
 # 4 star image
 Umbrella_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Umbrella.png")), (image_width, image_height))
 Coupon_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Coupon.png")), (image_width, image_height))
 Tissue_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Tissue.png")), (image_width, image_height))
+Squirrel_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Squirrel.png")), (image_width, image_height))
 
 # 5 star image
 Clover_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Clover.png")), (image_width, image_height))
@@ -140,8 +144,8 @@ class BagSystem:
         # 物品分类字典 (按星级从高到低排序)
         self.item_categories = {
             5: ["Clover", "Black_card", "Underwear", "Koi_fish"],
-            4: ["Umbrella", "Coupon", "Tissue"],
-            3: ["Rice", "Coffee", "Full_mark", "Eraser", "Watch", "Cola"]
+            4: ["Umbrella", "Coupon", "Tissue","Squirrel"],
+            3: ["Rice", "Coffee", "Full_mark", "Eraser", "Watch", "Cola", "Calculator","Kitty","Icecream"]
         }
 
         self.image_map = self._load_images()
@@ -180,11 +184,15 @@ class BagSystem:
                 "Full_mark": Full_mark_img,
                 "Eraser": Eraser_img,
                 "Watch": Watch_img,
-                "Cola": Cola_img,
+                "Cola": Cola_img, 
+                "Calculator": Calculator_img,
+                "Kitty": Cibaicat_img,
+                "Icecream": Icecream_img,
                 "Umbrella": Umbrella_img,
                 "Coupon": Coupon_img,
                 "Clover": Clover_img,
                 "Tissue": Tissue_img,
+                "Squirrel": Squirrel_img,
                 "Black_card": Black_card_img,
                 "Underwear": Underwear_img,
                 "Koi_fish": Koi_fish_img}

@@ -36,11 +36,15 @@ Full_mark_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_pat
 Eraser_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Eraser.png")), (image_width, image_height))
 Watch_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Watch.png")), (image_width, image_height))
 Cola_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Cola.png")), (image_width, image_height))
+Cibaicat_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Cibaicat.png")), (image_width, image_height))
+Calculator_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Calculator.png")), (image_width, image_height))
+Icecream_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Icecream.png")), (image_width, image_height))
 
 # 4 star image
 Umbrella_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Umbrella.png")), (image_width, image_height))
 Coupon_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Coupon.png")), (image_width, image_height))
 Tissue_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Tissue.png")), (image_width, image_height))
+Squirrel_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Squirrel.png")), (image_width, image_height))
 
 # 5 star image
 Clover_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Clover.png")), (image_width, image_height))
@@ -58,6 +62,10 @@ item_descriptions = {
     "Eraser": "You don't need to borrow an eraser from your friend anymore. You've got the aura!",
     "Watch": "Imagine wearing this luxury watch as you walk - you'll be the most eye-catching guy in MMU!",
     "Cola":"When you have this on a sunny day, you'll know what heaven feels like.",
+    "Calculator": "Your most important parter, you will know it is how important to you in exam! ",
+    "Kitty": "You found this cutie when you going to lecturer class, it shines your day!",
+    "Icecream": "A bite of ice cream on a hot day is one of the most enjoyable things ever!",
+    "Squirrel": "This cutie is not always seen on campus, if you ever seen them, you are lucky!",
     "Umbrella": "Imagine you found this on rainy day! It rescue you from becoming a drowned rat.",
     "Coupon": "An MC0 coupon. You can get a 70% discount on buying burger combos with this coupon at any MC0 branch.",
     "Clover": "Only 1/10000 clover has four leafs.You are the lucky one!",
@@ -74,6 +82,10 @@ image_map = {
     "Eraser": Eraser_img,
     "Watch": Watch_img,
     "Cola": Cola_img,
+    "Calculator": Calculator_img,
+    "Kitty": Cibaicat_img,
+    "Icecream": Icecream_img,
+    "Squirrel": Squirrel_img,
     "Umbrella": Umbrella_img,
     "Coupon": Coupon_img,
     "Clover": Clover_img,
@@ -89,8 +101,8 @@ class GachaSystem():
         self.stars = [3, 4, 5]
         self.weights = [943, 51, 6] # 5star(0.6%), 4star(5.1%)
         self.pool = {
-            3:["Rice", "Coffee", "Full_mark","Eraser","Watch","Cola"],
-            4:["Umbrella", "Coupon","Tissue"],
+            3:["Rice", "Coffee", "Full_mark","Eraser","Watch","Cola", "Calculator","Kitty","Icecream"],
+            4:["Umbrella", "Coupon","Tissue", "Squirrel"],
             5:["Clover","Black_card","Underwear","Koi_fish"]
         }
         self.pity_4 = saveloadmanager.load_game_data(["pity_4"], [0]) or 0
@@ -310,8 +322,8 @@ def save_processed_items(items):
 
 def item_luck():
     luck = load_luck()
-    three_star_item = {"Rice", "Coffee", "Full_mark", "Eraser", "Watch", "Cola"}
-    four_star_item = {"Umbrella", "Coupon", "Tissue"}
+    three_star_item = {"Rice", "Coffee", "Full_mark", "Eraser", "Watch", "Cola", "Kitty", "Calculator","Icecream"}
+    four_star_item = {"Umbrella", "Coupon", "Tissue", "Squirrel"}
     five_star_item = {"Clover", "Black_card", "Underwear", "Koi_fish"}
     
     # 加载已处理的物品集合
