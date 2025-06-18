@@ -264,6 +264,9 @@ def game1(npc_key = None):
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     mouse_clicked = True
 
+            window.blit(char_img, (50, 470))
+            window.blit(npc_img, (width - 240, 100))
+
             if not round_in_progress:
                 center_rect = center_img.get_rect(center = (640, height // 2))
                 window.blit(center_img, center_rect)
@@ -335,8 +338,6 @@ def game1(npc_key = None):
                 computer_rect = computer_img.get_rect(center = (width - 380, 220))
                 window.blit(computer_img, computer_rect)
 
-                window.blit(char_img, (50, 470))
-                window.blit(npc_img, (width - 240, 100))
                 draw_text("VS", versus_font, red, width // 2, height // 2)
                 draw_text(result, large_font, black, width // 2, 100)
 
