@@ -3,7 +3,7 @@ import pygame
 import os
 import math
 
-npc_path = os.path.join("assets")
+npc_path = os.path.join("code/assets")
 
 npc_assets = {
     "X": {
@@ -1245,7 +1245,7 @@ assets_path = os.path.join(base_path, "assets")
 table_png = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "table.png")), (1280, 720))
 manga_img_size = (1080, 600)
 win_manga = pygame.image.load(os.path.join(assets_path, "x_win.png"))
-lose_manga = pygame.image.load(os.path.join(assets_path, "..png"))
+lose_manga = pygame.image.load(os.path.join(assets_path, "x_lose.png"))
 win_manga = pygame.transform.scale(win_manga, manga_img_size)
 lose_manga = pygame.transform.scale(lose_manga, manga_img_size)
 

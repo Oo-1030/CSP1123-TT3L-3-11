@@ -3,7 +3,7 @@ import pygame
 import os
 import math
 
-npc_path = os.path.join("assets")
+npc_path = os.path.join("code/assets")
 
 npc_assets = {
     "Fazir": {
