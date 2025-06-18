@@ -1,90 +1,4 @@
 import pygame
-import os
-
-base_path = os.path.dirname(__file__)
-assets_path = os.path.join(base_path, "assets")
-base_dir = os.path.dirname(os.path.abspath(__file__))
-save_dir = os.path.join(base_dir, "saves")
-os.makedirs(save_dir, exist_ok=True)
-coin_path = os.path.join(save_dir, "coins.txt")
-luck_path = os.path.join(save_dir, "luck.txt")
-level_path = os.path.join(save_dir, "level.txt")
-exp_path = os.path.join(save_dir, "exp.txt")
-
-image_width = 64
-image_height = 64
-
-# 3 star image
-Rice_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Rice.png")), (image_width, image_height))
-Coffee_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Coffee.png")), (image_width, image_height))
-Full_mark_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Full_mark.png")), (image_width, image_height))
-Eraser_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Eraser.png")), (image_width, image_height))
-Watch_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Watch.png")), (image_width, image_height))
-Cola_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Cola.png")), (image_width, image_height))
-Cibaicat_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Cibaicat.png")), (image_width, image_height))
-Calculator_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Calculator.png")), (image_width, image_height))
-Icecream_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Icecream.png")), (image_width, image_height))
-
-# 4 star image
-Umbrella_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Umbrella.png")), (image_width, image_height))
-Coupon_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Coupon.png")), (image_width, image_height))
-Tissue_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Tissue.png")), (image_width, image_height))
-Squirrel_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Squirrel.png")), (image_width, image_height))
-
-# 5 star image
-Clover_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Clover.png")), (image_width, image_height))
-Black_card_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Black_card.png")), (image_width, image_height))
-Underwear_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Underwear.png")), (image_width, image_height))
-Koi_fish_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Koi_fish.png")), (image_width, image_height))
-
-
-#load luck
-def load_luck():
-    try:
-        with open(luck_path, "r") as f:
-            return int(f.read())
-    except:
-        return 0
-    
-def save_luck(luck):
-    with open(luck_path, "w") as f:
-        f.write(str(luck))
-
-#load coins
-def load_coins():
-    try:
-        with open(coin_path, "r") as f:
-            return int(f.read())
-    except:
-        return 0
-
-def save_coins(coins):
-    with open(coin_path, "w") as f:
-        f.write(str(coins))
-
-#load level
-def load_level():
-    try:
-        with open(level_path, "r") as f:
-            return int(f.read())
-    except:
-        return 1  # Default to level 1 if file doesn't exist
-
-def save_level(level):
-    with open(level_path, "w") as f:
-        f.write(str(level))
-
-#load exp
-def load_exp():
-    try:
-        with open(exp_path, "r") as f:
-            return int(f.read())
-    except:
-        return 0  # Default to 0 EXP if file doesn't exist
-
-def save_exp(exp):
-    with open(exp_path, "w") as f:
-        f.write(str(exp))
 
 class BagSystem:
     def __init__(self, screen,item_descriptions):
@@ -108,7 +22,7 @@ class BagSystem:
                             self.GRID_ROWS * (self.GRID_CELL_SIZE + self.GRID_SPACING)
         
         # 背景参数
-        self.BG_IMAGE = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Bag_background.png")), (self.WINDOW_WIDTH, self.WINDOW_HEIGHT))
+        self.BG_IMAGE = pygame.transform.scale(pygame.image.load('CSP1123-TT3L-3-11/MAP/images/Bag_background.png'), (self.WINDOW_WIDTH, self.WINDOW_HEIGHT))
         
         # 文字参数
         self.PAGE_INFO_POS = (self.WINDOW_WIDTH//2, self.WINDOW_HEIGHT-30)  # 页码位置
@@ -129,23 +43,13 @@ class BagSystem:
         self.DESC_BOX_PADDING = 15  # 描述框内边距
         self.DESC_LINE_SPACING = 5  # 行间距
         self.item_descriptions = item_descriptions
-
-        self.STATS_PANEL_WIDTH = 200
-        self.STATS_PANEL_PADDING = 20
-        self.STATS_FONT = pygame.font.Font(None, 32)
-
-        self.coins = 0
-        self.exp = 0
-        self.level = 1
-        self.max_exp = self.level * 100
-        self.luck = 100
         
 
         # 物品分类字典 (按星级从高到低排序)
         self.item_categories = {
             5: ["Clover", "Black_card", "Underwear", "Koi_fish"],
-            4: ["Umbrella", "Coupon", "Tissue","Squirrel"],
-            3: ["Rice", "Coffee", "Full_mark", "Eraser", "Watch", "Cola", "Calculator","Kitty","Icecream"]
+            4: ["Umbrella", "Coupon", "Tissue"],
+            3: ["Rice", "Coffee", "Full_mark", "Eraser", "Watch", "Cola","Calculator","Cat","Icecream"]
         }
 
         self.image_map = self._load_images()
@@ -161,14 +65,12 @@ class BagSystem:
         """加载所有物品图片"""
         def load_image(name):
             try:
-                # Use the same path pattern as your hardcoded images
                 return pygame.transform.scale(
-                    pygame.image.load(os.path.join(assets_path, f'{name}.png')), 
+                    pygame.image.load(f"{name}.png"), 
                     (self.ITEM_ICON_SIZE, self.ITEM_ICON_SIZE)
                 )
-            except Exception as e:
-                print(f"Error loading image {name}: {e}")
-                # Create a placeholder image
+            except:
+                # 创建一个带问号的占位图
                 dummy = pygame.Surface((self.ITEM_ICON_SIZE, self.ITEM_ICON_SIZE))
                 dummy.fill((220, 220, 220))
                 pygame.draw.line(dummy, (150, 150, 150), (0, 0), (self.ITEM_ICON_SIZE, self.ITEM_ICON_SIZE), 2)
@@ -177,29 +79,13 @@ class BagSystem:
                 text_rect = text.get_rect(center=(self.ITEM_ICON_SIZE//2, self.ITEM_ICON_SIZE//2))
                 dummy.blit(text, text_rect)
                 return dummy
-    
-        # Load all images from item_categories
-        image_map = {"Rice": Rice_img,
-                "Coffee": Coffee_img,
-                "Full_mark": Full_mark_img,
-                "Eraser": Eraser_img,
-                "Watch": Watch_img,
-                "Cola": Cola_img, 
-                "Calculator": Calculator_img,
-                "Kitty": Cibaicat_img,
-                "Icecream": Icecream_img,
-                "Umbrella": Umbrella_img,
-                "Coupon": Coupon_img,
-                "Clover": Clover_img,
-                "Tissue": Tissue_img,
-                "Squirrel": Squirrel_img,
-                "Black_card": Black_card_img,
-                "Underwear": Underwear_img,
-                "Koi_fish": Koi_fish_img}
+        
+        # 从item_categories中加载所有物品图片
+        image_map = {}
         for star_level, items in self.item_categories.items():
             for item in items:
                 image_map[item] = load_image(item)
-            return image_map
+        return image_map
 
     def _process_inventory(self, inventory):
         """处理物品列表，统计数量和去重"""
@@ -331,44 +217,6 @@ class BagSystem:
             line_surf = font.render(line, True, (50, 50, 50))
             self.screen.blit(line_surf, (desc_box_x + self.DESC_BOX_PADDING, y_offset))
             y_offset += line_height + self.DESC_LINE_SPACING
-
-
-    def _draw_player_stats(self):
-        """在左侧绘制玩家状态"""
-        # 加载最新数据
-        self.coins = load_coins()
-        self.exp = load_exp()
-        self.level = load_level()
-        self.luck = load_luck()
-        self.max_exp = self.level * 100
-        
-        # 绘制状态面板背景
-        stats_panel = pygame.Surface((self.STATS_PANEL_WIDTH, self.WINDOW_HEIGHT))
-        stats_panel.fill((230, 230, 230))
-        self.screen.blit(stats_panel, (0, 0))
-        
-        # 绘制标题
-        title = self.STATS_FONT.render("Stats", True, (0, 0, 0))
-        self.screen.blit(title, (self.STATS_PANEL_WIDTH//2 - title.get_width()//2, 30))
-        # 添加下划线
-        underline_y = 30 + title.get_height() - 2
-        pygame.draw.line(self.screen, (0, 0, 0), 
-                        (self.STATS_PANEL_WIDTH//2 - title.get_width()//2, underline_y),
-                        (self.STATS_PANEL_WIDTH//2 + title.get_width()//2, underline_y), 2)
-        
-        # 绘制各项状态
-        y_offset = 80
-        stats = [
-            (f"Luck:{self.luck}",(0,0,0)),
-            (f"Level: {self.level}", (0, 0, 0)),
-            (f"EXP: {self.exp}/{self.max_exp}", (0, 0, 0)),
-            (f"Coins: {self.coins}", (255, 215, 0))
-        ]
-        
-        for text, color in stats:
-            text_surf = self.STATS_FONT.render(text, True, color)
-            self.screen.blit(text_surf, (self.STATS_PANEL_WIDTH//2 - text_surf.get_width()//2, y_offset))
-            y_offset += 40
     
     def open(self, inventory):
         """打开背包"""
@@ -380,7 +228,6 @@ class BagSystem:
         while self.bag_is_open:
             # 绘制背景
             self.screen.blit(self.BG_IMAGE,(0,0))
-            self._draw_player_stats()
             
             # 绘制背包内容
             self._draw_grid(unique_items, item_counts)
