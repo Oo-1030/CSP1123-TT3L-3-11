@@ -3,7 +3,7 @@ import pygame
 import os
 import math
 
-npc_path = os.path.join("assets")
+npc_path = os.path.join("code/assets")
 
 npc_assets = {
     "Fat Guy": {
@@ -77,13 +77,6 @@ def game1(npc_key = None):
         window.blit(text_surf, text_rect)
 
         return x + w > mouse[0] > x and y + h > mouse[1] > y
-
-    def draw_box(text, x, y, w, h, color):
-        pygame.draw.rect(window, color, (x, y, w, h))
-
-        text_surf = font.render(text, True, black)
-        text_rect = text_surf.get_rect(center=(x + w / 2, y + h / 2))
-        window.blit(text_surf, text_rect)
 
     def draw_special_box(text, x, y, w, h, color):
         snapshot = window.copy()
@@ -251,7 +244,6 @@ def game1(npc_key = None):
         playing = True
         add_coins = False
         trigger_sound_play = False
-        coins = load_coins()
         npc_img = npc_assets[npc_key]["image"]
         npc_name = npc_assets[npc_key]["name"]
 
@@ -422,7 +414,9 @@ def game1(npc_key = None):
         save_exp(exp)
         save_coins(coins)
         save_luck(luck)
-    game_loop(npc_key)
+        return False
+    
+    return game_loop(npc_key)
 
 def game2(npc_key = None):
     pygame.init()
@@ -492,14 +486,7 @@ def game2(npc_key = None):
         window.blit(text_surf, text_rect)
 
         return x + w > mouse[0] > x and y + h > mouse[1] > y
-
-    def draw_box(text, x, y, w, h, color):
-        pygame.draw.rect(window, color, (x, y, w, h))
-
-        text_surf = font.render(text, True, black)
-        text_rect = text_surf.get_rect(center=(x + w / 2, y + h / 2))
-        window.blit(text_surf, text_rect)
-
+    
     def draw_special_box(text, x, y, w, h, color):
         snapshot = window.copy()
 
@@ -664,7 +651,6 @@ def game2(npc_key = None):
         playing = True
         add_coins = False
         trigger_sound_play = False
-        coins = load_coins()
         npc_img = npc_assets[npc_key]["image"]
         npc_name = npc_assets[npc_key]["name"]
 
@@ -836,7 +822,9 @@ def game2(npc_key = None):
         save_exp(exp)
         save_coins(coins)
         save_luck(luck)
-    game_loop(npc_key)
+        return False
+    
+    return game_loop(npc_key)
 
 def game3(npc_key = None):
     pygame.init()
@@ -898,13 +886,6 @@ def game3(npc_key = None):
         window.blit(text_surf, text_rect)
 
         return x + w > mouse[0] > x and y + h > mouse[1] > y
-
-    def draw_box(text, x, y, w, h, color):
-        pygame.draw.rect(window, color, (x, y, w, h))
-
-        text_surf = font.render(text, True, black)
-        text_rect = text_surf.get_rect(center=(x + w / 2, y + h / 2))
-        window.blit(text_surf, text_rect)
 
     def draw_special_box(text, x, y, w, h, color):
         snapshot = window.copy()
@@ -1070,7 +1051,6 @@ def game3(npc_key = None):
         playing = True
         add_coins = False
         trigger_sound_play = False
-        coins = load_coins()
         npc_img = npc_assets[npc_key]["image"]
         npc_name = npc_assets[npc_key]["name"]
         clock = pygame.time.Clock()
@@ -1240,7 +1220,9 @@ def game3(npc_key = None):
         save_exp(exp)
         save_coins(coins)
         save_luck(luck)
-    game_loop(npc_key)
+        return False
+    
+    return game_loop(npc_key)
 
 width, height = 1280, 720
 window = pygame.display.set_mode((width, height))

@@ -1,9 +1,7 @@
+Rice
+Umbrella
+Coffee
 Full_mark
 Cola
-Watch
-Rice
-Coupon
-Coffee
-Umbrella
 Eraser
-Tissue
+Watch

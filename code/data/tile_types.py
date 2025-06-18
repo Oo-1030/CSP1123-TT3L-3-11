@@ -28,5 +28,16 @@ tile_kinds = [
     TileKind("pagarR", "pagarR.png", True), # 24
     TileKind("pagarH", "pagarH.png", True), # 25
     TileKind("groundFloor", "groundFloor.png", True), # 26
+    TileKind("plat", "plat.png",  False), # 27
+    TileKind("plat", "plat.png",  True), # 28
+    TileKind("platL", "platL.png",  False), # 29
+    TileKind("platM", "platM.png",  False), # 30
+    TileKind("platR", "platR.png",  False), # 31
+    TileKind("platLL", "platLL.png",  False), # 32
+    TileKind("platMM", "platMM.png",  False), # 33
+    TileKind("platRR", "platRR.png",  False), # 34
+    TileKind("groundFloor", "groundFloor.png", False), # 35
+
+
 ]
 
