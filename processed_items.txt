@@ -1,7 +1,8 @@
-Rice
-Umbrella
-Coffee
-Full_mark
-Cola
+Coupon
 Eraser
+Squirrel
+Rice
+Icecream
+Cola
 Watch
+Full_mark

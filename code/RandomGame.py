@@ -10,10 +10,6 @@ npc_assets = {
         "name": "Fat Guy",
         "image": pygame.transform.scale(pygame.image.load(os.path.join(npc_path, "fatguyR.png")), (200, 200))
     },
-    "ooi": {
-        "name": "ooi",
-        "image": pygame.transform.scale(pygame.image.load(os.path.join(npc_path, "ooi.png")), (200, 200))
-    },
     "Ivan": {
         "name": "Ivan",
         "image": pygame.transform.scale(pygame.image.load(os.path.join(npc_path, "Ivan.png")), (200, 200))
@@ -25,6 +21,31 @@ npc_assets = {
     "Sek": {
         "name": "Sek",
         "image": pygame.transform.scale(pygame.image.load(os.path.join(npc_path, "Sek.png")), (200, 200))
+    },
+
+    "Preshen": {
+        "name": "Preshen",
+        "image": pygame.transform.scale(pygame.image.load(os.path.join(npc_path, "Preshen.png")), (200, 200))
+    },
+
+    "YuXiang": {
+        "name": "Yu Xiang",
+        "image": pygame.transform.scale(pygame.image.load(os.path.join(npc_path, "YuXiang.png")), (200, 200))
+    },
+
+    "Terrence": {
+        "name": "Terence",
+        "image": pygame.transform.scale(pygame.image.load(os.path.join(npc_path, "Terrence.png")), (200, 200))
+    },
+
+    "weihang": {
+        "name": "Wei Hang",
+        "image": pygame.transform.scale(pygame.image.load(os.path.join(npc_path, "weihang.png")), (200, 200))
+    },
+
+    "Aiksheng": {
+        "name": "Aik Sheng",
+        "image": pygame.transform.scale(pygame.image.load(os.path.join(npc_path, "Aiksheng.png")), (200, 200))
     },
 }
 

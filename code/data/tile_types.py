@@ -37,6 +37,10 @@ tile_kinds = [
     TileKind("platMM", "platMM.png",  False), # 33
     TileKind("platRR", "platRR.png",  False), # 34
     TileKind("groundFloor", "groundFloor.png", False), # 35
+    TileKind("grassfakeY", "grassfakeY.png", False), # 36
+    TileKind("grassfakeB", "grassfakeB.png", False), # 37
+    TileKind("grassfakeO", "grassfakeO.png", False), # 38
+    TileKind("grassH", "grassH.png", False), # 39
 
 
 ]
