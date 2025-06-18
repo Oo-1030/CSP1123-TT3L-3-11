@@ -78,13 +78,6 @@ def game1(npc_key = None):
 
         return x + w > mouse[0] > x and y + h > mouse[1] > y
 
-    def draw_box(text, x, y, w, h, color):
-        pygame.draw.rect(window, color, (x, y, w, h))
-
-        text_surf = font.render(text, True, black)
-        text_rect = text_surf.get_rect(center=(x + w / 2, y + h / 2))
-        window.blit(text_surf, text_rect)
-
     def draw_special_box(text, x, y, w, h, color):
         snapshot = window.copy()
 
@@ -112,10 +105,10 @@ def game1(npc_key = None):
         else:
             return "computer_win"
 
-    def luck_system(original_choice, luck, player_choice):
+    def luck_system(original_choice, effective_luck, player_choice):
         choices = ["rock", "paper", "scissors"]
-        total_rerolls = luck // 100
-        remaining_luck = luck % 100
+        total_rerolls = effective_luck // 100
+        remaining_luck = effective_luck % 100
 
         new_choice = original_choice
 
@@ -195,8 +188,8 @@ def game1(npc_key = None):
 
     font_exp = pygame.font.SysFont('microsoftyahei', 20)
 
-    def exp_system():
-        global max_exp, exp, level,luck
+    def exp_system(effective_luck):
+        global max_exp, exp, level, luck
 
         max_exp = 100 * level
         if level < max_level:
@@ -227,14 +220,15 @@ def game1(npc_key = None):
             pygame.draw.rect(window,(0,50,255),(135,685,1010,30)) # outline
             pygame.draw.rect(window,(85,160,255),(140,690,1000,20)) # ratio
         
-        exp_text = font_exp.render(f"Luck:{luck}",True,(255,255,255))
+        exp_text = font_exp.render(f"Luck:{effective_luck}",True,(255,255,255))
         window.blit(exp_text, (1165,685))
 
     def game_loop(npc_key):
         global max_exp, exp, level,luck
         level = load_level() 
         exp = load_exp()      
-        luck = load_luck()   
+        luck = load_luck()
+        effective_luck = max(0, luck - 300)
         coins = load_coins()
         player_choice = None
         computer_choice = None
@@ -252,7 +246,6 @@ def game1(npc_key = None):
         add_coins = False
         trigger_sound_play = False
         start_box = False
-        coins = load_coins()
         npc_img = npc_assets[npc_key]["image"]
         npc_name = npc_assets[npc_key]["name"]
 
@@ -260,7 +253,7 @@ def game1(npc_key = None):
             mouse_clicked = False
 
             window.blit(background_img, (0, 0))
-            exp_system()
+            exp_system(effective_luck)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     save_level(level)
@@ -307,7 +300,7 @@ def game1(npc_key = None):
 
                         outcome = get_round_outcome(player_choice, computer_choice)
                         if outcome == "computer_win":
-                            rerolled_choice = luck_system(computer_choice, luck, player_choice)
+                            rerolled_choice = luck_system(computer_choice, effective_luck, player_choice)
                             rerolled_outcome = get_round_outcome(player_choice, rerolled_choice)
 
                             if rerolled_outcome != "computer_win":
@@ -503,13 +496,6 @@ def game2(npc_key = None):
 
         return x + w > mouse[0] > x and y + h > mouse[1] > y
 
-    def draw_box(text, x, y, w, h, color):
-        pygame.draw.rect(window, color, (x, y, w, h))
-
-        text_surf = font.render(text, True, black)
-        text_rect = text_surf.get_rect(center=(x + w / 2, y + h / 2))
-        window.blit(text_surf, text_rect)
-
     def draw_special_box(text, x, y, w, h, color):
         snapshot = window.copy()
 
@@ -533,9 +519,9 @@ def game2(npc_key = None):
         else:
             return "It's a tie!"
         
-    def luck_system(original_dice, luck, player_dice):
-        total_rerolls = luck // 100
-        remaining_luck = luck % 100
+    def luck_system(original_dice, effective_luck, player_dice):
+        total_rerolls = effective_luck // 100
+        remaining_luck = effective_luck % 100
 
         new_choice = original_dice
 
@@ -615,8 +601,8 @@ def game2(npc_key = None):
 
     font_exp = pygame.font.SysFont('microsoftyahei', 20)
 
-    def exp_system():
-        global max_exp, exp, level,luck
+    def exp_system(effective_luck):
+        global max_exp, exp, level, luck
 
         max_exp = 100 * level
         if level < max_level:
@@ -647,7 +633,7 @@ def game2(npc_key = None):
             pygame.draw.rect(window,(0,50,255),(135,685,1010,30)) # outline
             pygame.draw.rect(window,(85,160,255),(140,690,1000,20)) # ratio
         
-        exp_text = font_exp.render(f"Luck:{luck}",True,(255,255,255))
+        exp_text = font_exp.render(f"Luck:{effective_luck}",True,(255,255,255))
         window.blit(exp_text, (1165,685))
 
     def game_loop(npc_key):
@@ -655,6 +641,7 @@ def game2(npc_key = None):
         level = load_level() 
         exp = load_exp()      
         luck = load_luck()   
+        effective_luck = max(0, luck - 300)
         coins = load_coins()
         player_dice = 0
         computer_dice = 0
@@ -674,7 +661,6 @@ def game2(npc_key = None):
         playing = True
         add_coins = False
         trigger_sound_play = False
-        coins = load_coins()
         npc_img = npc_assets[npc_key]["image"]
         npc_name = npc_assets[npc_key]["name"]
 
@@ -682,7 +668,7 @@ def game2(npc_key = None):
             mouse_clicked = False
 
             window.blit(background_img, (0, 0))
-            exp_system()
+            exp_system(effective_luck)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     save_level(level)
@@ -732,7 +718,7 @@ def game2(npc_key = None):
 
                     outcome = get_round_outcome(player_dice, computer_dice)
                     if outcome == "Computer Win!":
-                        rerolled_choice = luck_system(computer_dice, luck, player_dice)
+                        rerolled_choice = luck_system(computer_dice, effective_luck, player_dice)
                         rerolled_outcome = get_round_outcome(player_dice, rerolled_choice)
 
                         if rerolled_outcome != "Computer Win!":
@@ -912,13 +898,6 @@ def game3(npc_key = None):
 
         return x + w > mouse[0] > x and y + h > mouse[1] > y
 
-    def draw_box(text, x, y, w, h, color):
-        pygame.draw.rect(window, color, (x, y, w, h))
-
-        text_surf = font.render(text, True, black)
-        text_rect = text_surf.get_rect(center=(x + w / 2, y + h / 2))
-        window.blit(text_surf, text_rect)
-
     def draw_special_box(text, x, y, w, h, color):
         snapshot = window.copy()
 
@@ -940,10 +919,10 @@ def game3(npc_key = None):
         else:
             return "You guessed wrong!"
 
-    def luck_system(original_choice, luck, player_choice):
+    def luck_system(original_choice, effective_luck, player_choice):
         choices = ["Head", "Tail"]
-        total_rerolls = luck // 100
-        remaining_luck = luck % 100
+        total_rerolls = effective_luck // 100
+        remaining_luck = effective_luck % 100
 
         new_choice = original_choice
 
@@ -1023,8 +1002,8 @@ def game3(npc_key = None):
 
     font_exp = pygame.font.SysFont('microsoftyahei', 20)
 
-    def exp_system():
-        global max_exp, exp, level,luck
+    def exp_system(effective_luck):
+        global max_exp, exp, level, luck
 
         max_exp = 100 * level
         if level < max_level:
@@ -1055,14 +1034,15 @@ def game3(npc_key = None):
             pygame.draw.rect(window,(0,50,255),(135,685,1010,30)) # outline
             pygame.draw.rect(window,(85,160,255),(140,690,1000,20)) # ratio
         
-        exp_text = font_exp.render(f"Luck:{luck}",True,(255,255,255))
+        exp_text = font_exp.render(f"Luck:{effective_luck}",True,(255,255,255))
         window.blit(exp_text, (1165,685))
 
     def game_loop(npc_key):
         global max_exp, exp, level,luck
         level = load_level() 
         exp = load_exp()      
-        luck = load_luck()   
+        luck = load_luck() 
+        effective_luck = max(0, luck - 300)
         coins = load_coins()
         flipping = False
         result = None
@@ -1083,7 +1063,6 @@ def game3(npc_key = None):
         playing = True
         add_coins = False
         trigger_sound_play = False
-        coins = load_coins()
         npc_img = npc_assets[npc_key]["image"]
         npc_name = npc_assets[npc_key]["name"]
         clock = pygame.time.Clock()
@@ -1093,7 +1072,7 @@ def game3(npc_key = None):
             mouse_clicked = False
 
             window.blit(background_img, (0, 0))
-            exp_system()
+            exp_system(effective_luck)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     save_level(level)
@@ -1147,7 +1126,7 @@ def game3(npc_key = None):
 
                     outcome = get_round_outcome(result, player_choice)
                     if outcome == "You guessed wrong!":
-                        rerolled_choice = luck_system(result, luck, player_choice)
+                        rerolled_choice = luck_system(result, effective_luck, player_choice)
                         rerolled_outcome = get_round_outcome(player_choice, rerolled_choice)
 
                         if rerolled_outcome != "You guessed wrong!":

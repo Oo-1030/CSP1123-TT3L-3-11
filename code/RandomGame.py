@@ -267,7 +267,6 @@ def game1(npc_key = None):
         playing = True
         add_coins = False
         trigger_sound_play = False
-        coins = load_coins()
         npc_img = npc_assets[npc_key]["image"]
         npc_name = npc_assets[npc_key]["name"]
 
@@ -675,7 +674,6 @@ def game2(npc_key = None):
         playing = True
         add_coins = False
         trigger_sound_play = False
-        coins = load_coins()
         npc_img = npc_assets[npc_key]["image"]
         npc_name = npc_assets[npc_key]["name"]
 
@@ -1075,7 +1073,6 @@ def game3(npc_key = None):
         playing = True
         add_coins = False
         trigger_sound_play = False
-        coins = load_coins()
         npc_img = npc_assets[npc_key]["image"]
         npc_name = npc_assets[npc_key]["name"]
         clock = pygame.time.Clock()
