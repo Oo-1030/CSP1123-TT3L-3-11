@@ -62,13 +62,22 @@ entity_factories = [
     EntityFactory('Elves', "elves.png", lambda args: Entity(Sprite(args[1]), NPC(args[0], args[2]), Body(20, 32, 40, 64))),
 
     # 14 - Make hidden teleport
-    EntityFactory('Teleport', "teleport.png", lambda args: Entity(Teleporter(args[0], args[1], args[2]), Sprite("grass.png"))),
+    EntityFactory('TeleportH', "grass.png", lambda args: Entity(Teleporter(args[0], args[1], args[2]), Sprite("grass.png"))),
 
     # 15 - X
     EntityFactory('X', "X.png", lambda args: Entity(Sprite(args[1]), NPC(args[0], args[2]), Body(20, 32, 40, 64))),
 
     # 16 - Red Table
     EntityFactory('Red Table', "redTable.png", lambda args: Entity(Sprite("redTable.png", scale=(64, 64)), Body(0, 0, 64, 64))),
+
+     # 17 - White Table
+    EntityFactory('White Table', "whiteTable.png", lambda args: Entity(Sprite("whiteTable.png", scale=(64, 64)), Body(0, 0, 64, 64))),
+
+     # 18 - Round Seat
+    EntityFactory('Round Seat', "roundSeat.png", lambda args: Entity(Sprite("roundSeat.png", scale=(128, 128)), Body(0, 0, 128, 128))),
+
+     # 19 - Coway
+    EntityFactory('Coway', "coway.png", lambda args: Entity(Sprite("coway.png", scale=(64, 64)), Body(0, 0, 64, 64))),
 ]
 
 def create_entity(id, x, y, data=None, index=None):
