@@ -14,7 +14,7 @@ items_saved = saveloadmanager.load_game_data(["items_saved", "pity_4", "pity_5"]
 base_path = os.path.dirname(__file__)
 assets_path = os.path.join(base_path, "assets")
 
-pygame.mixer.music.load(os.path.join(assets_path, "gacha_sound.mp3"))
+gachaSound = pygame.mixer.Sound(os.path.join(assets_path, "gacha_sound.mp3"))
 
 width, height = 1280, 720
 window = pygame.display.set_mode((width, height))
@@ -266,7 +266,7 @@ def load_luck():
         with open(luck_path, "r") as f:
             return int(f.read())
     except:
-        return 100
+        return 0
     
 def save_luck(luck):
     with open(luck_path, "w") as f:
@@ -498,21 +498,21 @@ def animation():
                         effect_alpha = 255
                         effect_radius = 0
                         effect_color = (255, 223, 100)
-                        pygame.mixer.music.play()
+                        gachaSound.play()
                         effect_show = True
                     elif gacha.highest_star_in_pull == 4:
                         effect_triggered = True
                         effect_alpha = 255
                         effect_radius = 0
                         effect_color = (200, 160, 255)
-                        pygame.mixer.music.play()
+                        gachaSound.play()
                         effect_show = True
                     elif gacha.highest_star_in_pull == 3:
                         effect_triggered = True
                         effect_alpha = 255
                         effect_radius = 0
                         effect_color = (135, 206, 235)
-                        pygame.mixer.music.play()
+                        gachaSound.play()
                         effect_show = True
 
         pygame.display.update()

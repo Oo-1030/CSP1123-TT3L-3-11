@@ -44,7 +44,7 @@ def load_luck():
         with open(luck_path, "r") as f:
             return int(f.read())
     except:
-        return 100
+        return 0
     
 def save_luck(luck):
     with open(luck_path, "w") as f:
