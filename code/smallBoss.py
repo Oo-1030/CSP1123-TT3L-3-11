@@ -257,7 +257,7 @@ def game1(npc_key = None):
         computer_choice = None
         result = None
         player_score = 0
-        computer_score = 0
+        computer_score = 2
         round_in_progress = False
         luck_triggered = False
         luck_effect_alpha = 0
@@ -359,8 +359,8 @@ def game1(npc_key = None):
                 window.blit(computer_img, computer_rect)
 
                 draw_text(result, large_font, black, width // 2, 100)
-                draw_text(f"Max: {player_score}", large_font, black, 100, 420)
-                draw_text(f"{npc_name}: {computer_score}", large_font, black, width - 120, 50)
+                draw_text(f"Max: {player_score}/5", large_font, black, 100, 420)
+                draw_text(f"{npc_name}: {computer_score}/5", large_font, black, width - 120, 50)
 
                 game_over = player_score >= 5 or computer_score >= 5
                 if game_over:
@@ -676,7 +676,7 @@ def game2(npc_key = None):
         player_dice = 0
         computer_dice = 0
         player_score = 0
-        computer_score = 0
+        computer_score = 2
         result = ""
         roll_timer = 0
         roll_duration = 100
@@ -779,8 +779,8 @@ def game2(npc_key = None):
                 window.blit(dice_img[computer_dice], computer_rect)
 
                 draw_text(result, large_font, black, width // 2, 100)
-                draw_text(f"Max: {player_score}", large_font, black, 100, 50)
-                draw_text(f"{npc_name}: {computer_score}", large_font, black, width - 120, 50)
+                draw_text(f"Max: {player_score}/5", large_font, black, 100, 50)
+                draw_text(f"{npc_name}: {computer_score}/5", large_font, black, width - 120, 50)
 
                 game_over = player_score >= 5 or computer_score >= 5
                 if not game_over:
@@ -1095,7 +1095,7 @@ def game3(npc_key = None):
         frame_counter = 0
         player_choice = None
         player_score = 0
-        computer_score = 0
+        computer_score = 2
         outcome_text = ""
         show_result = False
         luck_triggered = False
@@ -1196,8 +1196,8 @@ def game3(npc_key = None):
                 window.blit(result_img, result_rect)
 
                 draw_text(outcome_text, large_font, black, width // 2, 100)
-                draw_text(f"Max: {player_score}", large_font, black, 100, 50)
-                draw_text(f"{npc_name}: {computer_score}", large_font, black, width - 120, 50)
+                draw_text(f"Max: {player_score}/5", large_font, black, 100, 50)
+                draw_text(f"{npc_name}: {computer_score}/5", large_font, black, width - 120, 50)
 
                 game_over = player_score >= 5 or computer_score >= 5
                 if game_over:
