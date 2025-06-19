@@ -421,7 +421,7 @@ def game1(npc_key = None):
                         add_coins = False
 
                 draw_text(f"Max: {player_score}/5", large_font, black, 100, 420)
-                draw_text(f"{npc_name}: {computer_score}/5", large_font, black, width - 120, 50)
+                draw_text(f"{npc_name}: {computer_score}/5", large_font, black, width - 160, 50)
 
             if luck_triggered and luck_effect_alpha > 0:
                 gold_surface = pygame.Surface((width, height), pygame.SRCALPHA)
@@ -821,7 +821,7 @@ def game2(npc_key = None):
                         playing = False
 
                 draw_text(f"Max: {player_score}/5", large_font, black, 100, 50)
-                draw_text(f"{npc_name}: {computer_score}/5", large_font, black, width - 120, 50)
+                draw_text(f"{npc_name}: {computer_score}/5", large_font, black, width - 160, 50)
 
             if luck_triggered and luck_effect_alpha > 0:
                 gold_surface = pygame.Surface((width, height), pygame.SRCALPHA)
@@ -1214,7 +1214,7 @@ def game3(npc_key = None):
                         trigger_sound_play = False
 
                 draw_text(f"Max: {player_score}/5", large_font, black, 100, 50)
-                draw_text(f"{npc_name}: {computer_score}/5", large_font, black, width - 120, 50)
+                draw_text(f"{npc_name}: {computer_score}/5", large_font, black, width - 160, 50)
 
             if luck_triggered and luck_effect_alpha > 0:
                 gold_surface = pygame.Surface((width, height), pygame.SRCALPHA)

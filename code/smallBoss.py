@@ -360,7 +360,7 @@ def game1(npc_key = None):
 
                 draw_text(result, large_font, black, width // 2, 100)
                 draw_text(f"Max: {player_score}/5", large_font, black, 100, 420)
-                draw_text(f"{npc_name}: {computer_score}/5", large_font, black, width - 120, 50)
+                draw_text(f"{npc_name}: {computer_score}/5", large_font, black, width - 160, 50)
 
                 game_over = player_score >= 5 or computer_score >= 5
                 if game_over:
@@ -780,7 +780,7 @@ def game2(npc_key = None):
 
                 draw_text(result, large_font, black, width // 2, 100)
                 draw_text(f"Max: {player_score}/5", large_font, black, 100, 50)
-                draw_text(f"{npc_name}: {computer_score}/5", large_font, black, width - 120, 50)
+                draw_text(f"{npc_name}: {computer_score}/5", large_font, black, width - 160, 50)
 
                 game_over = player_score >= 5 or computer_score >= 5
                 if not game_over:
@@ -1197,7 +1197,7 @@ def game3(npc_key = None):
 
                 draw_text(outcome_text, large_font, black, width // 2, 100)
                 draw_text(f"Max: {player_score}/5", large_font, black, 100, 50)
-                draw_text(f"{npc_name}: {computer_score}/5", large_font, black, width - 120, 50)
+                draw_text(f"{npc_name}: {computer_score}/5", large_font, black, width - 160, 50)
 
                 game_over = player_score >= 5 or computer_score >= 5
                 if game_over:
