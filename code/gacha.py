@@ -3,6 +3,7 @@ import random
 from SaveLoadManager import SaveLoadSystem 
 from bagsystem import BagSystem
 import os
+import sys
 
 
 pygame.init()
@@ -11,49 +12,54 @@ pygame.mixer.init()
 saveloadmanager = SaveLoadSystem(".save", "save_data")
 items_saved = saveloadmanager.load_game_data(["items_saved", "pity_4", "pity_5"], [[], 0, 0])[0] or []
 
-base_path = os.path.dirname(__file__)
-assets_path = os.path.join(base_path, "assets")
+def resource_path(relative_path):
+    """获取资源的绝对路径，兼容开发环境和打包后"""
+    if hasattr(sys, '_MEIPASS'):  # 打包后的临时目录
+        base_path = sys._MEIPASS
+    else:
+        base_path = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(base_path, relative_path)
 
-gachaSound = pygame.mixer.Sound(os.path.join(assets_path, "gacha_sound.mp3"))
+gachaSound = pygame.mixer.Sound(resource_path("assets/gacha_sound.mp3"))
 
 width, height = 1280, 720
 window = pygame.display.set_mode((width, height))
 
 
-background_img = pygame.image.load(os.path.join(assets_path, "background.png"))
+background_img = pygame.image.load(resource_path("assets/background.png"))
 background_img = pygame.transform.scale(background_img, (1280, 720))
 
-Tekun_background_img = pygame.image.load(os.path.join(assets_path, "Tekun_background.png"))
+Tekun_background_img = pygame.image.load(resource_path("assets/Tekun_background.png"))
 Tekun_background_img = pygame.transform.scale(Tekun_background_img, (1280, 720))
 
 image_width = 100
 image_height = 100
 
 # 3 star image
-Rice_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Rice.png")), (image_width, image_height))
-Coffee_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Coffee.png")), (image_width, image_height))
-Full_mark_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Full_mark.png")), (image_width, image_height))
-Eraser_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Eraser.png")), (image_width, image_height))
-Watch_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Watch.png")), (image_width, image_height))
-Cola_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Cola.png")), (image_width, image_height))
-Cibaicat_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Cibaicat.png")), (image_width, image_height))
-Calculator_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Calculator.png")), (image_width, image_height))
-Icecream_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Icecream.png")), (image_width, image_height))
+Rice_img = pygame.transform.scale(pygame.image.load(resource_path("assets/Rice.png")), (image_width, image_height))
+Coffee_img = pygame.transform.scale(pygame.image.load(resource_path("assets/Coffee.png")), (image_width, image_height))
+Full_mark_img = pygame.transform.scale(pygame.image.load(resource_path("assets/Full_mark.png")), (image_width, image_height))
+Eraser_img = pygame.transform.scale(pygame.image.load(resource_path("assets/Eraser.png")), (image_width, image_height))
+Watch_img = pygame.transform.scale(pygame.image.load(resource_path("assets/Watch.png")), (image_width, image_height))
+Cola_img = pygame.transform.scale(pygame.image.load(resource_path("assets/Cola.png")), (image_width, image_height))
+Cibaicat_img = pygame.transform.scale(pygame.image.load(resource_path("assets/Cibaicat.png")), (image_width, image_height))
+Calculator_img = pygame.transform.scale(pygame.image.load(resource_path("assets/Calculator.png")), (image_width, image_height))
+Icecream_img = pygame.transform.scale(pygame.image.load(resource_path("assets/Icecream.png")), (image_width, image_height))
 
 # 4 star image
-Umbrella_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Umbrella.png")), (image_width, image_height))
-Coupon_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Coupon.png")), (image_width, image_height))
-Tissue_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Tissue.png")), (image_width, image_height))
-Squirrel_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Squirrel.png")), (image_width, image_height))
+Umbrella_img = pygame.transform.scale(pygame.image.load(resource_path("assets/Umbrella.png")), (image_width, image_height))
+Coupon_img = pygame.transform.scale(pygame.image.load(resource_path("assets/Coupon.png")), (image_width, image_height))
+Tissue_img = pygame.transform.scale(pygame.image.load(resource_path("assets/Tissue.png")), (image_width, image_height))
+Squirrel_img = pygame.transform.scale(pygame.image.load(resource_path("assets/Squirrel.png")), (image_width, image_height))
 
 # 5 star image
-Clover_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Clover.png")), (image_width, image_height))
-Black_card_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Black_card.png")), (image_width, image_height))
-Underwear_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Underwear.png")), (image_width, image_height))
-Koi_fish_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "Koi_fish.png")), (image_width, image_height))
+Clover_img = pygame.transform.scale(pygame.image.load(resource_path("assets/Clover.png")), (image_width, image_height))
+Black_card_img = pygame.transform.scale(pygame.image.load(resource_path("assets/Black_card.png")), (image_width, image_height))
+Underwear_img = pygame.transform.scale(pygame.image.load(resource_path("assets/Underwear.png")), (image_width, image_height))
+Koi_fish_img = pygame.transform.scale(pygame.image.load(resource_path("assets/Koi_fish.png")), (image_width, image_height))
 
-One_pull_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path,'One_pull.png')), (200, 100))
-Ten_pull_img = pygame.transform.scale(pygame.image.load(os.path.join(assets_path,'Ten_pull.png')), (200, 100))
+One_pull_img = pygame.transform.scale(pygame.image.load(resource_path("assets/One_pull.png")), (200, 100))
+Ten_pull_img = pygame.transform.scale(pygame.image.load(resource_path("assets/Ten_pull.png")), (200, 100))
 
 item_descriptions = {
     "Rice": "You found the only food can eat in campus, but you also don't want to eat this if you can eat outside.",
@@ -255,8 +261,7 @@ def draw_glow_layered(center_x, center_y, radius, alpha, color_base):
     
     window.blit(glow_surface, (0, 0))
 
-base_dir = os.path.dirname(os.path.abspath(__file__))
-save_dir = os.path.join(base_dir, "saves")
+save_dir = resource_path("saves")
 os.makedirs(save_dir, exist_ok=True)
 coin_path = os.path.join(save_dir, "coins.txt")
 luck_path = os.path.join(save_dir, "luck.txt")

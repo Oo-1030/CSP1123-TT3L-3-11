@@ -1,13 +1,19 @@
 import pygame
 import os
+import sys
 
 pygame.init()
 pygame.mixer.init()
 
-base_path = os.path.dirname(__file__)
-assets_path = os.path.join(base_path, "assets")
+def resource_path(relative_path):
+    """获取资源的绝对路径，兼容开发环境和打包后"""
+    if hasattr(sys, '_MEIPASS'):  # 打包后的临时目录
+        base_path = sys._MEIPASS
+    else:
+        base_path = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(base_path, relative_path)
 
-music = pygame.mixer.music.load(os.path.join(assets_path, "gameMusic.mp3"))
+music = pygame.mixer.music.load(resource_path("assets/gameMusic.mp3"))
 pygame.mixer.music.play(-1)
 
 engine = None

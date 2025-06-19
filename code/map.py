@@ -1,10 +1,16 @@
 import pygame
 from math import ceil
 import os
+import sys
 
 map_folder_location = "maps"
-base_path = os.path.dirname(__file__)
-assets_path = os.path.join(base_path, "assets")
+def resource_path(relative_path):
+    """获取资源的绝对路径，兼容开发环境和打包后"""
+    if hasattr(sys, '_MEIPASS'):  # 打包后的临时目录
+        base_path = sys._MEIPASS
+    else:
+        base_path = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(base_path, relative_path)
 tile_size = 32
 
 tile_char_map = {
@@ -53,7 +59,7 @@ tile_char_map = {
 class TileKind:
     def __init__(self, name, image, is_solid):
         self.name = name
-        self.image = pygame.image.load(assets_path + "/" + image)
+        self.image = pygame.image.load(resource_path(os.path.join("assets", image)))
         self.is_solid = is_solid
 
 class Map:

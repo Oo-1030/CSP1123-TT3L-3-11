@@ -1,9 +1,15 @@
 import pygame
 from camera import camera
 import os
+import sys
 
-base_path = os.path.dirname(__file__)
-assets_path = os.path.join(base_path, "assets")
+def resource_path(relative_path):
+    """获取资源的绝对路径，兼容开发环境和打包后"""
+    if hasattr(sys, '_MEIPASS'):  # 打包后的临时目录
+        base_path = sys._MEIPASS
+    else:
+        base_path = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(base_path, relative_path)
 loaded = {}
 
 class Sprite:
@@ -17,7 +23,8 @@ class Sprite:
 
     def _load_image(self, image):
         global loaded
-        full_path = assets_path + "/" + image
+        full_path = resource_path(os.path.join("assets", image))
+        img = pygame.image.load(full_path).convert_alpha()
         if (image, self.scale) in loaded:
             self.image = loaded[(image, self.scale)]
         else:
@@ -86,7 +93,8 @@ class Atlas(Sprite):
     # Override the set_image to not do the base functionality of Sprite
     def set_image(self, image):
         if not image in loaded:
-            loaded[image] = pygame.image.load(assets_path + "/" + image)
+            full_path = resource_path(os.path.join("assets", image))
+            loaded[image] = pygame.image.load(full_path).convert_alpha()
             self.base_image = loaded[image]
         
         self.switch_to(self.cell_x, self.cell_y)

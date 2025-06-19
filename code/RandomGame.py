@@ -2,50 +2,57 @@ import random
 import pygame
 import os
 import math
+import sys
 
-npc_path = os.path.join("code/assets")
+def resource_path(relative_path):
+    """获取资源的绝对路径，兼容开发环境和打包后"""
+    if hasattr(sys, '_MEIPASS'):  # 打包后的临时目录
+        base_path = sys._MEIPASS
+    else:
+        base_path = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(base_path, relative_path)
 
 npc_assets = {
     "fatguy": {
         "name": "Fat Guy",
-        "image": pygame.transform.scale(pygame.image.load(os.path.join(npc_path, "fatguyR.png")), (200, 200))
+        "image": pygame.transform.scale(pygame.image.load(resource_path("assets/fatguyR.png")), (200, 200))
     },
     "Ivan": {
         "name": "Ivan",
-        "image": pygame.transform.scale(pygame.image.load(os.path.join(npc_path, "Ivan.png")), (200, 200))
+        "image": pygame.transform.scale(pygame.image.load(resource_path("assets/Ivan.png")), (200, 200))
     },
     "Barbie": {
         "name": "Barbie",
-        "image": pygame.transform.scale(pygame.image.load(os.path.join(npc_path, "Barbie.png")), (200, 200))
+        "image": pygame.transform.scale(pygame.image.load(resource_path("assets/Barbie.png")), (200, 200))
     },
     "Sek": {
         "name": "Sek",
-        "image": pygame.transform.scale(pygame.image.load(os.path.join(npc_path, "Sek.png")), (200, 200))
+        "image": pygame.transform.scale(pygame.image.load(resource_path("assets/Sek.png")), (200, 200))
     },
 
     "Preshen": {
         "name": "Preshen",
-        "image": pygame.transform.scale(pygame.image.load(os.path.join(npc_path, "Preshen.png")), (200, 200))
+        "image": pygame.transform.scale(pygame.image.load(resource_path("assets/Preshen.png")), (200, 200))
     },
 
     "YuXiang": {
         "name": "Yu Xiang",
-        "image": pygame.transform.scale(pygame.image.load(os.path.join(npc_path, "YuXiang.png")), (200, 200))
+        "image": pygame.transform.scale(pygame.image.load(resource_path("assets/YuXiang.png")), (200, 200))
     },
 
     "Terrence": {
         "name": "Terence",
-        "image": pygame.transform.scale(pygame.image.load(os.path.join(npc_path, "Terrence.png")), (200, 200))
+        "image": pygame.transform.scale(pygame.image.load(resource_path("assets/Terrence.png")), (200, 200))
     },
 
     "weihang": {
         "name": "Wei Hang",
-        "image": pygame.transform.scale(pygame.image.load(os.path.join(npc_path, "weihang.png")), (200, 200))
+        "image": pygame.transform.scale(pygame.image.load(resource_path("assets/weihang.png")), (200, 200))
     },
 
     "Aiksheng": {
         "name": "Aik Sheng",
-        "image": pygame.transform.scale(pygame.image.load(os.path.join(npc_path, "Aiksheng.png")), (200, 200))
+        "image": pygame.transform.scale(pygame.image.load(resource_path("assets/Aiksheng.png")), (200, 200))
     },
 }
 
@@ -53,16 +60,14 @@ def game1(npc_key = None):
     pygame.init()
     pygame.mixer.init()
 
-    base_path = os.path.dirname(__file__)
-    assets_path = os.path.join(base_path, "assets")
-    game_bgm = pygame.mixer.Sound(os.path.join(assets_path, "background_music(rps).mp3"))
+    game_bgm = pygame.mixer.Sound(resource_path("assets/background_music(rps).mp3"))
     game_channel = pygame.mixer.Channel(1)
     game_channel.play(game_bgm, loops=-1)
     game_channel.set_volume(0.4)
-    action_sound = pygame.mixer.Sound(os.path.join(assets_path, "rps.mp3"))
-    trigger_sound = pygame.mixer.Sound(os.path.join(assets_path, "trigger.mp3"))
-    victory_sound = pygame.mixer.Sound(os.path.join(assets_path, "victory.mp3"))
-    defeat_sound = pygame.mixer.Sound(os.path.join(assets_path, "defeat.mp3"))
+    action_sound = pygame.mixer.Sound(resource_path("assets/rps.mp3"))
+    trigger_sound = pygame.mixer.Sound(resource_path("assets/trigger.mp3"))
+    victory_sound = pygame.mixer.Sound(resource_path("assets/victory.mp3"))
+    defeat_sound = pygame.mixer.Sound(resource_path("assets/defeat.mp3"))
     sound_channel = None
 
     width, height = 1280, 720
@@ -78,12 +83,12 @@ def game1(npc_key = None):
     large_font = pygame.font.SysFont(None, 60)
     versus_font = pygame.font.SysFont("Impact", 70)
 
-    rock_img = pygame.image.load(os.path.join(assets_path, "rock1.png"))
-    paper_img = pygame.image.load(os.path.join(assets_path, "paper2.png"))
-    scissors_img = pygame.image.load(os.path.join(assets_path, "scissors3.png"))
-    center_img = pygame.image.load(os.path.join(assets_path, "All.png"))
-    background_img = pygame.image.load(os.path.join(assets_path, "dtc.png"))
-    char_img = pygame.image.load(os.path.join(assets_path, "character.png"))
+    rock_img = pygame.image.load(resource_path("assets/rock1.png"))
+    paper_img = pygame.image.load(resource_path("assets/paper2.png"))
+    scissors_img = pygame.image.load(resource_path("assets/scissors3.png"))
+    center_img = pygame.image.load(resource_path("assets/All.png"))
+    background_img = pygame.image.load(resource_path("assets/dtc.png"))
+    char_img = pygame.image.load(resource_path("assets/character.png"))
 
     img_size = (200, 200)
     rock_img = pygame.transform.scale(rock_img, img_size)
@@ -163,8 +168,7 @@ def game1(npc_key = None):
 
         return new_choice
 
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    save_dir = os.path.join(base_dir, "saves")
+    save_dir = resource_path("saves")
     os.makedirs(save_dir, exist_ok=True)
     coin_path = os.path.join(save_dir, "coins.txt")
     level_path = os.path.join(save_dir, "level.txt")
@@ -452,16 +456,14 @@ def game2(npc_key = None):
     pygame.init()
     pygame.mixer.init()
 
-    base_path = os.path.dirname(__file__)
-    assets_path = os.path.join(base_path, "assets")
-    game_bgm = pygame.mixer.Sound(os.path.join(assets_path, "background_music(dice).mp3"))
+    game_bgm = pygame.mixer.Sound(resource_path("assets/background_music(dice).mp3"))
     game_channel = pygame.mixer.Channel(1)
     game_channel.play(game_bgm, loops=-1)
     game_channel.set_volume(0.4)
-    action_sound = pygame.mixer.Sound(os.path.join(assets_path, "dice_roll.mp3"))
-    trigger_sound = pygame.mixer.Sound(os.path.join(assets_path, "trigger.mp3"))
-    victory_sound = pygame.mixer.Sound(os.path.join(assets_path, "victory.mp3"))
-    defeat_sound = pygame.mixer.Sound(os.path.join(assets_path, "defeat.mp3"))
+    action_sound = pygame.mixer.Sound(resource_path("assets/dice_roll.mp3"))
+    trigger_sound = pygame.mixer.Sound(resource_path("assets/trigger.mp3"))
+    victory_sound = pygame.mixer.Sound(resource_path("assets/victory.mp3"))
+    defeat_sound = pygame.mixer.Sound(resource_path("assets/defeat.mp3"))
     sound_channel = None
 
     width, height = (1280, 720)
@@ -477,28 +479,28 @@ def game2(npc_key = None):
 
     img_size = (150, 150)
     dice_img = [
-        pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "1.png")), img_size),
-        pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "2.png")), img_size),
-        pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "3.png")), img_size),
-        pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "4.png")), img_size),
-        pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "5.png")), img_size),
-        pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "6.png")), img_size),
+        pygame.transform.scale(pygame.image.load(resource_path("assets/1.png")), img_size),
+        pygame.transform.scale(pygame.image.load(resource_path("assets/2.png")), img_size),
+        pygame.transform.scale(pygame.image.load(resource_path("assets/3.png")), img_size),
+        pygame.transform.scale(pygame.image.load(resource_path("assets/4.png")), img_size),
+        pygame.transform.scale(pygame.image.load(resource_path("assets/5.png")), img_size),
+        pygame.transform.scale(pygame.image.load(resource_path("assets/6.png")), img_size),
     ]
     roll_img = [
-        pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "roll1.png")), img_size),
-        pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "roll2.png")), img_size),
-        pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "roll3.png")), img_size),
-        pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "roll4.png")), img_size),
-        pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "roll5.png")), img_size),
-        pygame.transform.scale(pygame.image.load(os.path.join(assets_path, "roll6.png")), img_size),
+        pygame.transform.scale(pygame.image.load(resource_path("assets/roll1.png")), img_size),
+        pygame.transform.scale(pygame.image.load(resource_path("assets/roll2.png")), img_size),
+        pygame.transform.scale(pygame.image.load(resource_path("assets/roll3.png")), img_size),
+        pygame.transform.scale(pygame.image.load(resource_path("assets/roll4.png")), img_size),
+        pygame.transform.scale(pygame.image.load(resource_path("assets/roll5.png")), img_size),
+        pygame.transform.scale(pygame.image.load(resource_path("assets/roll6.png")), img_size),
     ]
 
     background_size= (1280, 720)
-    background_img = pygame.image.load(os.path.join(assets_path, "mmu_table().png"))
+    background_img = pygame.image.load(resource_path("assets/mmu_table().png"))
     background_img = pygame.transform.scale(background_img, background_size)
 
     char_size = (200, 200)
-    char_img = pygame.image.load(os.path.join(assets_path, "character.png"))
+    char_img = pygame.image.load(resource_path("assets/character.png"))
     char_img = pygame.transform.scale(char_img, char_size)
 
     def draw_text(text, font, color, x, y):
@@ -560,8 +562,7 @@ def game2(npc_key = None):
 
         return new_choice
 
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    save_dir = os.path.join(base_dir, "saves")
+    save_dir = resource_path("saves")
     os.makedirs(save_dir, exist_ok=True)
     coin_path = os.path.join(save_dir, "coins.txt")
     level_path = os.path.join(save_dir, "level.txt")
@@ -852,16 +853,14 @@ def game3(npc_key = None):
     pygame.init()
     pygame.mixer.init()
 
-    base_path = os.path.dirname(__file__)
-    assets_path = os.path.join(base_path, "assets")
-    game_bgm = pygame.mixer.Sound(os.path.join(assets_path, "background_music(coin).mp3"))
+    game_bgm = pygame.mixer.Sound(resource_path("assets/background_music(coin).mp3"))
     game_channel = pygame.mixer.Channel(1)
     game_channel.play(game_bgm, loops=-1)
     game_channel.set_volume(0.4)
-    action_sound = pygame.mixer.Sound(os.path.join(assets_path, "coin_flip.mp3"))
-    trigger_sound = pygame.mixer.Sound(os.path.join(assets_path, "trigger.mp3"))
-    victory_sound = pygame.mixer.Sound(os.path.join(assets_path, "victory.mp3"))
-    defeat_sound = pygame.mixer.Sound(os.path.join(assets_path, "defeat.mp3"))
+    action_sound = pygame.mixer.Sound(resource_path("assets/coin_flip.mp3"))
+    trigger_sound = pygame.mixer.Sound(resource_path("assets/trigger.mp3"))
+    victory_sound = pygame.mixer.Sound(resource_path("assets/victory.mp3"))
+    defeat_sound = pygame.mixer.Sound(resource_path("assets/defeat.mp3"))
     sound_channel = None
 
     width, height = 1280, 720
@@ -876,11 +875,11 @@ def game3(npc_key = None):
     font = pygame.font.SysFont(None, 40)
     large_font = pygame.font.SysFont(None, 60)
 
-    head_img = pygame.image.load(os.path.join(assets_path, "head2.png"))
-    tail_img = pygame.image.load(os.path.join(assets_path, "tail2.png"))
-    spining_img = pygame.image.load(os.path.join(assets_path, "spining2.png"))
-    background_img = pygame.image.load(os.path.join(assets_path, "mmu_table().png"))
-    char_img = pygame.image.load(os.path.join(assets_path, "character.png"))
+    head_img = pygame.image.load(resource_path("assets/head2.png"))
+    tail_img = pygame.image.load(resource_path("assets/tail2.png"))
+    spining_img = pygame.image.load(resource_path("assets/spining2.png"))
+    background_img = pygame.image.load(resource_path("assets/mmu_table().png"))
+    char_img = pygame.image.load(resource_path("assets/character.png"))
 
     img_size = (350, 350)
     head_img = pygame.transform.scale(head_img, img_size)
@@ -951,8 +950,7 @@ def game3(npc_key = None):
 
         return new_choice
 
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-    save_dir = os.path.join(base_dir, "saves")
+    save_dir = resource_path("saves")
     os.makedirs(save_dir, exist_ok=True)
     coin_path = os.path.join(save_dir, "coins.txt")
     level_path = os.path.join(save_dir, "level.txt")
